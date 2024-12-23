@@ -1,0 +1,45 @@
+$primaryColor: #c92974;
+$infoColor: #c92974;
+
+$bgColor: #f5f5f5;
+$fgColor: #ffffff;
+
+$linkColor: #ffc6e1;
+
+$successColor: #52c41a;
+$warningColor: #faad14;
+$errorColor: #ff4d4f;
+
+$textColor: #000000;
+$textSize: 14;
+$tagSize: 12;
+
+$paddingSmall: 4px;
+$paddingMedium: 8px;
+$paddingBig: 12px;
+
+$borderRadius: 8px;
+
+:export {
+  primaryColor: $primaryColor;
+  infoColor: $infoColor;
+
+  bgColor: $bgColor;
+  fgColor: $fgColor;
+
+  linkColor: $linkColor;
+
+  successColor: $successColor;
+  warningColor: $warningColor;
+  errorColor: $errorColor;
+
+  textColor: $textColor;
+  textSize: $textSize;
+  tagSize: $tagSize;
+
+  paddingSmall: $paddingSmall;
+  paddingMedium: $paddingMedium;
+  paddingBig: $paddingBig;
+
+  borderRadius: $borderRadius;
+}
