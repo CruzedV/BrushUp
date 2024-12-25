@@ -1,0 +1,13 @@
+@import "@/app/variables.module.scss";
+
+.tagGroup {
+  display: flex;
+  flex-direction: row;
+  gap: $paddingSmall;
+  flex-wrap: wrap;
+
+  & > span {
+    margin: 0px !important;
+    margin-inline-end: 0px !important;
+  }
+}

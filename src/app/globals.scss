@@ -1,5 +1,4 @@
-@import "./variables.module.scss";
-
+@import "@/app/variables.module.scss";
 $layoutPadding: 8px 16%;
 
 html {
@@ -43,6 +42,13 @@ body {
     grid-template-columns: auto 366px;
   }
 
+  .mainContent {
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
+    gap: $paddingBig
+  }
+
   .footer {
     min-height: 60px;
     display: flex;
@@ -60,20 +66,39 @@ body {
       display: flex;
       flex-direction: column;
       border-radius: $borderRadius;
-      .ant-card-body {
+    }
+    &Actions {
+      div {
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: $paddingMedium;
       }
     }
+
     &Latest {
-      min-height: 607px;
+      height: fit-content;
+      &List {
+        display: flex;
+        flex-direction: column;
+        gap: $paddingMedium;
+      }
     }
   }
 
   .ant-card {
+    padding: 0px;
     .ant-card-body {
+      display: flex;
+      flex-direction: column;
+      gap: $paddingMedium;
       padding: $paddingBig;
+
+      ::before, ::after {
+        display: none;
+      } 
     }
+  }
+  .ant-divider {
+    margin: 0px;
   }
 }

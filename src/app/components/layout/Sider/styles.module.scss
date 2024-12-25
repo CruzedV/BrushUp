@@ -1,3 +1,9 @@
+@import "@/app/variables.module.scss";
+
 .latestItem {
   cursor: pointer;
+  padding: $paddingSmall;
+  & > div {
+    line-height: 16px;
+  }
 }

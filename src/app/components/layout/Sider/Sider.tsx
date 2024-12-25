@@ -13,11 +13,13 @@ const Sider = () => {
         </div>
       </Card>
       <Card className="siderActions">
-        <Button href="/new" type="primary">Написать пост</Button>
-        <Button href="/pc">Личный кабинет</Button>
-        <Button href="/">Главная</Button>
-        <Button href="/subs">Подписки</Button>
-        <Button href="/ref">Референсы</Button>
+        <div>
+          <Button href="/new" type="primary">Написать пост</Button>
+          <Button href="/pc">Личный кабинет</Button>
+          <Button href="/">Главная</Button>
+          <Button href="/subs">Подписки</Button>
+          <Button href="/ref">Референсы</Button>
+        </div>
       </Card>
     </div>
   )

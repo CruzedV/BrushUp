@@ -1,3 +1,6 @@
-export default function MainPage() {
-  return <a>bigdick</a>;
+export default function DefaultPage() {
+  return (
+    <>
+    </>
+  );
 }
