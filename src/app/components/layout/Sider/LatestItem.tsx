@@ -1,17 +1,13 @@
-'use client'
+"use client";
 
 import { Button, Card, Divider } from "antd";
 import styles from './styles.module.scss';
-import TagGroup from "../../helpers/TagGroup";
+import TagGroup from "../../common/TagGroup";
 
 const LatestItem = () => {
-  const handleOpenLatest = () => {
-    window.open('/1');
-  };
-
   return (
     <article>
-      <Card className={styles.latestItem} onClick={handleOpenLatest}>
+      <Card className={styles.latestItem}>
         <h4>Короткое название статьи</h4>
         <Divider />
         <TagGroup />
@@ -21,7 +17,7 @@ const LatestItem = () => {
           Текст статьи текст статьи текст статьи текст статьи
           Текст статьи текст статьи текст статьи текст статьи
         </div>
-        <Button>Читать</Button>
+        <Button onClick={() => window.open('/1')}>Читать</Button>
       </Card>
     </article>
   );

@@ -39,14 +39,17 @@ body {
     display: grid;
     padding: $layoutPadding;
     height: auto;
-    grid-template-columns: auto 366px;
+    gap: $paddingMedium;
+    grid-template-columns: calc(100% - (366px + $paddingMedium)) 366px;
   }
 
   .mainContent {
     display: flex;
     flex-direction: column;
     height: fit-content;
-    gap: $paddingBig
+    gap: $paddingBig;
+    max-width: 100%;
+    padding: 0 $paddingMedium;
   }
 
   .footer {
@@ -92,6 +95,7 @@ body {
       flex-direction: column;
       gap: $paddingMedium;
       padding: $paddingBig;
+      line-height: 16px;
 
       ::before, ::after {
         display: none;
