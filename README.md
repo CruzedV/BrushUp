@@ -1,4 +1,14 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BrushUp 
+BrushUp - это сайт для художников. В нем можно создавать посты, в которых можно рассказать о своих достижениях, написать гайд, а также получить изображение - референс для тренировки навыков рисования.
+# WIP
+
+
+
+
+
+
+
+Ниже как запустить.
 
 ## Getting Started
 
