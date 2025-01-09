@@ -1,4 +1,4 @@
-import Post from "./components/common/Post";
+import Post from "./components/Posts/Post";
 
 export default function DefaultPage() {
   return (
