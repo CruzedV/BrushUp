@@ -3,16 +3,36 @@
 .avatar {
   width: fit-content;
   cursor: pointer;
-  img {
-    border-radius: 50%;
-    width: 50px !important;
-    height: 50px !important;
-  }
+
   span {
     padding-left: $paddingBig;
     color: $textColor;
     font-weight: 600;
-    font-size: 16px;
+  }
+
+  img {
+    border-radius: 50%;
+  }
+  
+  &.normal {
+    img {
+
+      width: 50px !important;
+      height: 50px !important;
+    }
+    span {
+      font-size: 16px;
+    }
+  }
+
+  &.small {
+    img {
+      width: 35px !important;
+      height: 35px !important;
+    }
+    span {
+      font-size: 14px;
+    }
   }
 
   &:hover {
@@ -78,6 +98,21 @@
         -webkit-line-clamp: none;
         line-clamp: none;
       }
+    }
+  }
+}
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  gap: $paddingMedium;
+  .commentsTitle {
+    font-size: 20px;
+    font-weight: 500;
+  }
+  .comment {
+    & > div {
+      padding: $paddingMedium;
     }
   }
 }

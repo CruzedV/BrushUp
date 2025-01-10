@@ -1,9 +1,10 @@
 "use client";
 
-import { Button, Card, Image } from "antd"
+import { Button, Card, Divider, Image } from "antd"
 import styles from './styles.module.scss';
 import TagGroup from "../common/TagGroup";
 import Avatar from "./Avatar";
+import CommentBlock from "./Comment/CommentBlock";
 
 const DetailedPost = () => {
   return (
@@ -36,6 +37,8 @@ const DetailedPost = () => {
           </div>
         </Card>
       </article>
+      <Divider />
+      <CommentBlock />
     </>
   )
 };
