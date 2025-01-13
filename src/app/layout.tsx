@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { ConfigProvider } from "antd";
 
-import Footer from "./components/layout/Footer";
 
-import "./globals.scss";
-import variables from "./variables.module.scss";
-import Header from "./components/layout/Header";
-import Sider from "./components/layout/Sider/Sider";
+import "../globals.scss";
+import variables from "../variables.module.scss";
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
+import Sider from "@/components/layout/Sider/Sider";
 
 export const metadata: Metadata = {
   title: "BrushUp",

@@ -17,6 +17,7 @@ const Sider = () => {
           <Button href="/new" type="primary">Написать пост</Button>
           <Button href="/pc">Личный кабинет</Button>
           <Button href="/">Главная</Button>
+          <Button href="/">Закладки</Button>
           <Button href="/subs">Подписки</Button>
           <Button href="/ref">Референсы</Button>
         </div>

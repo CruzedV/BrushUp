@@ -1,43 +1,66 @@
-@import "@/app/variables.module.scss";
+@import "@/variables.module.scss";
 
 .avatar {
   width: fit-content;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 $paddingMedium;
 
-  span {
-    padding-left: $paddingBig;
-    color: $textColor;
-    font-weight: 600;
+  .action {
+    display: flex;
+    align-items: center;
   }
 
-  img {
-    border-radius: 50%;
+  .user {
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      span {
+        color: $primaryColor;
+      }
+    }
+
+    span {
+      padding-left: $paddingBig;
+      color: $textColor;
+      font-weight: 600;
+    }
+  
+    img {
+      border-radius: 50%;
+    } 
+  }
+
+  .action {
+    display: flex;
+    align-items: center;  
   }
   
   &.normal {
-    img {
+    .user {
+      img {
 
-      width: 50px !important;
-      height: 50px !important;
-    }
-    span {
-      font-size: 16px;
+        width: 50px !important;
+        height: 50px !important;
+      }
+      span {
+        font-size: 16px;
+      }
     }
   }
 
   &.small {
-    img {
-      width: 35px !important;
-      height: 35px !important;
-    }
-    span {
-      font-size: 14px;
-    }
-  }
-
-  &:hover {
-    span {
-      color: $primaryColor;
+    .user {
+      img {
+        width: 35px !important;
+        height: 35px !important;
+      }
+      span {
+        font-size: 14px;
+      }
     }
   }
 }
@@ -50,7 +73,7 @@
     flex-direction: column;
     gap: $paddingMedium;
 
-    button {
+    & > button {
       padding: 0;
       height: fit-content;
       width: 100%;

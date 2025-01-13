@@ -1,7 +1,7 @@
 import { Card } from 'antd';
 import styles from '../styles.module.scss';
 import Avatar from '../Avatar';
-import { EAvatar } from '@/app/variants/avatar';
+import { EAvatar } from '@/variants/avatar';
 
 const Comment = () => {
   return (

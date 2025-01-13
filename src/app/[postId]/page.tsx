@@ -1,4 +1,4 @@
-import DetailedPost from "../components/Posts/DetailedPost";
+import DetailedPost from "@/components/Posts/DetailedPost";
 
 const PostPage = () => {
   return <DetailedPost />;
