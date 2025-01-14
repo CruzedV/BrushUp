@@ -1,0 +1,24 @@
+@import "@/variables.module.scss";
+
+.userPage {
+  display: flex;
+  gap: $paddingMedium;
+  flex-direction: column;
+  &Info {
+    font-size: 16px;
+    & > div > span {
+      padding: $paddingMedium;
+      white-space: pre-wrap;
+      line-height: 20px;
+    }
+  }
+  &Posts {
+    display: flex;
+    flex-direction: column;
+    gap: $paddingMedium;
+    &Title {
+      font-size: 20px;
+      font-weight: 500;
+    } 
+  }
+}
