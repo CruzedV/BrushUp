@@ -1,5 +1,5 @@
 import "../../../globals.scss";
-import { Button, Card } from "antd";
+import { Button, Card, Divider } from "antd";
 import LatestItem from "./LatestItem";
 
 const Sider = () => {
@@ -15,7 +15,9 @@ const Sider = () => {
       <Card className="siderActions">
         <div>
           <Button href="/new" type="primary">Написать пост</Button>
-          <Button href="/pc">Личный кабинет</Button>
+          <Button href="/user/1">Профиль пользователя</Button>
+          <Button href="/user/settings">Настройки</Button>
+          <Divider />
           <Button href="/">Главная</Button>
           <Button href="/">Закладки</Button>
           <Button href="/subs">Подписки</Button>

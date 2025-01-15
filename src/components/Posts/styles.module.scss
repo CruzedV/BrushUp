@@ -24,7 +24,7 @@
     }
 
     span {
-      padding-left: $paddingBig;
+      margin-left: $paddingBig;
       color: $textColor;
       font-weight: 600;
     }
@@ -37,6 +37,19 @@
   .action {
     display: flex;
     align-items: center;  
+  }
+
+  &.big {
+    .user {
+      cursor: default;
+      img {
+        width: 75px !important;
+        height: 75px !important;
+      }
+      span {
+        font-size: 20px;
+      }
+    }
   }
   
   &.normal {
