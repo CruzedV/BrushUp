@@ -3,7 +3,7 @@
 import styles from './styles.module.scss';
 import { Button, Card, Divider } from "antd";
 import EditAvatar from "./EditAvatar";
-import SettingsItem from './SettingsItem';
+import InputItem from '@/components/common/Inputtem';
 import { ESettings } from '@/variants/settings';
 
 const UserSettings = () => {
@@ -12,16 +12,16 @@ const UserSettings = () => {
       <div className={styles.doubleRow}>
         <EditAvatar />
         <div className={styles.nextToAvatar}>
-          <SettingsItem title="Имя пользователя" defaultValue="HairBall2D" />
-          <SettingsItem title="Почта" defaultValue="HairBall2D@meow.com" />
+          <InputItem title="Имя пользователя" defaultValue="HairBall2D" />
+          <InputItem title="Почта" defaultValue="HairBall2D@meow.com" />
         </div>
       </div>
       <Divider />
-      <SettingsItem title="Обо мне" variant={ESettings.textarea} defaultValue="Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя " />
+      <InputItem title="Обо мне" variant={ESettings.textarea} defaultValue="Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя " />
       <Divider />
       <div className={styles.doubleRow}>
-        <SettingsItem title="Старый пароль" variant={ESettings.password} defaultValue="hairball2d2d" />
-        <SettingsItem title="Новый пароль" variant={ESettings.password} defaultValue="hairball2d2d" />
+        <InputItem title="Старый пароль" variant={ESettings.password} defaultValue="hairball2d2d" />
+        <InputItem title="Новый пароль" variant={ESettings.password} defaultValue="hairball2d2d" />
       </div>
       <Divider />
       <div className={styles.doubleRow}>

@@ -1,3 +1,5 @@
+"use client";
+
 import { Input } from 'antd';
 import styles from './styles.module.scss';
 import { useState } from 'react';
@@ -10,7 +12,7 @@ type TProps = {
   variant?: ESettings;
 };
 
-const SettingsItem = ({
+const InputItem = ({
   title,
   defaultValue,
   variant = ESettings.input,
@@ -40,4 +42,4 @@ const SettingsItem = ({
   )
 };
 
-export default SettingsItem;
+export default InputItem;

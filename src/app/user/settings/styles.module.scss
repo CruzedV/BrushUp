@@ -41,21 +41,3 @@
   flex-direction: column;
   gap: $paddingBig;
 }
-
-.settingsItem {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: $paddingSmall;
-  span {
-    color: $primaryColor;
-    font-size: 500;
-  }
-  input {
-    height: 32px;
-  }
-
-  textarea {
-    resize: none;
-  }
-}

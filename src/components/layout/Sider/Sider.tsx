@@ -14,7 +14,7 @@ const Sider = () => {
       </Card>
       <Card className="siderActions">
         <div>
-          <Button href="/new" type="primary">Написать пост</Button>
+          <Button href="/create" type="primary">Написать пост</Button>
           <Button href="/user/1">Профиль пользователя</Button>
           <Button href="/user/settings">Настройки</Button>
           <Divider />
