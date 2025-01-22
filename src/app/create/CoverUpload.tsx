@@ -1,12 +1,13 @@
-"use client";
+'use client';
 
 import { InboxOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { message, Upload } from 'antd';
 
 const props: UploadProps = {
-  name: 'file',
+  name: 'cover',
   multiple: false,
+  action: '',
   onChange(info) {
     const { status } = info.file;
     if (status !== 'uploading') {
