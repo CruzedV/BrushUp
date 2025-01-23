@@ -50,6 +50,7 @@ body {
     gap: $paddingBig;
     max-width: 100%;
     padding: 0 $paddingMedium;
+    align-items: center;
   }
 
   .footer {
@@ -125,6 +126,7 @@ body {
         -webkit-box-orient: vertical;
         overflow: hidden;
         -webkit-line-clamp: 2;
+        line-clamp: 2;
         color: $textColor;
         text-align: start;
         &:hover {
@@ -145,6 +147,7 @@ body {
       -webkit-box-orient: vertical;
       overflow: hidden;
       -webkit-line-clamp: 8;
+      line-clamp: 8;
       padding: 0 $paddingMedium;
     }
   

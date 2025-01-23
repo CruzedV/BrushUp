@@ -1,0 +1,19 @@
+@import "@/variables.module.scss";
+
+.authForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 450px;
+  .authCard {
+    width: 100%;
+    display: flex;
+    & > div {
+      width: 100%;
+      .authSubmit {
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+}

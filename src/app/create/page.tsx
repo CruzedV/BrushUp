@@ -6,6 +6,7 @@ import CoverUpload from "./CoverUpload";
 import Editor from "./Editor";
 import TagsInput from "./TagsInput";
 import styles from './styles.module.scss';
+import { useEffect, useState } from 'react';
 
 type PostType = {
   userid: string; 
@@ -16,6 +17,7 @@ type PostType = {
 };
 
 const CreatePage = () => {
+  const [submittable, setSubmittable] = useState<boolean>(false);
   const [form] = Form.useForm();
 
   const onFinish: FormProps<PostType>['onFinish'] = (values) => {
@@ -26,22 +28,29 @@ const CreatePage = () => {
     console.log('Ошибка:', errorInfo);
   };
 
+  const values = Form.useWatch([], form);
+
+  useEffect(() => {
+    form
+      .validateFields({ validateOnly: true })
+      .then(() => setSubmittable(true))
+      .catch(() => setSubmittable(false));
+  }, [form, values]);
+
   return (
     <Form
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       form={form}
+      className={styles.createPostForm}
     >
       <Card className={styles.createPage}>
         <Form.Item<PostType>
-          label={null}
+          label="Название статьи"
           name="title"
           rules={[{ required: true, message: 'Укажите название поста'}]}
         >
-          <div className={styles.settingsItem}>
-            <span>Название статьи</span>
-            <Input />
-          </div>
+          <Input />
         </Form.Item>
         <CoverUpload />
         <Divider />
@@ -49,8 +58,10 @@ const CreatePage = () => {
         <Divider />
         <TagsInput />
         <Divider />
-        <Form.Item>
-          <Button type="primary" htmlType="submit">Опубликовать</Button>
+        <Form.Item<PostType>>
+          <Button type="primary" htmlType="submit" disabled={!submittable}>
+            Опубликовать
+          </Button>
         </Form.Item>
       </Card>
     </Form>

@@ -21,8 +21,11 @@
   }
 }
 
-.createPage {
-  & > div > button {
-    width: fit-content;
-  }
+.createPostForm {  
+  width: 100%;
+  .createPage {
+    & > div > button {
+      width: fit-content;
+    }
+}
 }
