@@ -3,7 +3,7 @@
 import styles from './styles.module.scss';
 import { Button, Card, Divider } from "antd";
 import EditAvatar from "./EditAvatar";
-import InputItem from '@/components/common/Inputtem';
+import InputItem from '@/components/common/InputItem';
 import { ESettings } from '@/variants/settings';
 
 const UserSettings = () => {

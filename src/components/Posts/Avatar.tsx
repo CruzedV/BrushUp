@@ -18,9 +18,11 @@ const Avatar = ({ variant = EAvatar.normal, action }: TProps) => {
         <Image alt="User avatar" src="/Avatar.png" preview={false} />
         <span>HairBall2D</span>
       </div>
-      <div className={styles.action}>
-        {action}
-      </div>
+      {action && (
+        <div className={styles.action}>
+          {action}
+        </div>
+      )}
     </div>
   )
 };

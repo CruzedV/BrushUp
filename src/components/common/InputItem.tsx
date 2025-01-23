@@ -7,26 +7,34 @@ import { ESettings } from '@/variants/settings';
 import TextArea from 'antd/es/input/TextArea';
 
 type TProps = {
-  title: string;
   defaultValue: string;
+  title?: string;
+  onChange?: (data: string) => void;
   variant?: ESettings;
   placeholder?: string;
 };
 
 const InputItem = ({
-  title,
   defaultValue,
+  title,
+  onChange,
   placeholder,
   variant = ESettings.input,
 }: TProps) => {
   const [value, setValue] = useState<string>(defaultValue);
+
+  const handleChange = (data: string) => {
+    setValue(data);
+    if (onChange) onChange(data);
+  };
+
   return (
     <div className={styles.settingsItem}>
-      <span>{title}</span>
+      {title && <span>{title}</span>}
       {variant == ESettings.input && (
         <Input
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => handleChange(e.target.value)}
           placeholder={placeholder ?? 'Введите значение'}
         />
       )}
@@ -34,14 +42,14 @@ const InputItem = ({
         <TextArea
           rows={4}
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => handleChange(e.target.value)}
           placeholder={placeholder ?? 'Введите текст'}
         />
       )}
       {variant == ESettings.password && (
         <Input.Password
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => handleChange(e.target.value)}
           placeholder={placeholder ?? 'Введите пароль'} 
         />
       )}

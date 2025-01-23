@@ -4,7 +4,7 @@ import type { FormProps } from 'antd';
 import { Card, Button, Divider, Input, Form } from 'antd';
 import CoverUpload from "./CoverUpload";
 import Editor from "./Editor";
-import TagsInput from "./TagsInput";
+import TagsInput from '@/components/Tags/TagsInput';
 import styles from './styles.module.scss';
 import { useEffect, useState } from 'react';
 
@@ -43,6 +43,9 @@ const CreatePage = () => {
       onFinishFailed={onFinishFailed}
       form={form}
       className={styles.createPostForm}
+      initialValues={{
+        tags: []
+      }}
     >
       <Card className={styles.createPage}>
         <Form.Item<PostType>
@@ -56,7 +59,7 @@ const CreatePage = () => {
         <Divider />
         <Editor />
         <Divider />
-        <TagsInput />
+        <TagsInput title="Теги для статьи" form={form}/>
         <Divider />
         <Form.Item<PostType>>
           <Button type="primary" htmlType="submit" disabled={!submittable}>

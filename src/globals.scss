@@ -33,6 +33,20 @@ body {
     padding: $layoutPadding;
     margin-bottom: 24px;
     background-color: $primaryColor;
+    justify-content: space-between;
+    color: white !important;
+
+    &Login {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      div {
+        height: 2.2rem;
+        // color: white;
+        // border-block-start-color: white;
+        border-inline-start-color: white;
+      }
+    }
   }
 
   .content {
@@ -59,6 +73,7 @@ body {
     padding: $layoutPadding;
     margin-top: 24px;
     background-color: $primaryColor;
+    color: white;
   }
 
   .sider {

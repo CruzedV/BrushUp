@@ -2,7 +2,7 @@
 
 import { Button, Card, Divider } from "antd";
 import styles from './styles.module.scss';
-import TagGroup from "../../common/TagGroup";
+import TagGroup from "@/components/Tags/TagGroup";
 
 const LatestItem = () => {
   return (

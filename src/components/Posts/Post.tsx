@@ -2,7 +2,7 @@
 
 import { Button, Card, Image } from "antd"
 import styles from './styles.module.scss';
-import TagGroup from "../common/TagGroup";
+import TagGroup from "../Tags/TagGroup";
 import Avatar from "./Avatar";
 
 const Post = () => {

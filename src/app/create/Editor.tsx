@@ -1,10 +1,12 @@
 "use client";
 
+import dynamic from 'next/dynamic';
 import { useState } from "react";
-import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import styles from './styles.module.scss';
 import { Form } from "antd";
+
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
 const Editor = () => {
   const [value, setValue] = useState('');
