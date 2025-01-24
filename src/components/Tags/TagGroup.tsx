@@ -5,9 +5,10 @@ import { Tag } from "antd";
 type TProps = {
   tags?: string[];
   onDelete?: (data: string) => void;
+  emptyTagsText?: string;
 };
 
-const TagGroup = ({ tags = [], onDelete = () => null }: TProps) => (
+const TagGroup = ({ tags = [], onDelete = () => null, emptyTagsText }: TProps) => (
   <div className={styles.tagGroup}>
     {/* {tags?.map((tag, index) => (
       <Tag color={tag.color} key={tag.tagId + index}>
@@ -33,7 +34,13 @@ const TagGroup = ({ tags = [], onDelete = () => null }: TProps) => (
         ))}
       </>  
     ) : (
-      <span>Нет тегов</span>
+      <>
+        {emptyTagsText &&
+          <span className={styles.emptyTags}>
+            {emptyTagsText}
+          </span>
+        }
+      </>
     )}
   </div>
 )

@@ -7,26 +7,40 @@ import TagGroup from './TagGroup';
 import styles from './styles.module.scss';
 
 type TProps = {
+  onChange?: (data: string[]) => void;
   form?: FormInstance;
   title?: string;
+  emptyTagsText?: string;
 };
 
 const mockVal = (str: string, repeat = 1) => ({
   value: str.repeat(repeat),
 });
 
-const TagsInput = ({ form, title }: TProps) => {
+const TagsInput = ({ form, title, emptyTagsText, onChange }: TProps) => {
   return (
     <>
       {form
-        ? <TagsInputForm form={form} title={title ?? 'Теги для статьи'} />
-        : <TagsInputFormless title={title} />
+        ? <TagsInputForm
+            form={form}
+            title={title ?? 'Теги для статьи'}
+            emptyTagsText={emptyTagsText ?? ''}
+          />
+        : <TagsInputFormless
+            title={title}
+            emptyTagsText={emptyTagsText}
+            onChange={onChange}
+          />
       }
     </>
   )
 };
 
-const TagsInputForm = ({ form, title}: Required<TProps>) => {
+const TagsInputForm = ({
+  form,
+  title,
+  emptyTagsText,
+}: Required<Pick<TProps, "form" | "title" | "emptyTagsText">>) => {
   const [value, setValue] = useState<string>('');
   const [options, setOptions] = useState<AutoCompleteProps['options']>([]);
 
@@ -48,7 +62,7 @@ const TagsInputForm = ({ form, title}: Required<TProps>) => {
     form.setFieldValue('tags', newTags);
   };
 
-  const onChange = (data: string) => {
+  const onChangeInput = (data: string) => {
     setValue(data);
   };
 
@@ -61,16 +75,20 @@ const TagsInputForm = ({ form, title}: Required<TProps>) => {
           options={options}
           onSelect={onSelect}
           onSearch={(text) => setOptions(getPanelValue(text))}
-          onChange={onChange}
+          onChange={onChangeInput}
           placeholder="Начните вводить"
         />
-        <TagGroup tags={form.getFieldValue('tags')} onDelete={onDelete} />
+        <TagGroup
+          tags={form.getFieldValue('tags')}
+          onDelete={onDelete}
+          emptyTagsText={emptyTagsText}
+        />
       </div>
     </Form.Item>
   );
 };
 
-const TagsInputFormless = ({ title }: TProps) => {
+const TagsInputFormless = ({ title, emptyTagsText, onChange }: TProps) => {
   const [value, setValue] = useState<string>('');
   const [tags, setTags] = useState<string[]>([]);
   const [options, setOptions] = useState<AutoCompleteProps['options']>([]);
@@ -82,6 +100,7 @@ const TagsInputFormless = ({ title }: TProps) => {
     if (!tags.includes(data)) {
       const newTags = ([ ...tags, data ]);
       setTags(newTags);
+      if (onChange) onChange(newTags);
     }
     setValue('');
   };
@@ -89,9 +108,10 @@ const TagsInputFormless = ({ title }: TProps) => {
   const onDelete = (removedTag: string) => {
     const newTags = tags.filter((tag) => tag !== removedTag);
     setTags(newTags);
+    if (onChange) onChange(newTags);
   };
 
-  const onChange = (data: string) => {
+  const onChangeInput = (data: string) => {
     setValue(data);
   };
 
@@ -103,10 +123,14 @@ const TagsInputFormless = ({ title }: TProps) => {
         options={options}
         onSelect={onSelect}
         onSearch={(text) => setOptions(getPanelValue(text))}
-        onChange={onChange}
+        onChange={onChangeInput}
         placeholder="Начните вводить"
       />
-      <TagGroup tags={tags} onDelete={onDelete} />
+      <TagGroup
+        tags={tags}
+        onDelete={onDelete}
+        emptyTagsText={emptyTagsText}
+      />
     </div>
   );
 }

@@ -16,16 +16,20 @@ const PostFilters = () => {
 
   const handleChangeSearchText = (data: string) => {
     setFilters({... filters, text: data});
-  }
+  };
+
+  const handleChangeTags = (data: string[]) => {
+    setFilters({ ...filters, tags: data });
+  };
 
   return (
     <Card className={styles.filters}>
       <InputItem
         defaultValue={filters.text}
-        placeholder="Поиск"
+        placeholder="Название статьи"
         onChange={handleChangeSearchText}
       />
-      <TagsInput />
+      <TagsInput onChange={handleChangeTags} />
     </Card>
   )
 }

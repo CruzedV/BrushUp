@@ -16,6 +16,9 @@
   display: flex;
   flex-direction: column;
   gap: $paddingSmall;
+  .emptyTags {
+    line-height: 22px;
+  }
   span {
     color: $primaryColor;
   }
