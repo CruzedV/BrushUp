@@ -5,6 +5,7 @@ import styles from "./styles.module.scss";
 import TagsInput from "../Tags/TagsInput";
 import InputItem from "../common/InputItem";
 import { useState } from "react";
+import { ESettings } from "@/variants/settings";
 
 type TFilters = {
   tags: string[];
@@ -26,8 +27,9 @@ const PostFilters = () => {
     <Card className={styles.filters}>
       <InputItem
         defaultValue={filters.text}
-        placeholder="Название статьи"
+        placeholder="Поиск по названию статьи"
         onChange={handleChangeSearchText}
+        variant={ESettings.search}
       />
       <TagsInput onChange={handleChangeTags} />
     </Card>

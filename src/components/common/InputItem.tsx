@@ -53,6 +53,14 @@ const InputItem = ({
           placeholder={placeholder ?? 'Введите пароль'} 
         />
       )}
+      {variant == ESettings.search && (
+        <Input.Search
+          value={value}
+          onChange={(e) => handleChange(e.target.value)}
+          enterButton={true}
+          placeholder={placeholder ?? 'Поиск'}
+        />
+      )}
     </div>
   )
 };

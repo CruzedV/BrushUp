@@ -1,6 +1,6 @@
 'use client';
 
-import { AutoComplete, Form } from 'antd';
+import { AutoComplete, Form, Input } from 'antd';
 import { useState } from 'react';
 import type { AutoCompleteProps, FormInstance } from 'antd';
 import TagGroup from './TagGroup';
@@ -76,8 +76,9 @@ const TagsInputForm = ({
           onSelect={onSelect}
           onSearch={(text) => setOptions(getPanelValue(text))}
           onChange={onChangeInput}
-          placeholder="Начните вводить"
-        />
+        >
+          <Input.Search placeholder="Поиск по тегам" enterButton={true} />
+        </AutoComplete>
         <TagGroup
           tags={form.getFieldValue('tags')}
           onDelete={onDelete}
@@ -124,8 +125,9 @@ const TagsInputFormless = ({ title, emptyTagsText, onChange }: TProps) => {
         onSelect={onSelect}
         onSearch={(text) => setOptions(getPanelValue(text))}
         onChange={onChangeInput}
-        placeholder="Начните вводить"
-      />
+      >
+        <Input.Search placeholder="Поиск по тегам" enterButton={true} />
+      </AutoComplete>
       <TagGroup
         tags={tags}
         onDelete={onDelete}

@@ -19,7 +19,7 @@
   .emptyTags {
     line-height: 22px;
   }
-  span {
+  & > span {
     color: $primaryColor;
   }
 }
