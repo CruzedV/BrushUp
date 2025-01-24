@@ -1,10 +1,9 @@
 // import { TTag } from "@/app/types/article"
-import { useEffect } from "react";
 import styles from "./styles.module.scss";
 import { Tag } from "antd";
 
 type TProps = {
-  tags?: string[];
+  tags: string[];
   onDelete?: (data: string) => void;
   emptyTagsText?: string;
 };

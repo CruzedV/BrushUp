@@ -67,25 +67,25 @@ const TagsInputForm = ({
   };
 
   return (
-    <Form.Item name="tags">
-      <div className={styles.tagsInput}>
-        {title && <span>{title}</span>}
-        <AutoComplete
-          value={value}
-          options={options}
-          onSelect={onSelect}
-          onSearch={(text) => setOptions(getPanelValue(text))}
-          onChange={onChangeInput}
-        >
-          <Input.Search placeholder="Поиск по тегам" enterButton={true} />
-        </AutoComplete>
+    <div className={styles.tagsInput}>
+      {title && <span>{title}</span>}
+      <AutoComplete
+        value={value}
+        options={options}
+        onSelect={onSelect}
+        onSearch={(text) => setOptions(getPanelValue(text))}
+        onChange={onChangeInput}
+      >
+        <Input.Search placeholder="Поиск по тегам" enterButton={true} />
+      </AutoComplete>
+      <Form.Item name="tags">
         <TagGroup
           tags={form.getFieldValue('tags')}
           onDelete={onDelete}
           emptyTagsText={emptyTagsText}
         />
-      </div>
-    </Form.Item>
+      </Form.Item>
+    </div>
   );
 };
 
