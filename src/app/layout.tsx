@@ -7,6 +7,7 @@ import variables from "../variables.module.scss";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import Sider from "@/components/layout/Sider/Sider";
+import ScrollTop from "@/components/layout/ScrolllTop";
 
 export const metadata: Metadata = {
   title: "BrushUp",
@@ -40,6 +41,7 @@ export default function RootLayout({
               {children}
             </div>
             <Sider />
+            <ScrollTop />
           </div>
           <Footer />
         </ConfigProvider>
