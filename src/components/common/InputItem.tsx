@@ -12,6 +12,7 @@ type TProps = {
   onChange?: (data: string) => void;
   variant?: ESettings;
   placeholder?: string;
+  rows?: number;
 };
 
 const InputItem = ({
@@ -20,6 +21,7 @@ const InputItem = ({
   onChange,
   placeholder,
   variant = ESettings.input,
+  rows = 4,
 }: TProps) => {
   const [value, setValue] = useState<string>(defaultValue);
 
@@ -40,7 +42,7 @@ const InputItem = ({
       )}
       {variant == ESettings.textarea && (
         <TextArea
-          rows={4}
+          rows={rows}
           value={value}
           onChange={(e) => handleChange(e.target.value)}
           placeholder={placeholder ?? 'Введите текст'}

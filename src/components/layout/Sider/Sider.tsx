@@ -1,6 +1,11 @@
 import "../../../globals.scss";
 import { Button, Card, Divider } from "antd";
 import LatestItem from "./LatestItem";
+import {
+  EditOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
 const Sider = () => {
   return (
@@ -14,9 +19,9 @@ const Sider = () => {
       </Card>
       <Card className="siderActions">
         <div>
-          <Button href="/create" type="primary">Написать пост</Button>
-          <Button href="/user/1">Профиль пользователя</Button>
-          <Button href="/user/settings">Настройки</Button>
+          <Button href="/create" type="primary"><EditOutlined /> Написать пост</Button>
+          <Button href="/user/1"><UserOutlined /> Профиль пользователя</Button>
+          <Button href="/user/settings"><SettingOutlined /> Настройки</Button>
           <Divider />
           <Button href="/">Главная</Button>
           <Button href="/">Закладки</Button>

@@ -5,6 +5,7 @@ import styles from './styles.module.scss';
 import { Button, Card } from 'antd';
 import Post from '@/components/Posts/Post';
 import { EAvatar } from '@/variants/avatar';
+import { UserAddOutlined } from '@ant-design/icons';
 
 const UserPage = () => {
   return (
@@ -12,7 +13,12 @@ const UserPage = () => {
       <Card className={styles.userPageInfo}>
         <Avatar
           variant={EAvatar.big}
-          action={<Button type="primary">Подписаться</Button>}  
+          action={
+            <Button type="primary">
+              <UserAddOutlined />
+              Подписаться
+            </Button>
+          }  
         />
         <span>Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя </span>
       </Card>

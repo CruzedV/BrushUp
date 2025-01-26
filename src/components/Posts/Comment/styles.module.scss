@@ -1,0 +1,15 @@
+@import "@/variables.module.scss";
+
+.writeComment {
+  display: flex;
+  flex-direction: column;
+  &Input {
+    display: flex;
+    gap: $paddingMedium;
+    flex-direction: column;
+    align-items: end;
+    button {
+      width: fit-content;
+    }
+  }
+}

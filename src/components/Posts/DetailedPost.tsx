@@ -5,6 +5,7 @@ import styles from './styles.module.scss';
 import TagGroup from "../Tags/TagGroup";
 import Avatar from "./Avatar";
 import CommentBlock from "./Comment/CommentBlock";
+import { PlusOutlined } from "@ant-design/icons";
 
 const DetailedPost = () => {
   return (
@@ -15,14 +16,14 @@ const DetailedPost = () => {
             <Avatar
               action={
                 <Button type="primary" onClick={() => console.log('bookmark')}>
-                  В закладки
-                </Button> 
+                  <PlusOutlined /> В закладки
+                </Button>
               }
             />
             <Button type="link">
               Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи
             </Button>
-            <TagGroup />
+            <TagGroup tags={[]}/>
           </div>
           <div className={`${styles.body}, ${styles.detailedBody}`}>
             <Image alt="Post cover image" src="./BG.png" />

@@ -134,6 +134,9 @@ body {
       gap: $paddingMedium;
       padding: $paddingBig;
       line-height: 16px;
+      &::before, &::after {
+        display: none;
+      }
     }
   }
   .ant-divider {

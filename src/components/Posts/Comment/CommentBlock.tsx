@@ -1,5 +1,6 @@
 import styles from '../styles.module.scss';
 import Comment from './Comment';
+import WriteComment from './WriteComment';
 
 const CommentBlock = () => {
   return (
@@ -7,6 +8,7 @@ const CommentBlock = () => {
       <span className={styles.commentsTitle}>
         Комментарии
       </span>
+      <WriteComment />
       <Comment />
       <Comment />
       <Comment />

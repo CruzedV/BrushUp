@@ -5,6 +5,7 @@ import { Button, Card, Divider } from "antd";
 import EditAvatar from "./EditAvatar";
 import InputItem from '@/components/common/InputItem';
 import { ESettings } from '@/variants/settings';
+import { CloseOutlined, SaveOutlined } from '@ant-design/icons';
 
 const UserSettings = () => {
   return (
@@ -25,8 +26,14 @@ const UserSettings = () => {
       </div>
       <Divider />
       <div className={styles.doubleRow}>
-        <Button type="primary">Сохранить настройки</Button>
-        <Button>Отменить настройки</Button>
+        <Button type="primary">
+          <SaveOutlined />
+          Сохранить настройки
+        </Button>
+        <Button>
+          <CloseOutlined />
+          Отменить настройки
+        </Button>
       </div>
     </Card>
   );
