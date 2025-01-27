@@ -16,7 +16,9 @@ const Avatar = ({ variant = EAvatar.normal, action }: TProps) => {
         onClick={() => window.open('/user/1')}
       >
         <Image alt="User avatar" src="/Avatar.png" preview={false} />
-        <span>HairBall2D</span>
+        <span itemProp={variant == EAvatar.article ? 'image' : ''}>
+          HairBall2D
+        </span>
       </div>
       {action && (
         <div className={styles.action}>

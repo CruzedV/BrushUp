@@ -2,23 +2,19 @@
 
 import type { FormProps } from 'antd';
 import { Button, Card, Form, Input } from 'antd';
-import styles from './styles.module.scss';
+import styles from '../login/styles.module.scss';
 import { useEffect, useState } from 'react';
+import { RegisterType } from '@/types/auth';
 
-type LoginType = {
-  email: string;
-  password: string;
-};
-
-const LoginPage = () => {
+const RegisterPage = () => {
   const [submittable, setSubmittable] = useState<boolean>(false);
   const [form] = Form.useForm();
 
-  const onFinish: FormProps<LoginType>['onFinish'] = (values) => {
+  const onFinish: FormProps<RegisterType>['onFinish'] = (values) => {
     console.log('Успех:', values);
   };
   
-  const onFinishFailed: FormProps<LoginType>['onFinishFailed'] = (errorInfo) => {
+  const onFinishFailed: FormProps<RegisterType>['onFinishFailed'] = (errorInfo) => {
     console.log('Ошибка:', errorInfo);
   };
 
@@ -40,12 +36,25 @@ const LoginPage = () => {
       layout="vertical"
     >
       <Card className={styles.authCard}>
-        <Form.Item<LoginType>
-          label="Почта"
-          name="email"
+        <Form.Item<RegisterType>
+            label="Почта"
+            name="email"
+            rules={
+              [
+                { required: true, message: 'Введите почту' },
+                { type: 'email', message: 'Введена не корректная почта' }
+              ]
+            }
+          >
+            <Input.Password />
+        </Form.Item>
+
+        <Form.Item<RegisterType>
+          label="Имя пользователя"
+          name="username"
           rules={
             [
-              { required: true, message: 'Введите почту' },
+              { required: true, message: 'Введите имя пользователя' },
               { min: 4, message: 'Минимальная длина 4 символа' }
             ]
           }
@@ -53,7 +62,7 @@ const LoginPage = () => {
           <Input />
         </Form.Item>
         
-        <Form.Item<LoginType>
+        <Form.Item<RegisterType>
           label="Пароль"
           name="password"
           rules={
@@ -66,9 +75,9 @@ const LoginPage = () => {
           <Input.Password />
         </Form.Item>
         
-        <Form.Item<LoginType> className={styles.authSubmit}>
+        <Form.Item<RegisterType> className={styles.authSubmit}>
           <Button type="primary" htmlType="submit" disabled={!submittable}>
-            Войти
+            Зарегистрироваться
           </Button>
         </Form.Item>
       </Card>
@@ -76,4 +85,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

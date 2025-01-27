@@ -4,24 +4,34 @@ import { Button, Card, Image } from "antd"
 import styles from './styles.module.scss';
 import TagGroup from "../Tags/TagGroup";
 import Avatar from "./Avatar";
+import { EAvatar } from "@/variants/avatar";
+import variables from "@/variables.module.scss";
 
 const Post = () => {
   const handleOpenPost = () => {
-    window.open('/1');
+    window.open('/posts/1');
   };
 
   return (
-    <article className={styles.post}>
+    <article itemScope className={styles.post}>
       <Card>
         <div className={styles.header}>
-          <Avatar />
-          <Button type="link" onClick={handleOpenPost}>
+          <Avatar
+            variant={EAvatar.article}
+            action={
+              <span>
+                Дата публикации: {}
+                <b style={{color: variables.primaryColor}}>27.01.2025</b>
+              </span>
+            }
+          />
+          <Button itemProp="headline" type="link" onClick={handleOpenPost}>
             Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи
           </Button>
-          <TagGroup />
+          <TagGroup tags={[]} />
         </div>
         <div className={styles.body}>
-          <Image alt="Post cover image" src="/BG.png" />
+          <Image itemProp="image" alt="Post cover image" src="/BG.png" />
           <span>
             Текст статьи Текст статьи
             Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи 

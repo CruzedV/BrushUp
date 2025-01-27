@@ -3,4 +3,5 @@ export enum EAvatar {
   normal = 'normal',
   big = 'big',
   header = 'header',
+  article = 'article',
 };

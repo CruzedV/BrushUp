@@ -26,7 +26,7 @@ const Sider = () => {
           <Button href="/">Главная</Button>
           <Button href="/">Закладки</Button>
           <Button href="/subs">Подписки</Button>
-          <Button href="/ref">Референсы</Button>
+          <Button href="/references/generator">Референсы</Button>
         </div>
       </Card>
     </div>

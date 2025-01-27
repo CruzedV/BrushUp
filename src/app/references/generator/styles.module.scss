@@ -1,0 +1,13 @@
+.generatorPage {
+  min-width: 20rem;
+  &Card {
+    width: 100%;
+    & > div > div { 
+      margin-bottom: 0;
+    }
+  }
+  .generatorSubmit {
+    display: flex;
+    justify-content: center;
+  }
+}

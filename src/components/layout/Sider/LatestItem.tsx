@@ -10,14 +10,14 @@ const LatestItem = () => {
       <Card className={styles.latestItem}>
         <h4>Короткое название статьи</h4>
         <Divider />
-        <TagGroup />
+        <TagGroup tags={[]} />
         <Divider />
         <div>
           Текст статьи текст статьи текст статьи текст статьи
           Текст статьи текст статьи текст статьи текст статьи
           Текст статьи текст статьи текст статьи текст статьи
         </div>
-        <Button onClick={() => window.open('/1')}>Читать</Button>
+        <Button onClick={() => window.open('/posts/1')}>Читать</Button>
       </Card>
     </article>
   );
