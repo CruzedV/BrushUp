@@ -4,10 +4,14 @@ import type { FormProps } from 'antd';
 import { Button, Card, Form, Select } from 'antd';
 import styles from "./styles.module.scss";
 import { GeneratorType } from '@/types/references';
+import { useRouter } from 'next/navigation';
 
 const GeneratorPage = () => {
+  const router = useRouter();
+
   const onFinish: FormProps<GeneratorType>['onFinish'] = (values) => {
     console.log('Успех:', values);
+    router.push('/references/1');
   };
   
   const onFinishFailed: FormProps<GeneratorType>['onFinishFailed'] = (errorInfo) => {
