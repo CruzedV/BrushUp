@@ -118,6 +118,11 @@
     }
   }
 
+  .postActions {
+    display: flex;
+    gap: $paddingMedium;
+  }
+
   .body {
     display: flex;
     flex-direction: column;

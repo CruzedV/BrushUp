@@ -1,14 +1,55 @@
 "use client";
 
-import { Button, Card, Divider, Image } from "antd"
+import { Button, Card, Divider, Dropdown, Image } from "antd"
 import styles from './styles.module.scss';
 import TagGroup from "../Tags/TagGroup";
 import Avatar from "./Avatar";
 import CommentBlock from "./Comment/CommentBlock";
-import { PlusOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { EAvatar } from "@/variants/avatar";
+import type { MenuProps } from "antd";
 
 const DetailedPost = () => {
+  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log('click left button', e);
+  };
+
+  const handleMenuClick: MenuProps['onClick'] = (e) => {
+    console.log('click', e);
+  };
+
+  const items: MenuProps['items'] = [
+    {
+      label: 'Редактировать пост',
+      key: '1',
+      icon: <EditOutlined />, 
+    },
+    {
+      label: 'Удалить пост',
+      key: '2',
+      icon: <DeleteOutlined />,
+      danger: true,
+    },
+  ];
+
+  const menuProps = {
+    items,
+    onClick: handleMenuClick,
+  };
+
+  const Action = (
+    <div className={styles.postActions}>
+      <Button type="primary" onClick={() => console.log('bookmark')}>
+        <PlusOutlined /> В закладки
+      </Button>
+      <Dropdown.Button
+        menu={menuProps}
+        onClick={handleButtonClick}
+      >
+        Действия с постом
+      </Dropdown.Button>
+    </div>
+  )
   return (
     <>
       <article className={styles.post}>
@@ -16,11 +57,7 @@ const DetailedPost = () => {
           <div className={styles.header}>
             <Avatar
               variant={EAvatar.article}
-              action={
-                <Button type="primary" onClick={() => console.log('bookmark')}>
-                  <PlusOutlined /> В закладки
-                </Button>
-              }
+              action={Action}
             />
             <Button itemProp="headline" type="link">
               Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи Название статьи
@@ -28,7 +65,7 @@ const DetailedPost = () => {
             <TagGroup tags={[]}/>
           </div>
           <div className={`${styles.body}, ${styles.detailedBody}`}>
-            <Image itemProp="image" alt="Post cover image" src="./BG.png" />
+            <Image itemProp="image" alt="Post cover image" src="/BG.png" />
             <span>
               Текст статьи Текст статьи
               Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи Текст статьи 
