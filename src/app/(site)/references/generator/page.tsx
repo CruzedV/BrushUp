@@ -11,7 +11,7 @@ const GeneratorPage = () => {
 
   const onFinish: FormProps<GeneratorType>['onFinish'] = (values) => {
     console.log('Успех:', values);
-    router.push('/references/1');
+    router.push('/ref/1');
   };
   
   const onFinishFailed: FormProps<GeneratorType>['onFinishFailed'] = (errorInfo) => {

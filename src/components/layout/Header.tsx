@@ -6,8 +6,12 @@ import Link from "next/link";
 // import { EAvatar } from "@/variants/avatar";
 import { Button, Divider } from "antd";
 
-const Header = () => (
-  <div className="header">
+type TProps = {
+  className?: string;
+};
+
+const Header = ({ className = "" }: TProps) => (
+  <div className={`header ${className}`}>
     <h2>
       <Link href="/">BrushUp</Link>
     </h2>

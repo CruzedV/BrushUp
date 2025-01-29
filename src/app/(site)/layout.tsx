@@ -1,15 +1,20 @@
-import React from "react";
-import variables from "@/variables.module.scss";
+import type { Metadata } from "next";
 import { ConfigProvider } from "antd";
+
+
+import "@/globals.scss";
+import variables from "@/variables.module.scss";
+import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
-import { Metadata } from "next";
+import Sider from "@/components/layout/Sider/Sider";
+import ScrollTop from "@/components/layout/ScrolllTop";
 
 export const metadata: Metadata = {
-  title: "References",
-  description: "Random references to draw",
+  title: "BrushUp",
+  description: "Artist blog site",
 };
 
-export default function ReferenceLayout({
+export default function SiteLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -30,12 +35,17 @@ export default function ReferenceLayout({
             }          
           }}
         >
-          <Header className="referenceHeader" />
-          <div className="reference">
-            {children}
+          <Header />
+          <div className="content">
+            <div className="mainContent">
+              {children}
+            </div>
+            <Sider />
+            <ScrollTop />
           </div>
+          <Footer />
         </ConfigProvider>
-      </body>
+        </body>
     </html>
-  )
+  );
 }

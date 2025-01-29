@@ -16,6 +16,11 @@ body {
   margin: 0;
   background-color: $bgColor;
 
+  .reference {
+    display: flex;
+    flex-direction: column;
+  }
+
   a {
     text-decoration: none;
     color: inherit;
@@ -36,6 +41,10 @@ body {
     background-color: $primaryColor;
     justify-content: space-between;
     color: white !important;
+
+    &.referenceHeader {
+      margin-bottom: 0px !important;
+    }
 
     &Login {
       display: flex;
@@ -196,9 +205,3 @@ body {
     }
   }
 }
-
-.reference {
-  display: flex;
-  flex-direction: column;
-}
-

@@ -1,20 +1,14 @@
-import type { Metadata } from "next";
+import React from "react";
+import variables from "@/variables.module.scss";
 import { ConfigProvider } from "antd";
-
-
-import "../globals.scss";
-import variables from "../variables.module.scss";
-import Footer from "@/components/layout/Footer";
-import Header from "@/components/layout/Header";
-import Sider from "@/components/layout/Sider/Sider";
-import ScrollTop from "@/components/layout/ScrolllTop";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "BrushUp",
-  description: "Artist blog site",
+  title: "References",
+  description: "Random references to draw",
 };
 
-export default function RootLayout({
+export default function RLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -35,17 +29,9 @@ export default function RootLayout({
             }          
           }}
         >
-          <Header />
-          <div className="content">
-            <div className="mainContent">
-              {children}
-            </div>
-            <Sider />
-            <ScrollTop />
-          </div>
-          <Footer />
+          {children}
         </ConfigProvider>
-        </body>
+      </body>
     </html>
-  );
+  )
 }
