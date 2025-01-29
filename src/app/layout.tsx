@@ -4,8 +4,8 @@ import { ConfigProvider } from "antd";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "References",
-  description: "Random references to draw",
+  title: "BrushUp",
+  description: "Blog site for artists",
 };
 
 export default function RLayout({
@@ -26,7 +26,7 @@ export default function RLayout({
               "wireframe": true,
               "borderRadius": 8,
               "colorLink": variables.linkColor
-            }          
+            }
           }}
         >
           {children}

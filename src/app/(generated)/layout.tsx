@@ -1,7 +1,7 @@
+import "@/globals.scss";
 import React from "react";
 import variables from "@/variables.module.scss";
 import { ConfigProvider } from "antd";
-import Header from "@/components/layout/Header";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -30,7 +30,6 @@ export default function ReferenceLayout({
             }          
           }}
         >
-          <Header className="referenceHeader" />
           <div className="reference">
             {children}
           </div>

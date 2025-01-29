@@ -2,8 +2,28 @@
 
 .topPanel {
   display: flex;
-  width: 100%;
   margin-bottom: $paddingBig;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-color: $primaryColor;
+  border-radius: 0;
+  border: 0;
+  width: 100%;
+
+  div {
+    width: 100%;
+    flex-direction: row !important;
+    justify-content: center;
+    align-items: center;
+  }
+
+  h2 {
+    position: absolute;
+    left: 20%;
+    right: auto;
+    
+  }
 
   button.stopBtn {
     color: white;
@@ -14,17 +34,14 @@
     color: white;
     background-color: $successColor;
   }
-  div {
-    width: 100%;
-    flex-direction: row !important;
-    justify-content: center;
-    align-items: center;
-  }
 }
 
 .referenceContent {
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   img {
-    max-height: 100vh;
+    max-height: 80vh;
   }
 }
