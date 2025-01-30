@@ -6,10 +6,12 @@ import { Button, Card } from 'antd';
 import Post from '@/components/Posts/Post';
 import { EAvatar } from '@/variants/avatar';
 import { UserAddOutlined } from '@ant-design/icons';
+import PageTitle from '@/components/common/PageTitle';
 
 const UserPage = () => {
   return (
     <article className={styles.userPage}>
+      <PageTitle>Личная страница пользователя</PageTitle>
       <Card className={styles.userPageInfo}>
         <Avatar
           variant={EAvatar.big}

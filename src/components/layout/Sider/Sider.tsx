@@ -2,8 +2,10 @@ import "../../../globals.scss";
 import { Button, Card, Divider } from "antd";
 import LatestItem from "./LatestItem";
 import {
+  BookOutlined,
   EditOutlined,
   SettingOutlined,
+  UserAddOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 
@@ -24,8 +26,14 @@ const Sider = () => {
           <Button href="/user/settings"><SettingOutlined /> Настройки</Button>
           <Divider />
           <Button href="/">Главная</Button>
-          <Button href="/">Закладки</Button>
-          <Button href="/subs">Подписки</Button>
+          <Button href="/favorite">
+            <BookOutlined />
+            Закладки
+          </Button>
+          <Button href="/subs">
+            <UserAddOutlined />
+            Подписки
+          </Button>
           <Button href="/references/generator">Референсы</Button>
         </div>
       </Card>

@@ -1,12 +1,15 @@
 import PostFilters from "@/components/Posts/PostFilters";
 import Post from "@/components/Posts/Post";
 import PageTitle from "@/components/common/PageTitle";
+import { BookOutlined } from "@ant-design/icons";
 
-export default function DefaultPage() {
+export default function FavoritePage() {
   return (
     <>
       <PageTitle>
-        Список всех постов
+        <span>
+          Закладки <BookOutlined />
+        </span>
       </PageTitle>
       <PostFilters />
       <Post />

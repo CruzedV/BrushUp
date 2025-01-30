@@ -17,3 +17,12 @@
     resize: none;
   }
 }
+
+div.pageTitle {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: start;
+  font-size: 1.2rem;
+  gap: $paddingSmall;
+}
