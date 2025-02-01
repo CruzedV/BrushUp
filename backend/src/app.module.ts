@@ -7,10 +7,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'your_password',
+      password: 'postgres',
       database: 'BrushUp',
       autoLoadEntities: true,
     }),
   ],
 })
-export class AppModule {};
+export class AppModule {}
