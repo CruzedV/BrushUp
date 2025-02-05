@@ -1,11 +1,16 @@
-import { Controller, Get } from "@nestjs/common";
+import { Body, Controller, Post, Query } from "@nestjs/common";
 import { PostsService } from "./posts.service";
+import { TRequestPosts, TResponsePosts } from "src/types/posts";
 
-@Controller()
+@Controller("posts")
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
-  @Get("/posts/all")
-  getPosts(): string {
-    return this.postsService.getAllPosts();
+
+  @Post("/all")
+  async getPosts(
+    @Query("page") page: number = 1,
+    @Body() body: TRequestPosts,
+  ): Promise<TResponsePosts> {
+    return this.postsService.getAllPosts(page, body.query, body.tags);
   }
 }
