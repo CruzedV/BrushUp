@@ -17,13 +17,31 @@ export class UserService {
     private readonly userRepository: Repository<User>,
 
     @InjectRepository(Followers)
-    private readonly followersRepository: Repository<Followers>, // 💡 ДОБАВИЛИ!
+    private readonly followersRepository: Repository<Followers>,
   ) {}
 
   // Создание пользователя
   async createUser(createUserDto: CreateUserDto): Promise<User> {
     const user = this.userRepository.create(createUserDto);
     return this.userRepository.save(user);
+  }
+
+  // Получение пользователя по ID с подписчиками и постами
+  async getUserById(userId: number): Promise<TExtendedUser> {
+    const user = await this.userRepository.findOne({
+      where: { userId },
+      relations: ["posts", "followers"],
+    });
+
+    if (!user) {
+      throw new NotFoundException(`Пользователь с ID ${userId} не найден`);
+    }
+
+    const followersCount = await this.followersRepository.count({
+      where: { followed: { userId } },
+    });
+
+    return { ...user, followersCount };
   }
 
   async followUser(followerId: number, followedId: number): Promise<void> {
@@ -46,21 +64,23 @@ export class UserService {
     await this.followersRepository.save(follow);
   }
 
-  // Получение пользователя по ID с подписчиками и постами
-  async getUserById(userId: number): Promise<TExtendedUser> {
-    const user = await this.userRepository.findOne({
-      where: { userId },
-      relations: ["posts", "followers"],
-    });
-
-    if (!user) {
-      throw new NotFoundException(`Пользователь с ID ${userId} не найден`);
+  async unfollowUser(followerId: number, followedId: number): Promise<void> {
+    if (followerId === followedId) {
+      throw new BadRequestException("Нельзя отписаться от самого себя");
     }
 
-    const followersCount = await this.followersRepository.count({
-      where: { followed: { userId } },
+    const follow = await this.followersRepository.findOne({
+      where: {
+        follower: { userId: followerId },
+        followed: { userId: followedId },
+      },
+      relations: ["follower", "followed"],
     });
 
-    return { ...user, followersCount };
+    if (!follow) {
+      throw new NotFoundException("Вы не подписаны на этого пользователя");
+    }
+
+    await this.followersRepository.remove(follow);
   }
 }
