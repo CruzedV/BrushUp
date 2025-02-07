@@ -7,6 +7,7 @@ import { User } from "./entities/user.entity";
 import { Post } from "./entities/posts.entity";
 import { Followers } from "./entities/followers.entity";
 import { UserModule } from "./users/users.module";
+import { Token } from "./entities/token.entity";
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -18,7 +19,7 @@ import { UserModule } from "./users/users.module";
       database: "BrushUp",
       autoLoadEntities: true,
       synchronize: true,
-      entities: [User, Post, Followers],
+      entities: [User, Post, Followers, Token],
     }),
     PostsModule,
     UserModule,

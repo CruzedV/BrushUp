@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Followers } from "./followers.entity";
 import { Post } from "./posts.entity";
+import { Token } from "./token.entity";
 
 @Entity()
 export class User {
@@ -27,4 +28,7 @@ export class User {
 
   @OneToMany(() => Post, (post) => post.user)
   posts?: Post[];
+
+  @OneToMany(() => Token, (token) => token.user, { cascade: true })
+  tokens?: Token[];
 }
