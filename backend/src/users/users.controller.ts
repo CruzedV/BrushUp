@@ -8,17 +8,17 @@ import {
   Delete,
 } from "@nestjs/common";
 import { UserService } from "./users.service";
-import { CreateUserDto } from "src/dto/create-user.dto";
+import { RegisterDto } from "src/dto/register.dto";
 import { User } from "src/entities/user.entity";
 
 @Controller("users")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  // Создание пользователя
+  // Создание пользователя сделать только для админа
   @Post()
-  async createUser(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return this.userService.createUser(createUserDto);
+  async createUser(@Body() registerDto: RegisterDto): Promise<User> {
+    return this.userService.createUser(registerDto);
   }
 
   // Получение пользователя по ID
