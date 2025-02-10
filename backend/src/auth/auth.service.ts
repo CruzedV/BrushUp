@@ -63,7 +63,11 @@ export class AuthService {
     const { email, password } = loginDto;
 
     // Ищем пользователя по email
-    const user = await this.userRepository.findOne({ where: { email } });
+    const user = await this.userRepository
+      .createQueryBuilder("user")
+      .addSelect("user.password")
+      .where("user.email = :email", { email })
+      .getOne();
 
     if (!user) {
       throw new UnauthorizedException("Неверный email или пароль");
