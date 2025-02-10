@@ -27,6 +27,11 @@ export class UserController {
     return this.userService.getUserById(id);
   }
 
+  @Get()
+  async getAllUsers(): Promise<User[]> {
+    return this.userService.getAllUsers();
+  }
+
   @Post(":id/follow")
   async followUser(
     @Param("id", ParseIntPipe) followedId: number,

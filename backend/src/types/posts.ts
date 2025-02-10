@@ -1,4 +1,3 @@
-import { Post } from "src/entities/posts.entity";
 import { TPostUser } from "./user";
 
 export type TRequestPosts = {
@@ -18,5 +17,5 @@ export type TResponsePosts = {
   totalPages: number;
   totalPosts: number;
   page: number;
-  posts: Post[];
+  posts: TPost[];
 };

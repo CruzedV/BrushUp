@@ -44,6 +44,11 @@ export class UserService {
     return { ...user, followersCount };
   }
 
+  async getAllUsers(): Promise<User[]> {
+    const users = await this.userRepository.find();
+    return users;
+  }
+
   async followUser(followerId: number, followedId: number): Promise<void> {
     if (followerId === followedId) {
       throw new BadRequestException("Нельзя подписаться на самого себя");

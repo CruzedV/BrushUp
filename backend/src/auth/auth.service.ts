@@ -28,12 +28,16 @@ export class AuthService {
 
     // Проверяем, существует ли уже пользователь с таким email
     const existingUser = await this.userRepository.findOne({
+      where: { username },
+    });
+
+    const existingEmail = await this.userRepository.findOne({
       where: { email },
     });
 
-    if (existingUser) {
+    if (existingUser || existingEmail) {
       throw new ConflictException(
-        "Пользователь с таким email уже зарегистрирован",
+        "Пользователь с такой почтой или именем пользователя уже зарегистрирован",
       );
     }
 

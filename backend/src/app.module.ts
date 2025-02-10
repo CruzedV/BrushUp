@@ -8,6 +8,7 @@ import { Post } from "./entities/posts.entity";
 import { Followers } from "./entities/followers.entity";
 import { UserModule } from "./users/users.module";
 import { Token } from "./entities/token.entity";
+import { AuthModule } from "./auth/auth.module";
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -18,11 +19,13 @@ import { Token } from "./entities/token.entity";
       password: "postgres",
       database: "BrushUp",
       autoLoadEntities: true,
-      synchronize: true,
+      synchronize: false,
+      schema: "public",
       entities: [User, Post, Followers, Token],
     }),
     PostsModule,
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
