@@ -10,7 +10,7 @@ import { User } from "src/entities/user.entity";
 import { Token } from "src/entities/token.entity";
 import { RegisterDto } from "src/dto/register.dto";
 import { LoginDto } from "src/dto/login.dto";
-import * as bcrypt from "bcrypt";
+import { hash, compare } from "bcrypt";
 
 @Injectable()
 export class AuthService {
@@ -38,15 +38,7 @@ export class AuthService {
     }
 
     // Хешируем пароль
-    let hashedPassword: string;
-    try {
-      if (!bcrypt.hash) {
-        throw new Error("bcrypt.hash не определён");
-      }
-      hashedPassword = await bcrypt.hash(password, 10);
-    } catch {
-      throw new Error("Ошибка при хешировании пароля");
-    }
+    const hashedPassword = await hash(password, 10);
 
     const user = this.userRepository.create({
       username,
@@ -75,14 +67,7 @@ export class AuthService {
 
     // Проверяем пароль
     let isPasswordValid = false;
-    try {
-      if (!bcrypt.compare) {
-        throw new Error("bcrypt.compare не определён");
-      }
-      isPasswordValid = await bcrypt.compare(password, user.password);
-    } catch {
-      throw new Error("Ошибка при проверке пароля");
-    }
+    isPasswordValid = await compare(password, user.password!);
 
     if (!isPasswordValid) {
       throw new UnauthorizedException("Неверный email или пароль");

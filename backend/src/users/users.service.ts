@@ -7,7 +7,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { User } from "src/entities/user.entity";
 import { Followers } from "src/entities/followers.entity";
-import { CreateUserDto } from "src/dto/create-user.dto";
+import { RegisterDto } from "src/dto/register.dto";
 import { TExtendedUser } from "src/types/user";
 
 @Injectable()
@@ -21,8 +21,8 @@ export class UserService {
   ) {}
 
   // Создание пользователя
-  async createUser(createUserDto: CreateUserDto): Promise<User> {
-    const user = this.userRepository.create(createUserDto);
+  async createUser(registerDto: RegisterDto): Promise<User> {
+    const user = this.userRepository.create(registerDto);
     return this.userRepository.save(user);
   }
 
