@@ -2,6 +2,8 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Followers } from "./followers.entity";
 import { Post } from "./posts.entity";
 import { Token } from "./token.entity";
+import { Bookmark } from "./bookmark.entity";
+import { Comment } from "./comment.entity";
 // import { Exclude } from "class-transformer";
 
 @Entity()
@@ -32,4 +34,10 @@ export class User {
 
   @OneToMany(() => Token, (token) => token.user, { cascade: true })
   tokens?: Token[];
+
+  @OneToMany(() => Comment, (comment) => comment.user, { cascade: true })
+  comments: Comment[];
+
+  @OneToMany(() => Bookmark, (bookmark) => bookmark.user, { cascade: true })
+  bookmarks: Bookmark[];
 }

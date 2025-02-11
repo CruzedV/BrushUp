@@ -1,8 +1,15 @@
+import { User } from "src/entities/user.entity";
 import { TPostUser } from "./user";
 
 export type TRequestPosts = {
   tags?: string[];
   query?: string;
+};
+
+export type TMarkedPosts = {
+  user: User;
+  tags?: string[];
+  query: string;
 };
 
 export type TPost = {
