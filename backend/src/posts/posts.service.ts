@@ -10,6 +10,7 @@ import { User } from "src/entities/user.entity";
 import { CreatePostDto, UpdatePostDto } from "src/dto/post.dto";
 import { Bookmark } from "src/entities/bookmark.entity";
 import { addCommentDto } from "src/dto/comment.dto";
+import { Comment } from "src/entities/comment.entity";
 
 const limit = 10;
 
@@ -18,8 +19,12 @@ export class PostsService {
   constructor(
     @InjectRepository(Post)
     private readonly postRepository: Repository<Post>,
+    @InjectRepository(Bookmark)
     private readonly bookmarkRepository: Repository<Bookmark>,
+    @InjectRepository(Comment)
     private readonly commentRepository: Repository<Comment>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   async getAllPosts(page: number, query: string = "", tags: string[] = []) {
@@ -205,9 +210,20 @@ export class PostsService {
   async addComment(dto: addCommentDto) {
     const post = await this.postRepository.findOne({
       where: { articleId: dto.postId },
+      relations: ["comments"],
     });
+
+    const user = await this.userRepository.findOne({
+      where: { userId: dto.user.userId },
+    });
+
     if (!post) throw new NotFoundException("Пост не найден");
-    const comment = this.commentRepository.create({ dto.user, post, dto.text });
+    if (!user) throw new NotFoundException("Пользователь не найден");
+    const comment = this.commentRepository.create({
+      user: user,
+      post: post,
+      text: dto.text,
+    });
     return await this.commentRepository.save(comment);
   }
 

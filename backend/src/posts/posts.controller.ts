@@ -44,8 +44,8 @@ export class PostsController {
   async getSubscribedPosts(
     @Query("page") page: number = 1,
     @Body() body: TMarkedPosts,
-  ): Promise<TRequestPosts> {
-    return this.postService.getSubscribedPosts(
+  ): Promise<TResponsePosts> {
+    return this.postsService.getSubscribedPosts(
       body.user,
       page,
       body.query,
@@ -58,7 +58,7 @@ export class PostsController {
     return this.postsService.createPost(createPostDto);
   }
 
-  @Put(":id")
+  @Put()
   async updatePost(
     @Query("id") id: number,
     @Body() updatePostDto: UpdatePostDto,
@@ -66,7 +66,7 @@ export class PostsController {
     return this.postsService.updatePost(id, updatePostDto);
   }
 
-  @Delete(":id")
+  @Delete()
   async deletePost(
     @Query("postId") postId: number,
     @Query("userId") userId: number,

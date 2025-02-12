@@ -10,6 +10,8 @@ import { UserModule } from "./users/users.module";
 import { Token } from "./entities/token.entity";
 import { AuthModule } from "./auth/auth.module";
 import { Tag } from "./entities/tags.entity";
+import { Comment } from "./entities/comment.entity";
+import { Bookmark } from "./entities/bookmark.entity";
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -22,7 +24,7 @@ import { Tag } from "./entities/tags.entity";
       autoLoadEntities: true,
       synchronize: false,
       schema: "public",
-      entities: [User, Post, Followers, Token, Tag],
+      entities: [User, Post, Followers, Token, Tag, Comment, Bookmark],
     }),
     PostsModule,
     UserModule,
