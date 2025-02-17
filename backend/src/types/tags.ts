@@ -1,5 +1,5 @@
 export type TTag = {
-  tagId: string;
+  tag_id: string;
   name: string;
   color: string;
 };

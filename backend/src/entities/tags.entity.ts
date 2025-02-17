@@ -1,11 +1,11 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
+@Entity("tags")
 export class Tag {
   @PrimaryGeneratedColumn()
-  tagId: number;
+  tag_id: number;
 
-  @Column({ type: "varchar", length: 100 })
+  @Column({ type: "varchar", length: 60 })
   name: string;
 
   @Column({ type: "varchar", length: 7 })

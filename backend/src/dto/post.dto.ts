@@ -1,16 +1,21 @@
 import { TTag } from "src/types/tags";
 
 export class CreatePostDto {
-  userId: number;
+  user_id: number;
   title: string;
   content: string;
   tags: TTag[];
 }
 
 export class UpdatePostDto {
-  userId: number;
+  user_id: number;
   title: string;
   content: string;
   tags: TTag[];
-  articleId: number;
+  article_id: number;
+}
+
+export class DeletePostDto {
+  article_id: number;
+  user_id: number;
 }

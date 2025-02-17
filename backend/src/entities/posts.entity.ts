@@ -10,13 +10,13 @@ import { User } from "./user.entity";
 import { Comment } from "./comment.entity";
 import { Bookmark } from "./bookmark.entity";
 
-@Entity()
+@Entity("articles")
 export class Post {
   @PrimaryGeneratedColumn()
-  articleId: number;
+  article_id: number;
 
   @Column()
-  userId: number;
+  user_id: number;
 
   @Column()
   title: string;
@@ -25,10 +25,10 @@ export class Post {
   content: string;
 
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  creationDate: Date;
+  creation_date: Date;
 
   @ManyToOne(() => User, (user) => user.posts, { eager: true })
-  @JoinColumn({ name: "userId" })
+  @JoinColumn({ name: "user_id" })
   user: User;
 
   @OneToMany(() => Comment, (comment) => comment.post, { cascade: true })

@@ -1,9 +1,9 @@
 import { User } from "src/entities/user.entity";
 
 export type TPostUser = {
-  userId: number;
+  user_id: number;
   username: string;
-  profilePicture: string;
+  profile_picture: string;
 };
 
 export type TExtendedUser = User & {

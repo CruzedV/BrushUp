@@ -7,16 +7,16 @@ export type TRequestPosts = {
 };
 
 export type TMarkedPosts = {
-  user: User;
+  user_id: number;
   tags?: string[];
   query: string;
 };
 
 export type TPost = {
-  articleId: number;
+  article_id: number;
   title: string;
   content: string;
-  creationDate: Date;
+  creation_date: Date;
   user: TPostUser;
 };
 

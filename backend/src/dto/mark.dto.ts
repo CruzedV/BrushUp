@@ -1,7 +1,7 @@
 import { User } from "src/entities/user.entity";
 
 export class MarkPostDto {
-  bookmarkId?: number;
-  articleId: number;
+  bookmark_id?: number;
+  article_id: number;
   user: User;
 }

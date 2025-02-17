@@ -2,10 +2,10 @@ import { Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 import { User } from "./user.entity";
 import { Post } from "./posts.entity";
 
-@Entity("Bookmark")
+@Entity("bookmarks")
 export class Bookmark {
   @PrimaryGeneratedColumn()
-  bookmarkId: number;
+  bookmark_id: number;
 
   @ManyToOne(() => User, (user) => user.bookmarks, { onDelete: "CASCADE" })
   user: User;

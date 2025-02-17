@@ -2,17 +2,17 @@ import { User } from "src/entities/user.entity";
 
 export class addCommentDto {
   user: User;
-  postId: number;
+  article_id: number;
   text: string;
 }
 
 export class updateCommentDto {
   user: User;
-  commentId: number;
+  comment_id: number;
   text: string;
 }
 
 export class deleteCommentDto {
   user: User;
-  commentId: number;
+  comment_id: number;
 }

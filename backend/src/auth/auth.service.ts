@@ -54,7 +54,7 @@ export class AuthService {
     await this.userRepository.save(user);
 
     // Генерируем токен
-    const token = await this.generateToken(user.userId);
+    const token = await this.generateToken(user.user_id);
     return { token };
   }
 
@@ -82,13 +82,13 @@ export class AuthService {
     }
 
     // Генерируем токен
-    const token = await this.generateToken(user.userId);
+    const token = await this.generateToken(user.user_id);
     return { token };
   }
 
   // Генерация JWT-токена
-  private async generateToken(userId: number): Promise<string> {
-    const payload = { userId };
+  private async generateToken(user_id: number): Promise<string> {
+    const payload = { user_id };
     const token = this.jwtService.sign(payload, { expiresIn: "1d" });
 
     // Устанавливаем срок действия на конец дня
@@ -96,7 +96,7 @@ export class AuthService {
     expires.setHours(23, 59, 59, 999);
 
     // Сохраняем токен в базе
-    await this.tokenRepository.save({ token, user: { userId }, expires });
+    await this.tokenRepository.save({ token, user: { user_id }, expires });
 
     return token;
   }

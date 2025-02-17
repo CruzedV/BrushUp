@@ -4,39 +4,21 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository, DataSource } from "typeorm";
+import { Repository } from "typeorm";
 import { Post } from "src/entities/posts.entity";
-import { User } from "src/entities/user.entity";
-import { CreatePostDto, UpdatePostDto } from "src/dto/post.dto";
-import { Bookmark } from "src/entities/bookmark.entity";
-import {
-  addCommentDto,
-  deleteCommentDto,
-  updateCommentDto,
-} from "src/dto/comment.dto";
-import { Comment } from "src/entities/comment.entity";
-
-const limit = 10;
+import { CreatePostDto, DeletePostDto, UpdatePostDto } from "src/dto/post.dto";
+import { Follower } from "src/entities/followers.entity";
+import { LIMIT } from "src/config";
 
 @Injectable()
 export class PostsService {
   constructor(
     @InjectRepository(Post)
     private readonly postRepository: Repository<Post>,
-    @InjectRepository(Bookmark)
-    private readonly bookmarkRepository: Repository<Bookmark>,
-    @InjectRepository(Comment)
-    private readonly commentRepository: Repository<Comment>,
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-    private dataSource: DataSource,
   ) {}
 
-  // async getAllPosts(page: number, query: string = "", tags: string[] = []) {
-  //   return await this.dataSource.query("SELECT column_name FROM information_schema.columns WHERE table_name = 'articlecomments';");
-  // }
   async getAllPosts(page: number, query: string = "", tags: string[] = []) {
-    const offset = (page - 1) * limit;
+    const offset = (page - 1) * LIMIT;
 
     const queryBuilder = this.postRepository
       .createQueryBuilder("post")
@@ -45,7 +27,7 @@ export class PostsService {
         query: `%${query}%`,
       })
       .skip(offset)
-      .take(limit);
+      .take(LIMIT);
 
     if (tags.length > 0) {
       queryBuilder
@@ -56,19 +38,19 @@ export class PostsService {
     const [posts, total] = await queryBuilder.getManyAndCount();
 
     return {
-      totalPages: Math.ceil(total / limit),
+      totalPages: Math.ceil(total / LIMIT),
       totalPosts: total,
       page: page,
       posts: posts.map((post: Post) => ({
-        articleId: post.articleId,
-        userId: post.user.userId,
+        article_id: post.article_id,
+        user_id: post.user.user_id,
         title: post.title,
         content: post.content,
-        creationDate: post.creationDate,
+        creation_date: post.creation_date,
         user: {
-          userId: post.user.userId,
+          user_id: post.user.user_id,
           username: post.user.username,
-          profilePicture: post.user.profilePicture,
+          profile_picture: post.user.profile_picture,
         },
       })),
     };
@@ -81,13 +63,13 @@ export class PostsService {
   }
 
   // Обновлние поста
-  async updatePost(userId: number, dto: UpdatePostDto) {
+  async updatePost(dto: UpdatePostDto) {
     const post = await this.postRepository.findOne({
-      where: { articleId: dto.articleId },
+      where: { article_id: dto.article_id },
       relations: ["user"],
     });
     if (!post) throw new NotFoundException("Пост не найден");
-    if (post.user.userId !== userId)
+    if (post.user.user_id !== dto.user_id)
       throw new ForbiddenException("Нет доступа к редактированию");
     post.title = dto.title;
     post.content = dto.content;
@@ -95,109 +77,38 @@ export class PostsService {
   }
 
   // Удаление поста
-  async deletePost(userId: number, postId: number) {
+  async deletePost(dto: DeletePostDto) {
     const post = await this.postRepository.findOne({
-      where: { articleId: postId },
+      where: { article_id: dto.article_id },
       relations: ["user"],
     });
     if (!post) throw new NotFoundException("Пост не найден");
-    if (post.user.userId !== userId)
+    if (post.user.user_id !== dto.user_id)
       throw new ForbiddenException("Нет доступа к удалению");
     await this.postRepository.remove(post);
   }
 
-  // Добавление в закладки
-  async markPost(user: User, postId: number): Promise<Bookmark> {
-    const post = await this.postRepository.findOne({
-      where: { articleId: postId },
-    });
-    if (!post) throw new NotFoundException("Пост не найден");
-    const bookmark: Bookmark = this.bookmarkRepository.create({ user, post });
-    return await this.bookmarkRepository.save(bookmark);
-  }
-
-  // Удаление из закладок
-  async unmarkPost(user: User, postId: number): Promise<void> {
-    const bookmark = await this.bookmarkRepository.findOne({
-      where: { user: { userId: user.userId }, post: { articleId: postId } },
-      relations: ["user", "post"],
-    });
-
-    if (!bookmark) throw new NotFoundException("Закладка не найдена");
-
-    await this.bookmarkRepository.remove(bookmark);
-  }
-
-  // Получение закладок
-  async getMarkedPosts(
-    user: User,
-    page: number,
-    query: string = "",
-    tags: string[] = [],
-  ) {
-    const offset = (page - 1) * limit;
-
-    const queryBuilder = this.bookmarkRepository
-      .createQueryBuilder("bookmark")
-      .leftJoinAndSelect("bookmark.post", "post")
-      .leftJoinAndSelect("post.user", "user")
-      .where("bookmark.user = :userId", { userId: user.userId })
-      .andWhere("post.title ILIKE :query OR post.content ILIKE :query", {
-        query: `%${query}%`,
-      })
-      .skip(offset)
-      .take(limit);
-
-    if (tags.length > 0) {
-      queryBuilder
-        .innerJoin("post.tags", "tag")
-        .andWhere("tag.name IN (:...tags)", { tags });
-    }
-
-    const [bookmarks, total] = await queryBuilder.getManyAndCount();
-
-    return {
-      totalPages: Math.ceil(total / limit),
-      totalPosts: total,
-      page: page,
-      posts: bookmarks.map((bookmark) => ({
-        articleId: bookmark.post.articleId,
-        userId: bookmark.post.user.userId,
-        title: bookmark.post.title,
-        content: bookmark.post.content,
-        creationDate: bookmark.post.creationDate,
-        user: {
-          userId: bookmark.post.user.userId,
-          username: bookmark.post.user.username,
-          profilePicture: bookmark.post.user.profilePicture,
-        },
-      })),
-    };
-  }
-
   async getSubscribedPosts(
-    user: User,
+    user_id: number,
     page: number,
     query: string = "",
     tags: string[] = [],
   ) {
-    const offset = (page - 1) * limit;
+    const offset = (page - 1) * LIMIT;
     const queryBuilder = this.postRepository
       .createQueryBuilder("post")
       .leftJoinAndSelect("post.user", "user")
       .innerJoin(
-        "followers",
+        Follower,
         "follower",
-        "follower.followedId = user.userId AND follower.followerId = :userId",
-        {
-          userId: user.userId,
-        },
+        "follower.followed_id.user_id = user.user_id AND follower.follower_id.user_id = :user_id",
+        { user_id: user_id },
       )
       .where("post.title ILIKE :query OR post.content ILIKE :query", {
         query: `%${query}%`,
       })
       .skip(offset)
-      .take(limit);
+      .take(LIMIT);
 
     if (tags.length > 0) {
       queryBuilder
@@ -208,81 +119,29 @@ export class PostsService {
     const [posts, total] = await queryBuilder.getManyAndCount();
 
     return {
-      totalPages: Math.ceil(total / limit),
+      totalPages: Math.ceil(total / LIMIT),
       totalPosts: total,
       page: page,
       posts: posts.map((post) => ({
-        articleId: post.articleId,
-        userId: post.user.userId,
+        article_id: post.article_id,
+        user_id: post.user.user_id,
         title: post.title,
         content: post.content,
-        creationDate: post.creationDate,
+        creation_date: post.creation_date,
         user: {
-          userId: post.user.userId,
+          user_id: post.user.user_id,
           username: post.user.username,
-          profilePicture: post.user.profilePicture,
+          profile_picture: post.user.profile_picture,
         },
       })),
     };
   }
 
-  // Добавление комментария
-  async addComment(dto: addCommentDto) {
-    const post = await this.postRepository.findOne({
-      where: { articleId: dto.postId },
-      relations: ["comments"],
-    });
-
-    const user = await this.userRepository.findOne({
-      where: { userId: dto.user.userId },
-    });
-
-    if (!post) throw new NotFoundException("Пост не найден");
-    if (!user) throw new NotFoundException("Пользователь не найден");
-    const comment = this.commentRepository.create({
-      user: user,
-      post: post,
-      text: dto.text,
-    });
-    return await this.commentRepository.save(comment);
-  }
-
-  async deleteComment(dto: deleteCommentDto): Promise<void> {
-    const comment = await this.commentRepository.findOne({
-      where: { commentId: dto.commentId },
-      relations: ["user"],
-    });
-
-    if (!comment) throw new NotFoundException("Комментарий не найден");
-
-    if (comment.user.userId !== dto.user.userId) {
-      throw new ForbiddenException("Нет доступа к удалению");
-    }
-
-    await this.commentRepository.remove(comment);
-  }
-
-  async updateComment(dto: updateCommentDto): Promise<Comment> {
-    const comment = await this.commentRepository.findOne({
-      where: { commentId: dto.commentId },
-      relations: ["user"],
-    });
-
-    if (!comment) throw new NotFoundException("Комментарий не найден");
-
-    if (comment.user.userId !== dto.user.userId) {
-      throw new ForbiddenException("Нет доступа к редактированию");
-    }
-
-    comment.text = dto.text;
-    return await this.commentRepository.save(comment);
-  }
-
   // Получение поста по id
-  async getPostById(postId: number) {
+  async getPostById(article_id: number) {
     const post = await this.postRepository.findOne({
-      where: { articleId: postId },
-      relations: ["user", "comments"],
+      where: { article_id },
+      relations: ["user", "comments", "comments.user"],
     });
     if (!post) throw new NotFoundException("Пост не найден");
     return post;

@@ -10,6 +10,7 @@ import {
 import { UserService } from "./users.service";
 import { RegisterDto } from "src/dto/register.dto";
 import { User } from "src/entities/user.entity";
+import { FollowUserDto } from "src/dto/follower.dto";
 
 @Controller("users")
 export class UserController {
@@ -32,20 +33,14 @@ export class UserController {
     return this.userService.getAllUsers();
   }
 
-  @Post(":id/follow")
-  async followUser(
-    @Param("id", ParseIntPipe) followedId: number,
-    @Body("followerId", ParseIntPipe) followerId: number,
-  ): Promise<void> {
-    return this.userService.followUser(followerId, followedId);
+  @Post("follow")
+  async followUser(@Body() followeUserDto: FollowUserDto): Promise<void> {
+    return this.userService.followUser(followeUserDto);
   }
 
-  @Delete(":id/unfollow")
-  async unfollowUser(
-    @Param("id", ParseIntPipe) followedId: number,
-    @Body("followerId", ParseIntPipe) followerId: number,
-  ) {
-    await this.userService.unfollowUser(followerId, followedId);
+  @Delete("unfollow")
+  async unfollowUser(@Body() followUserDto: FollowUserDto) {
+    await this.userService.unfollowUser(followUserDto);
     return { message: "Вы отписались от пользователя" };
   }
 }

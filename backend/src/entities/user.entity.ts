@@ -1,15 +1,15 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { Followers } from "./followers.entity";
+import { Follower } from "./followers.entity";
 import { Post } from "./posts.entity";
 import { Token } from "./token.entity";
 import { Bookmark } from "./bookmark.entity";
 import { Comment } from "./comment.entity";
 // import { Exclude } from "class-transformer";
 
-@Entity()
+@Entity("users")
 export class User {
   @PrimaryGeneratedColumn()
-  userId: number;
+  user_id: number;
 
   @Column({ type: "varchar", length: 50, unique: true })
   username: string;
@@ -21,13 +21,13 @@ export class User {
   password?: string;
 
   @Column({ type: "text", nullable: true })
-  profilePicture: string;
+  profile_picture: string;
 
   @Column({ type: "text", nullable: true })
   bio?: string;
 
-  @OneToMany(() => Followers, (follower) => follower.followed)
-  followers?: Followers[];
+  @OneToMany(() => Follower, (follower) => follower.followed)
+  followers?: Follower[];
 
   @OneToMany(() => Post, (post) => post.user)
   posts?: Post[];
