@@ -5,3 +5,14 @@ export class addCommentDto {
   postId: number;
   text: string;
 }
+
+export class updateCommentDto {
+  user: User;
+  commentId: number;
+  text: string;
+}
+
+export class deleteCommentDto {
+  user: User;
+  commentId: number;
+}

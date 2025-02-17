@@ -4,12 +4,16 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Repository, DataSource } from "typeorm";
 import { Post } from "src/entities/posts.entity";
 import { User } from "src/entities/user.entity";
 import { CreatePostDto, UpdatePostDto } from "src/dto/post.dto";
 import { Bookmark } from "src/entities/bookmark.entity";
-import { addCommentDto } from "src/dto/comment.dto";
+import {
+  addCommentDto,
+  deleteCommentDto,
+  updateCommentDto,
+} from "src/dto/comment.dto";
 import { Comment } from "src/entities/comment.entity";
 
 const limit = 10;
@@ -25,8 +29,12 @@ export class PostsService {
     private readonly commentRepository: Repository<Comment>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private dataSource: DataSource,
   ) {}
 
+  // async getAllPosts(page: number, query: string = "", tags: string[] = []) {
+  //   return await this.dataSource.query("SELECT column_name FROM information_schema.columns WHERE table_name = 'articlecomments';");
+  // }
   async getAllPosts(page: number, query: string = "", tags: string[] = []) {
     const offset = (page - 1) * limit;
 
@@ -106,6 +114,18 @@ export class PostsService {
     if (!post) throw new NotFoundException("Пост не найден");
     const bookmark: Bookmark = this.bookmarkRepository.create({ user, post });
     return await this.bookmarkRepository.save(bookmark);
+  }
+
+  // Удаление из закладок
+  async unmarkPost(user: User, postId: number): Promise<void> {
+    const bookmark = await this.bookmarkRepository.findOne({
+      where: { user: { userId: user.userId }, post: { articleId: postId } },
+      relations: ["user", "post"],
+    });
+
+    if (!bookmark) throw new NotFoundException("Закладка не найдена");
+
+    await this.bookmarkRepository.remove(bookmark);
   }
 
   // Получение закладок
@@ -227,8 +247,35 @@ export class PostsService {
     return await this.commentRepository.save(comment);
   }
 
-  async deleteComment(commentId: number) {
-    return await this.commentRepository.delete(commentId);
+  async deleteComment(dto: deleteCommentDto): Promise<void> {
+    const comment = await this.commentRepository.findOne({
+      where: { commentId: dto.commentId },
+      relations: ["user"],
+    });
+
+    if (!comment) throw new NotFoundException("Комментарий не найден");
+
+    if (comment.user.userId !== dto.user.userId) {
+      throw new ForbiddenException("Нет доступа к удалению");
+    }
+
+    await this.commentRepository.remove(comment);
+  }
+
+  async updateComment(dto: updateCommentDto): Promise<Comment> {
+    const comment = await this.commentRepository.findOne({
+      where: { commentId: dto.commentId },
+      relations: ["user"],
+    });
+
+    if (!comment) throw new NotFoundException("Комментарий не найден");
+
+    if (comment.user.userId !== dto.user.userId) {
+      throw new ForbiddenException("Нет доступа к редактированию");
+    }
+
+    comment.text = dto.text;
+    return await this.commentRepository.save(comment);
   }
 
   // Получение поста по id

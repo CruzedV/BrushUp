@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
   Query,
@@ -13,7 +14,11 @@ import { TMarkedPosts, TRequestPosts, TResponsePosts } from "src/types/posts";
 import { CreatePostDto, UpdatePostDto } from "src/dto/post.dto";
 import { MarkPostDto } from "src/dto/mark.dto";
 import { Bookmark } from "src/entities/bookmark.entity";
-import { addCommentDto } from "src/dto/comment.dto";
+import {
+  addCommentDto,
+  deleteCommentDto,
+  updateCommentDto,
+} from "src/dto/comment.dto";
 
 @Controller("posts")
 export class PostsController {
@@ -58,7 +63,7 @@ export class PostsController {
     return this.postsService.createPost(createPostDto);
   }
 
-  @Put()
+  @Put("update")
   async updatePost(
     @Query("id") id: number,
     @Body() updatePostDto: UpdatePostDto,
@@ -79,14 +84,27 @@ export class PostsController {
     return this.postsService.markPost(markPostDto.user, markPostDto.articleId);
   }
 
+  @Delete("bookmark/:postId")
+  async unmarkPost(@Body() markPostDto: MarkPostDto): Promise<void> {
+    return this.postsService.unmarkPost(
+      markPostDto.user,
+      markPostDto.articleId,
+    );
+  }
+
   @Post("comment")
   async addComment(@Body() addCommentDto: addCommentDto) {
     return this.postsService.addComment(addCommentDto);
   }
 
   @Delete("comment")
-  async deleteComment(@Query("commentId") commentId: number) {
-    return this.postsService.deleteComment(commentId);
+  async deleteComment(@Body() deleteCommentDto: deleteCommentDto) {
+    return this.postsService.deleteComment(deleteCommentDto);
+  }
+
+  @Patch("comment")
+  async updateComment(@Body() updateCommentDto: updateCommentDto) {
+    return this.postsService.updateComment(updateCommentDto);
   }
 
   @Get(":id")

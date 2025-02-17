@@ -26,6 +26,19 @@ export class UserService {
     return this.userRepository.save(user);
   }
 
+  async deleteUser(userId: number): Promise<void> {
+    const user = await this.userRepository.findOne({ where: { userId } });
+
+    if (!user) {
+      throw new NotFoundException(`Пользователь с ID ${userId} не найден`);
+    }
+
+    await this.followersRepository.delete({ followed: { userId } });
+    await this.followersRepository.delete({ follower: { userId } });
+
+    await this.userRepository.remove(user);
+  }
+
   // Получение пользователя по ID с подписчиками и постами
   async getUserById(userId: number): Promise<TExtendedUser> {
     const user = await this.userRepository.findOne({
