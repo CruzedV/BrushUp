@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Post, Query } from "@nestjs/common";
 import { MarkPostDto } from "src/dto/mark.dto";
 import { Bookmark } from "src/entities/bookmark.entity";
 
-import { TMarkedPosts, TResponsePosts } from "src/types/posts";
+import { MarkedPostsDto, ResponsePostsDto } from "@shared/types/post";
 import { BookmarksService } from "./bookmarks.service";
 
 @Controller("bookmarks")
@@ -12,8 +12,8 @@ export class BookmarksController {
   @Post("marked")
   async getMarkedPosts(
     @Query("page") page: number = 1,
-    @Body() body: TMarkedPosts,
-  ): Promise<TResponsePosts> {
+    @Body() body: MarkedPostsDto,
+  ): Promise<ResponsePostsDto> {
     return this.bookmarksService.getMarkedPosts(
       body.user_id,
       page,

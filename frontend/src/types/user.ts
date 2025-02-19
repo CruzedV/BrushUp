@@ -1,9 +1,9 @@
 export type TUser = {
-  userId: string;
+  user_id: string;
   username: string;
   email: string;
-  profilePicture: string;
+  profile_picture: string;
   bio: string;
-  creationDate: Date;
-  isAdmin: boolean;
+  creation_date: Date;
+  is_admin: boolean;
 };

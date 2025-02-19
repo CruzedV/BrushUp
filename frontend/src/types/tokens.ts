@@ -1,6 +1,6 @@
 export type TToken = {
-  tokenId: string;
-  userId: string;
+  token_id: string;
+  user_id: string;
   token: string;
   expires: Date;
 }

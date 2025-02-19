@@ -6,7 +6,11 @@ import {
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Post } from "src/entities/posts.entity";
-import { CreatePostDto, DeletePostDto, UpdatePostDto } from "src/dto/post.dto";
+import {
+  CreatePostDto,
+  DeletePostDto,
+  UpdatePostDto,
+} from "@shared/types/post";
 import { Follower } from "src/entities/followers.entity";
 import { LIMIT } from "src/config";
 

@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
@@ -8,8 +9,10 @@ import { Repository } from "typeorm";
 import { User } from "src/entities/user.entity";
 import { Follower } from "src/entities/followers.entity";
 import { RegisterDto } from "src/dto/register.dto";
-import { TExtendedUser } from "src/types/user";
-import { FollowUserDto } from "src/dto/follower.dto";
+import { TExtendedUser } from "src/dto/user.dto";
+import { TFollowUser } from "@shared/types/follower";
+import { UpdateUserDto } from "src/dto/user.dto";
+import { hash, compare } from "bcrypt";
 
 @Injectable()
 export class UserService {
@@ -21,7 +24,6 @@ export class UserService {
     private readonly followerRepository: Repository<Follower>,
   ) {}
 
-  // Создание пользователя
   async createUser(registerDto: RegisterDto): Promise<User> {
     const user = this.userRepository.create(registerDto);
     return this.userRepository.save(user);
@@ -40,7 +42,26 @@ export class UserService {
     await this.userRepository.remove(user);
   }
 
-  // Получение пользователя по ID с подписчиками и постами
+  async updateUser(dto: UpdateUserDto): Promise<void> {
+    const user = await this.userRepository.findOne({
+      where: { user_id: dto.user_id },
+      select: ["user_id", "password"],
+    });
+    if (!user) throw new NotFoundException("Пользователь не найден");
+
+    if (dto.password && dto.new_password) {
+      const isMatch = await compare(dto.password, user.password!);
+      if (!isMatch) throw new ForbiddenException("Неверный старый пароль");
+
+      user.password = await hash(dto.new_password, 10);
+      delete dto.password;
+    }
+
+    Object.assign(user, dto);
+
+    await this.userRepository.save(user);
+  }
+
   async getUserById(user_id: number): Promise<TExtendedUser> {
     const user = await this.userRepository.findOne({
       where: { user_id },
@@ -63,7 +84,9 @@ export class UserService {
     return users;
   }
 
-  async followUser(dto: FollowUserDto): Promise<void> {
+  // FOLLOW
+
+  async followUser(dto: TFollowUser): Promise<void> {
     if (dto.follower_id === dto.followed_id) {
       throw new BadRequestException("Нельзя подписаться на самого себя");
     }
@@ -86,7 +109,7 @@ export class UserService {
     await this.followerRepository.save(follow);
   }
 
-  async unfollowUser(dto: FollowUserDto): Promise<void> {
+  async unfollowUser(dto: TFollowUser): Promise<void> {
     if (dto.follower_id === dto.followed_id) {
       throw new BadRequestException("Нельзя отписаться от самого себя");
     }

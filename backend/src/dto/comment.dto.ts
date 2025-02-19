@@ -1,18 +1,18 @@
 import { User } from "src/entities/user.entity";
 
-export class addCommentDto {
+export type addCommentDto = {
   user: User;
   article_id: number;
   text: string;
-}
+};
 
-export class updateCommentDto {
+export type updateCommentDto = {
   user: User;
   comment_id: number;
   text: string;
-}
+};
 
-export class deleteCommentDto {
+export type deleteCommentDto = {
   user: User;
   comment_id: number;
-}
+};
