@@ -1,10 +1,10 @@
-export type RegisterType = {
+export type TRegisterData = {
   email: string;
   username: string;
   password: string;
 };
 
-export type LoginType = {
+export type TLoginData = {
   email: string;
   password: string;
 };

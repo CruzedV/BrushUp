@@ -46,8 +46,11 @@ export class UserController {
   }
 
   @Delete("unfollow")
-  async unfollowUser(@Body() followUserDto: TFollowUser) {
-    await this.userService.unfollowUser(followUserDto);
+  async unfollowUser(
+    @Param() follower_id: number,
+    @Param() followed_id: number,
+  ) {
+    await this.userService.unfollowUser(follower_id, followed_id);
     return { message: "Вы отписались от пользователя" };
   }
 }

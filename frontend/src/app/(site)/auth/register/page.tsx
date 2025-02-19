@@ -4,17 +4,17 @@ import type { FormProps } from 'antd';
 import { Button, Card, Form, Input } from 'antd';
 import styles from '../login/styles.module.scss';
 import { useEffect, useState } from 'react';
-import { RegisterType } from '@/types/auth';
+import { TRegisterData } from '@/types/auth';
 
 const RegisterPage = () => {
   const [submittable, setSubmittable] = useState<boolean>(false);
   const [form] = Form.useForm();
 
-  const onFinish: FormProps<RegisterType>['onFinish'] = (values) => {
+  const onFinish: FormProps<TRegisterData>['onFinish'] = (values) => {
     console.log('Успех:', values);
   };
   
-  const onFinishFailed: FormProps<RegisterType>['onFinishFailed'] = (errorInfo) => {
+  const onFinishFailed: FormProps<TRegisterData>['onFinishFailed'] = (errorInfo) => {
     console.log('Ошибка:', errorInfo);
   };
 
@@ -36,7 +36,7 @@ const RegisterPage = () => {
       layout="vertical"
     >
       <Card className={styles.authCard}>
-        <Form.Item<RegisterType>
+        <Form.Item<TRegisterData>
             label="Почта"
             name="email"
             rules={
@@ -49,7 +49,7 @@ const RegisterPage = () => {
             <Input.Password />
         </Form.Item>
 
-        <Form.Item<RegisterType>
+        <Form.Item<TRegisterData>
           label="Имя пользователя"
           name="username"
           rules={
@@ -62,7 +62,7 @@ const RegisterPage = () => {
           <Input />
         </Form.Item>
         
-        <Form.Item<RegisterType>
+        <Form.Item<TRegisterData>
           label="Пароль"
           name="password"
           rules={
@@ -75,7 +75,7 @@ const RegisterPage = () => {
           <Input.Password />
         </Form.Item>
         
-        <Form.Item<RegisterType> className={styles.authSubmit}>
+        <Form.Item<TRegisterData> className={styles.authSubmit}>
           <Button type="primary" htmlType="submit" disabled={!submittable}>
             Зарегистрироваться
           </Button>

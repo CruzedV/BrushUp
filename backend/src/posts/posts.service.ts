@@ -6,11 +6,7 @@ import {
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Post } from "src/entities/posts.entity";
-import {
-  CreatePostDto,
-  DeletePostDto,
-  UpdatePostDto,
-} from "@shared/types/post";
+import { CreatePostDto, UpdatePostDto } from "@shared/types/post";
 import { Follower } from "src/entities/followers.entity";
 import { LIMIT } from "src/config";
 
@@ -81,13 +77,13 @@ export class PostsService {
   }
 
   // Удаление поста
-  async deletePost(dto: DeletePostDto) {
+  async deletePost(user_id: number, article_id: number) {
     const post = await this.postRepository.findOne({
-      where: { article_id: dto.article_id },
+      where: { article_id: article_id },
       relations: ["user"],
     });
     if (!post) throw new NotFoundException("Пост не найден");
-    if (post.user.user_id !== dto.user_id)
+    if (post.user.user_id !== user_id)
       throw new ForbiddenException("Нет доступа к удалению");
     await this.postRepository.remove(post);
   }

@@ -4,3 +4,7 @@ export type TToken = {
   token: string;
   expires: Date;
 }
+
+export type TReturnToken = {
+  token: string;
+}

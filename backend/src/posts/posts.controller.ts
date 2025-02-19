@@ -14,7 +14,6 @@ import {
   RequestPostsDto,
   ResponsePostsDto,
   CreatePostDto,
-  DeletePostDto,
   UpdatePostDto,
 } from "@shared/types/post";
 
@@ -54,8 +53,11 @@ export class PostsController {
   }
 
   @Delete()
-  async deletePost(@Body() deletePostDto: DeletePostDto) {
-    return this.postsService.deletePost(deletePostDto);
+  async deletePost(
+    @Query("user_id") user_id: number,
+    @Query("article_id") article_id: number,
+  ) {
+    return this.postsService.deletePost(user_id, article_id);
   }
 
   @Get(":id")

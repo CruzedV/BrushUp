@@ -109,15 +109,15 @@ export class UserService {
     await this.followerRepository.save(follow);
   }
 
-  async unfollowUser(dto: TFollowUser): Promise<void> {
-    if (dto.follower_id === dto.followed_id) {
+  async unfollowUser(follower_id: number, followed_id: number): Promise<void> {
+    if (follower_id === followed_id) {
       throw new BadRequestException("Нельзя отписаться от самого себя");
     }
 
     const follow = await this.followerRepository.findOne({
       where: {
-        follower: { user_id: dto.follower_id },
-        followed: { user_id: dto.followed_id },
+        follower: { user_id: follower_id },
+        followed: { user_id: followed_id },
       },
       relations: ["follower_id", "followed_id"],
     });

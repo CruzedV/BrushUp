@@ -4,18 +4,18 @@ import type { FormProps } from 'antd';
 import { Button, Card, Form, Input } from 'antd';
 import styles from './styles.module.scss';
 import { useEffect, useState } from 'react';
-import { LoginType } from '@/types/auth';
+import { TLoginData } from '@/types/auth';
 
 
 const LoginPage = () => {
   const [submittable, setSubmittable] = useState<boolean>(false);
   const [form] = Form.useForm();
 
-  const onFinish: FormProps<LoginType>['onFinish'] = (values) => {
+  const onFinish: FormProps<TLoginData>['onFinish'] = (values) => {
     console.log('Успех:', values);
   };
   
-  const onFinishFailed: FormProps<LoginType>['onFinishFailed'] = (errorInfo) => {
+  const onFinishFailed: FormProps<TLoginData>['onFinishFailed'] = (errorInfo) => {
     console.log('Ошибка:', errorInfo);
   };
 
@@ -37,7 +37,7 @@ const LoginPage = () => {
       layout="vertical"
     >
       <Card className={styles.authCard}>
-        <Form.Item<LoginType>
+        <Form.Item<TLoginData>
           label="Почта"
           name="email"
           rules={
@@ -50,7 +50,7 @@ const LoginPage = () => {
           <Input />
         </Form.Item>
         
-        <Form.Item<LoginType>
+        <Form.Item<TLoginData>
           label="Пароль"
           name="password"
           rules={
@@ -63,7 +63,7 @@ const LoginPage = () => {
           <Input.Password />
         </Form.Item>
         
-        <Form.Item<LoginType> className={styles.authSubmit}>
+        <Form.Item<TLoginData> className={styles.authSubmit}>
           <Button type="primary" htmlType="submit" disabled={!submittable}>
             Войти
           </Button>
