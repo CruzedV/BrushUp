@@ -3,18 +3,18 @@
 import type { FormProps } from 'antd';
 import { Button, Card, Form, Select } from 'antd';
 import styles from "./styles.module.scss";
-import { GeneratorType } from '@/types/references';
+import { TGenerator } from '@/types/references';
 import { useRouter } from 'next/navigation';
 
 const GeneratorPage = () => {
   const router = useRouter();
 
-  const onFinish: FormProps<GeneratorType>['onFinish'] = (values) => {
+  const onFinish: FormProps<TGenerator>['onFinish'] = (values) => {
     console.log('Успех:', values);
     router.push('/ref/1');
   };
   
-  const onFinishFailed: FormProps<GeneratorType>['onFinishFailed'] = (errorInfo) => {
+  const onFinishFailed: FormProps<TGenerator>['onFinishFailed'] = (errorInfo) => {
     console.log('Ошибка:', errorInfo);
   };
 
@@ -26,41 +26,41 @@ const GeneratorPage = () => {
       layout="vertical"
     >
       <Card className={styles.generatorPageCard}>
-        <Form.Item<GeneratorType>
+        <Form.Item<TGenerator>
           label="Пол"
           name="sex"
         >
           <Select />
         </Form.Item>
 
-        <Form.Item<GeneratorType>
+        <Form.Item<TGenerator>
           label="Одежда"
           name="clothing"
         >
           <Select />
         </Form.Item>
 
-        <Form.Item<GeneratorType>
+        <Form.Item<TGenerator>
           label="Поза"
           name="pose"
         >
           <Select />
         </Form.Item>
 
-        <Form.Item<GeneratorType>
+        <Form.Item<TGenerator>
           label="Вид"
           name="view"
         >
           <Select />
         </Form.Item>
 
-        <Form.Item<GeneratorType>
+        <Form.Item<TGenerator>
           label="Таймер"
           name="timer"
         >
           <Select />
         </Form.Item>
-        <Form.Item<GeneratorType> className={styles.generatorSubmit}>
+        <Form.Item<TGenerator> className={styles.generatorSubmit}>
           <Button type="primary" htmlType="submit">Начать</Button>
         </Form.Item>
       </Card>

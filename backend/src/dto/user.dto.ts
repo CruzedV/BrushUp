@@ -2,8 +2,6 @@ import { IsOptional } from "class-validator";
 import { User } from "src/entities/user.entity";
 
 export class UpdateUserDto {
-  user_id: number;
-
   @IsOptional()
   username?: string;
 

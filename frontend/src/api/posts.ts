@@ -1,11 +1,11 @@
 import api from "helpers/axios";
 import {
-  CreatePostDto,
-  DeletePostDto,
-  RequestPostsDto,
-  ResponsePostsDto,
+  TCreatePost,
+  TDeletePost,
+  TRequestPosts,
+  TResponsePosts,
   TPost,
-  UpdatePostDto,
+  TUpdatePost,
 } from "@shared/types/post";
 
 export const getPostById = async (id: number): Promise<TPost> => {
@@ -15,9 +15,9 @@ export const getPostById = async (id: number): Promise<TPost> => {
 
 export const getAllPosts = async (
   page: number,
-  data: RequestPostsDto,
-): Promise<ResponsePostsDto> => {
-  const response = await api.post<ResponsePostsDto>(
+  data: TRequestPosts,
+): Promise<TResponsePosts> => {
+  const response = await api.post<TResponsePosts>(
     `/api/posts/all?page=${page}`,
     data
   );
@@ -26,28 +26,26 @@ export const getAllPosts = async (
 
 export const getSubscribedPosts = async (
   page: number,
-  data: RequestPostsDto,
-): Promise<ResponsePostsDto> => {
-  const response = await api.post<ResponsePostsDto>(
+  data: TRequestPosts,
+): Promise<TResponsePosts> => {
+  const response = await api.post<TResponsePosts>(
     `/api/posts/subscribed?page=${page}`,
     data
   );
   return response.data;
 };
 
-export const createPost = async (data: CreatePostDto): Promise<TPost> => {
+export const createPost = async (data: TCreatePost): Promise<TPost> => {
   const response = await api.post<TPost>(`/api/posts/create`, data);
   return response.data;
 }
 
-export const updatePost = async (data: UpdatePostDto): Promise<TPost> => {
+export const updatePost = async (data: TUpdatePost): Promise<TPost> => {
   const response = await api.put<TPost>(`/api/posts/update`, data);
   return response.data;
 }
 
-export const deletePost = async (data: DeletePostDto) => {
-  const response = api.delete(
-    `/api/posts?user_id=${data.user_id}&article_id=${data.article_id}`,
-  );
+export const deletePost = async (data: TDeletePost) => {
+  const response = api.delete(`/api/posts/${data.article_id}`);
   return response;
 }

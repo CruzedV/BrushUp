@@ -4,11 +4,7 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import {
-  addCommentDto,
-  deleteCommentDto,
-  updateCommentDto,
-} from "src/dto/comment.dto";
+import { addCommentDto, updateCommentDto } from "src/dto/comment.dto";
 import { Comment } from "src/entities/comment.entity";
 import { Post } from "src/entities/posts.entity";
 import { User } from "src/entities/user.entity";
@@ -25,14 +21,14 @@ export class CommentService {
     private readonly userRepository: Repository<User>,
   ) {}
   // Добавление комментария
-  async addComment(dto: addCommentDto) {
+  async addComment(user_id: number, dto: addCommentDto) {
     const post = await this.postRepository.findOne({
       where: { article_id: dto.article_id },
       relations: ["comments"],
     });
 
     const user = await this.userRepository.findOne({
-      where: { user_id: dto.user.user_id },
+      where: { user_id: user_id },
     });
 
     if (!post) throw new NotFoundException("Пост не найден");
@@ -45,22 +41,26 @@ export class CommentService {
     return await this.commentRepository.save(comment);
   }
 
-  async deleteComment(dto: deleteCommentDto): Promise<void> {
+  async deleteComment(user_id: number, comment_id: number): Promise<void> {
     const comment = await this.commentRepository.findOne({
-      where: { comment_id: dto.comment_id },
+      where: { comment_id: comment_id },
       relations: ["user"],
     });
 
     if (!comment) throw new NotFoundException("Комментарий не найден");
 
-    if (comment.user.user_id !== dto.user.user_id) {
+    // Нужно получать пользователя по токену
+    if (comment.user.user_id !== user_id) {
       throw new ForbiddenException("Нет доступа к удалению");
     }
 
     await this.commentRepository.remove(comment);
   }
 
-  async updateComment(dto: updateCommentDto): Promise<Comment> {
+  async updateComment(
+    user_id: number,
+    dto: updateCommentDto,
+  ): Promise<Comment> {
     const comment = await this.commentRepository.findOne({
       where: { comment_id: dto.comment_id },
       relations: ["user"],
@@ -68,7 +68,7 @@ export class CommentService {
 
     if (!comment) throw new NotFoundException("Комментарий не найден");
 
-    if (comment.user.user_id !== dto.user.user_id) {
+    if (comment.user.user_id !== user_id) {
       throw new ForbiddenException("Нет доступа к редактированию");
     }
 

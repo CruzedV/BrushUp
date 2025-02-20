@@ -1,9 +1,9 @@
-export type addCommentDto = {
+export type TPostComment = {
   article_id: number;
   text: string;
 };
 
-export type updateCommentDto = {
+export type TUpdateComment = {
   comment_id: number;
   text: string;
 };

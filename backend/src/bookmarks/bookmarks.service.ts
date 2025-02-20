@@ -13,19 +13,22 @@ export class BookmarksService {
     private readonly postRepository: Repository<Post>,
     @InjectRepository(Bookmark)
     private readonly bookmarkRepository: Repository<Bookmark>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   // Добавление в закладки
-  async markPost(user: User, article_id: number): Promise<Bookmark> {
-    const post = await this.postRepository.findOne({
-      where: { article_id },
-    });
+  async markPost(user_id: number, article_id: number): Promise<Bookmark> {
+    const post = await this.postRepository.findOne({ where: { article_id } });
     if (!post) throw new NotFoundException("Пост не найден");
+
+    const user = await this.userRepository.findOne({ where: { user_id } });
+    if (!user) throw new NotFoundException("Пользователь не найден");
 
     // Проверяем, есть ли уже такая закладка
     const existingBookmark = await this.bookmarkRepository.findOne({
       where: {
-        user: { user_id: user.user_id },
+        user: { user_id },
         post: { article_id },
       },
     });
@@ -35,12 +38,11 @@ export class BookmarksService {
     const bookmark = this.bookmarkRepository.create({ user, post });
     return await this.bookmarkRepository.save(bookmark);
   }
-
   // Удаление из закладок
-  async unmarkPost(user: User, article_id: number): Promise<void> {
+  async unmarkPost(user_id: number, article_id: number): Promise<void> {
     const bookmark = await this.bookmarkRepository.findOne({
       where: {
-        user: { user_id: user.user_id },
+        user: { user_id: user_id },
         post: { article_id: article_id },
       },
       relations: ["user", "post"],

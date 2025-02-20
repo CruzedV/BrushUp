@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Post } from "src/entities/posts.entity";
-import { CreatePostDto, UpdatePostDto } from "@shared/types/post";
+import { TCreatePost, TUpdatePost } from "@shared/types/post";
 import { Follower } from "src/entities/followers.entity";
 import { LIMIT } from "src/config";
 
@@ -57,19 +57,19 @@ export class PostsService {
   }
 
   // Создание поста
-  async createPost(dto: CreatePostDto) {
-    const newPost = this.postRepository.create({ ...dto });
+  async createPost(user_id: number, dto: TCreatePost) {
+    const newPost = this.postRepository.create({ user_id, ...dto });
     return await this.postRepository.save(newPost);
   }
 
   // Обновлние поста
-  async updatePost(dto: UpdatePostDto) {
+  async updatePost(user_id: number, dto: TUpdatePost) {
     const post = await this.postRepository.findOne({
       where: { article_id: dto.article_id },
       relations: ["user"],
     });
     if (!post) throw new NotFoundException("Пост не найден");
-    if (post.user.user_id !== dto.user_id)
+    if (post.user.user_id !== user_id)
       throw new ForbiddenException("Нет доступа к редактированию");
     post.title = dto.title;
     post.content = dto.content;

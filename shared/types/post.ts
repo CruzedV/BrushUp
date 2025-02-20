@@ -1,34 +1,30 @@
 import { TTag } from "./tag";
 import { TPostUser } from "./user";
 
-export type CreatePostDto = {
-  user_id: number;
+export type TCreatePost = {
   title: string;
   content: string;
   tags: TTag[];
 };
 
-export type UpdatePostDto = {
-  user_id: number;
+export type TUpdatePost = {
   title: string;
   content: string;
   tags: TTag[];
   article_id: number;
 };
 
-export type DeletePostDto = {
+export type TDeletePost = {
   article_id: number;
-  user_id: number;
 };
 
-export type RequestPostsDto = {
+export type TRequestPosts = {
   tags?: string[];
   query?: string;
 };
 
-export type MarkedPostsDto = {
-  user_id: number;
-  tags?: string[];
+export type TMarkedPost = {
+  tags: string[];
   query: string;
 };
 
@@ -40,7 +36,7 @@ export type TPost = {
   creation_date: Date;
 };
 
-export type ResponsePostsDto = {
+export type TResponsePosts = {
   totalPages: number;
   totalPosts: number;
   page: number;

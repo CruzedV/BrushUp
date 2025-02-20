@@ -10,7 +10,6 @@ import { User } from "src/entities/user.entity";
 import { Follower } from "src/entities/followers.entity";
 import { RegisterDto } from "src/dto/register.dto";
 import { TExtendedUser } from "src/dto/user.dto";
-import { TFollowUser } from "@shared/types/follower";
 import { UpdateUserDto } from "src/dto/user.dto";
 import { hash, compare } from "bcrypt";
 
@@ -42,9 +41,9 @@ export class UserService {
     await this.userRepository.remove(user);
   }
 
-  async updateUser(dto: UpdateUserDto): Promise<void> {
+  async updateUser(user_id: number, dto: UpdateUserDto): Promise<void> {
     const user = await this.userRepository.findOne({
-      where: { user_id: dto.user_id },
+      where: { user_id: user_id },
       select: ["user_id", "password"],
     });
     if (!user) throw new NotFoundException("Пользователь не найден");
@@ -86,16 +85,16 @@ export class UserService {
 
   // FOLLOW
 
-  async followUser(dto: TFollowUser): Promise<void> {
-    if (dto.follower_id === dto.followed_id) {
+  async followUser(user_id: number, followed_id: number): Promise<void> {
+    if (user_id === followed_id) {
       throw new BadRequestException("Нельзя подписаться на самого себя");
     }
 
     const follower = await this.userRepository.findOne({
-      where: { user_id: dto.follower_id },
+      where: { user_id: user_id },
     });
     const followed = await this.userRepository.findOne({
-      where: { user_id: dto.followed_id },
+      where: { user_id: followed_id },
     });
 
     if (!follower || !followed) {

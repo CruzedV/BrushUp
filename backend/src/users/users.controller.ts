@@ -7,12 +7,15 @@ import {
   ParseIntPipe,
   Delete,
   Put,
+  UseGuards,
+  Req,
 } from "@nestjs/common";
 import { UserService } from "./users.service";
 import { RegisterDto } from "src/dto/register.dto";
 import { User } from "src/entities/user.entity";
-import { TFollowUser } from "@shared/types/follower";
 import { UpdateUserDto } from "src/dto/user.dto";
+import { AuthGuard } from "src/auth/auth.guard";
+import { IJwtPayload } from "src/dto/token.dto";
 
 @Controller("users")
 export class UserController {
@@ -24,33 +27,49 @@ export class UserController {
     return this.userService.createUser(registerDto);
   }
 
+  @Delete("self-delete")
+  @UseGuards(AuthGuard)
+  async deleteUser(@Req() req: IJwtPayload) {
+    return this.userService.deleteUser(req.user_id);
+  }
+
   @Put()
-  async updateUser(@Body() updateUserDto: UpdateUserDto) {
-    return this.userService.updateUser(updateUserDto);
+  @UseGuards(AuthGuard)
+  async updateUser(
+    @Body() updateUserDto: UpdateUserDto,
+    @Req() req: IJwtPayload,
+  ) {
+    return this.userService.updateUser(req.user_id, updateUserDto);
   }
 
   // Получение пользователя по ID
   @Get(":id")
-  async getUserById(@Param("id", ParseIntPipe) id: number): Promise<User> {
-    return this.userService.getUserById(id);
+  async getUserById(@Param("id", ParseIntPipe) user_id: number): Promise<User> {
+    return this.userService.getUserById(user_id);
   }
 
   @Get()
+  @UseGuards(AuthGuard)
   async getAllUsers(): Promise<User[]> {
     return this.userService.getAllUsers();
   }
 
-  @Post("follow")
-  async followUser(@Body() followeUserDto: TFollowUser): Promise<void> {
-    return this.userService.followUser(followeUserDto);
+  @Post("follow/:id")
+  @UseGuards(AuthGuard)
+  async followUser(
+    @Param("id") followed_id: number,
+    @Req() req: IJwtPayload,
+  ): Promise<void> {
+    return this.userService.followUser(req.user_id, followed_id);
   }
 
-  @Delete("unfollow")
+  @Delete("unfollow/:id")
+  @UseGuards(AuthGuard)
   async unfollowUser(
-    @Param() follower_id: number,
-    @Param() followed_id: number,
+    @Param("id") followed_id: number,
+    @Req() req: IJwtPayload,
   ) {
-    await this.userService.unfollowUser(follower_id, followed_id);
+    await this.userService.unfollowUser(req.user_id, followed_id);
     return { message: "Вы отписались от пользователя" };
   }
 }

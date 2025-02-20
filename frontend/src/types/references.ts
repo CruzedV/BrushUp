@@ -1,4 +1,4 @@
-export type GeneratorType = {
+export type TGenerator = {
   sex: null | ESex;
   clothing: null | boolean;
   pose: null | EPose;

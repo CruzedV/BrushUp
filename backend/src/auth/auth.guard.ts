@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<IExtendedRequest>();
     const authHeader = request.headers.authorization;
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    if (!authHeader?.startsWith("Bearer ")) {
       throw new UnauthorizedException("Токен не найден");
     }
 
@@ -30,30 +30,24 @@ export class AuthGuard implements CanActivate {
 
     try {
       const payload: IJwtPayload = this.jwtService.verify(token);
+
       const storedToken = await this.tokenRepository.findOne({
         where: { token },
       });
-
       if (!storedToken) {
         throw new UnauthorizedException("Токен недействителен");
       }
 
-      const expiresAt = new Date(storedToken.expires).getTime();
-      const now = Date.now();
-
-      if (now > expiresAt) {
+      if (Date.now() > new Date(storedToken.expires).getTime()) {
         throw new UnauthorizedException(
           "Токен устарел, выполните повторный вход",
         );
       }
 
-      request.user = payload;
+      request.user = { user_id: payload.user_id, username: payload.username }; // ✅ Добавляем user_id в req.user
       return true;
     } catch (error) {
-      if (error instanceof Error) {
-        throw new UnauthorizedException(error.message);
-      }
-      throw new UnauthorizedException("Ошибка аутентификации");
+      throw new UnauthorizedException(error || "Ошибка аутентификации");
     }
   }
 }
