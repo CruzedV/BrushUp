@@ -49,6 +49,8 @@ export class UserService {
     if (!user) throw new NotFoundException("Пользователь не найден");
 
     if (dto.password && dto.new_password) {
+      console.log(dto.password, user.password);
+      console.log(await compare(dto.password, user.password!));
       const isMatch = await compare(dto.password, user.password!);
       if (!isMatch) throw new ForbiddenException("Неверный старый пароль");
 

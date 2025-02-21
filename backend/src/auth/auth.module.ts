@@ -11,8 +11,11 @@ import { AuthGuard } from "./auth.guard";
   imports: [
     TypeOrmModule.forFeature([User, Token]),
     JwtModule.register({
-      secret: process.env.JWT_SECRET || "1f32gf2gf2",
-      signOptions: { expiresIn: "1d" },
+      secret: process.env.JWT_SECRET || "default_secret",
+      signOptions: {
+        expiresIn: "1d",
+        algorithm: "HS256",
+      },
     }),
   ],
   controllers: [AuthController],

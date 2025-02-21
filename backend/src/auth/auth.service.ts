@@ -89,7 +89,11 @@ export class AuthService {
   // Генерация JWT-токена
   private async generateToken(user_id: number): Promise<string> {
     const payload = { user_id };
-    const token = this.jwtService.sign(payload, { expiresIn: "1d" });
+    const token = this.jwtService.sign(payload, {
+      expiresIn: "1d",
+      secret: process.env.JWT_SECRET || "default_secret",
+      algorithm: "HS256",
+    });
 
     // Устанавливаем срок действия на конец дня
     const expires = new Date();
