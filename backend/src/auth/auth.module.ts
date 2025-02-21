@@ -5,16 +5,18 @@ import { JwtModule } from "@nestjs/jwt";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { User } from "src/entities/user.entity";
 import { Token } from "src/entities/token.entity";
+import { AuthGuard } from "./auth.guard";
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Token]),
     JwtModule.register({
-      secret: "your_secret_key",
+      secret: process.env.JWT_SECRET || "1f32gf2gf2",
       signOptions: { expiresIn: "1d" },
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard],
+  exports: [JwtModule, AuthGuard],
 })
 export class AuthModule {}

@@ -6,9 +6,14 @@ import { Post } from "src/entities/posts.entity";
 import { Comment } from "src/entities/comment.entity";
 import { User } from "src/entities/user.entity";
 import { Bookmark } from "src/entities/bookmark.entity";
+import { AuthModule } from "src/auth/auth.module";
+import { Token } from "src/entities/token.entity";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Post, Comment, User, Bookmark])],
+  imports: [
+    AuthModule,
+    TypeOrmModule.forFeature([Post, Comment, User, Bookmark, Token]),
+  ],
   providers: [PostsService],
   controllers: [PostsController],
   exports: [PostsService],
