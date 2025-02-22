@@ -15,7 +15,7 @@ import { Bookmark } from "src/entities/bookmark.entity";
 import { TMarkedPost, TResponsePosts } from "@shared/types/post";
 import { BookmarksService } from "./bookmarks.service";
 import { AuthGuard } from "src/auth/auth.guard";
-import { IJwtPayload } from "src/dto/token.dto";
+import { IRequestBody } from "src/dto/token.dto";
 
 @Controller("bookmarks")
 export class BookmarksController {
@@ -26,10 +26,10 @@ export class BookmarksController {
   async getMarkedPosts(
     @Query("page") page: number = 1,
     @Body() body: TMarkedPost,
-    @Req() req: IJwtPayload,
+    @Req() req: IRequestBody,
   ): Promise<TResponsePosts> {
     return this.bookmarksService.getMarkedPosts(
-      req.user_id,
+      req.user.user_id,
       page,
       body.query,
       body.tags,
@@ -45,18 +45,18 @@ export class BookmarksController {
   @Post()
   @UseGuards(AuthGuard)
   async markPost(
-    @Req() req: IJwtPayload,
+    @Req() req: IRequestBody,
     @Body() markPostDto: TMarkPost,
   ): Promise<Bookmark> {
-    return this.bookmarksService.markPost(req.user_id, markPostDto.article_id);
+    return this.bookmarksService.markPost(req.user.user_id, markPostDto.article_id);
   }
 
   @Delete(":id")
   @UseGuards(AuthGuard)
   async unmarkPost(
-    @Req() req: IJwtPayload,
+    @Req() req: IRequestBody,
     @Param("id") article_id: number,
   ): Promise<void> {
-    return this.bookmarksService.unmarkPost(req.user_id, article_id);
+    return this.bookmarksService.unmarkPost(req.user.user_id, article_id);
   }
 }

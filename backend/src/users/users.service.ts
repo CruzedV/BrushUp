@@ -42,15 +42,14 @@ export class UserService {
   }
 
   async updateUser(user_id: number, dto: UpdateUserDto): Promise<void> {
-    const user = await this.userRepository.findOne({
-      where: { user_id: user_id },
-      select: ["user_id", "password"],
-    });
+    const user = await this.userRepository
+      .createQueryBuilder("user")
+      .addSelect("user.password")
+      .where("user.user_id = :user_id", { user_id })
+      .getOne();
     if (!user) throw new NotFoundException("Пользователь не найден");
 
     if (dto.password && dto.new_password) {
-      console.log(dto.password, user.password);
-      console.log(await compare(dto.password, user.password!));
       const isMatch = await compare(dto.password, user.password!);
       if (!isMatch) throw new ForbiddenException("Неверный старый пароль");
 

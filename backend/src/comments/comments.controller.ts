@@ -11,7 +11,7 @@ import {
 import { addCommentDto, updateCommentDto } from "src/dto/comment.dto";
 import { CommentService } from "./comments.service";
 import { AuthGuard } from "src/auth/auth.guard";
-import { IJwtPayload } from "src/dto/token.dto";
+import { IRequestBody } from "src/dto/token.dto";
 
 @Controller("comments")
 export class CommentController {
@@ -20,27 +20,27 @@ export class CommentController {
   @Post()
   @UseGuards(AuthGuard)
   async addComment(
-    @Req() req: IJwtPayload,
+    @Req() req: IRequestBody,
     @Body() addCommentDto: addCommentDto,
   ) {
-    return this.commentService.addComment(req.user_id, addCommentDto);
+    return this.commentService.addComment(req.user.user_id, addCommentDto);
   }
 
   @Delete(":id")
   @UseGuards(AuthGuard)
   async deleteComment(
-    @Req() req: IJwtPayload,
+    @Req() req: IRequestBody,
     @Param("id") comment_id: number,
   ) {
-    return this.commentService.deleteComment(req.user_id, comment_id);
+    return this.commentService.deleteComment(req.user.user_id, comment_id);
   }
 
   @Patch()
   @UseGuards(AuthGuard)
   async updateComment(
-    @Req() req: IJwtPayload,
+    @Req() req: IRequestBody,
     @Body() updateCommentDto: updateCommentDto,
   ) {
-    return this.commentService.updateComment(req.user_id, updateCommentDto);
+    return this.commentService.updateComment(req.user.user_id, updateCommentDto);
   }
 }

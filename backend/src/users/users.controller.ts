@@ -15,7 +15,7 @@ import { RegisterDto } from "src/dto/register.dto";
 import { User } from "src/entities/user.entity";
 import { UpdateUserDto } from "src/dto/user.dto";
 import { AuthGuard } from "src/auth/auth.guard";
-import { IJwtPayload } from "src/dto/token.dto";
+import { IRequestBody } from "src/dto/token.dto";
 
 @Controller("users")
 export class UserController {
@@ -29,17 +29,17 @@ export class UserController {
 
   @Delete("self-delete")
   @UseGuards(AuthGuard)
-  async deleteUser(@Req() req: IJwtPayload) {
-    return this.userService.deleteUser(req.user_id);
+  async deleteUser(@Req() req: IRequestBody) {
+    return this.userService.deleteUser(req.user.user_id);
   }
 
   @Put()
   @UseGuards(AuthGuard)
   async updateUser(
     @Body() updateUserDto: UpdateUserDto,
-    @Req() req: IJwtPayload,
+    @Req() req: IRequestBody,
   ) {
-    return this.userService.updateUser(req.user_id, updateUserDto);
+    return this.userService.updateUser(req.user.user_id, updateUserDto);
   }
 
   // Получение пользователя по ID
@@ -58,18 +58,18 @@ export class UserController {
   @UseGuards(AuthGuard)
   async followUser(
     @Param("id") followed_id: number,
-    @Req() req: IJwtPayload,
+    @Req() req: IRequestBody,
   ): Promise<void> {
-    return this.userService.followUser(req.user_id, followed_id);
+    return this.userService.followUser(req.user.user_id, followed_id);
   }
 
   @Delete("unfollow/:id")
   @UseGuards(AuthGuard)
   async unfollowUser(
     @Param("id") followed_id: number,
-    @Req() req: IJwtPayload,
+    @Req() req: IRequestBody,
   ) {
-    await this.userService.unfollowUser(req.user_id, followed_id);
+    await this.userService.unfollowUser(req.user.user_id, followed_id);
     return { message: "Вы отписались от пользователя" };
   }
 }

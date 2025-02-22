@@ -19,7 +19,7 @@ import {
   TUpdatePost,
 } from "@shared/types/post";
 import { AuthGuard } from "src/auth/auth.guard";
-import { IJwtPayload } from "src/dto/token.dto";
+import { IRequestBody } from "src/dto/token.dto";
 
 @Controller("posts")
 export class PostsController {
@@ -39,10 +39,10 @@ export class PostsController {
   async getSubscribedPosts(
     @Query("page") page: number = 1,
     @Body() body: TMarkedPost,
-    @Req() req: IJwtPayload,
+    @Req() req: IRequestBody,
   ): Promise<TResponsePosts> {
     return this.postsService.getSubscribedPosts(
-      req.user_id,
+      req.user.user_id,
       page,
       body.query,
       body.tags,
@@ -53,24 +53,24 @@ export class PostsController {
   @UseGuards(AuthGuard)
   async createPost(
     @Body() createPostDto: TCreatePost,
-    @Req() req: IJwtPayload,
+    @Req() req: IRequestBody,
   ) {
-    return this.postsService.createPost(req.user_id, createPostDto);
+    return this.postsService.createPost(req.user.user_id, createPostDto);
   }
 
   @Put("update")
   @UseGuards(AuthGuard)
   async updatePost(
     @Body() updatePostDto: TUpdatePost,
-    @Req() req: IJwtPayload,
+    @Req() req: IRequestBody,
   ) {
-    return this.postsService.updatePost(req.user_id, updatePostDto);
+    return this.postsService.updatePost(req.user.user_id, updatePostDto);
   }
 
   @Delete(":id")
   @UseGuards(AuthGuard)
-  async deletePost(@Param("id") article_id: number, @Req() req: IJwtPayload) {
-    return this.postsService.deletePost(req.user_id, article_id);
+  async deletePost(@Param("id") article_id: number, @Req() req: IRequestBody) {
+    return this.postsService.deletePost(req.user.user_id, article_id);
   }
 
   @Get(":id")

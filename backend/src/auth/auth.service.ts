@@ -69,9 +69,7 @@ export class AuthService {
       .where("user.email = :email", { email })
       .getOne();
 
-    if (!user) {
-      throw new UnauthorizedException("Неверный email или пароль");
-    }
+    if (!user) throw new UnauthorizedException("Неверный email или пароль");
 
     // Проверяем пароль
     let isPasswordValid = false;
