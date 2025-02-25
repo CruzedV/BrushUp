@@ -5,14 +5,21 @@ import { Button, Card, Form, Input } from 'antd';
 import styles from './styles.module.scss';
 import { useEffect, useState } from 'react';
 import { TLoginData } from '@/types/auth';
+import { loginUser } from '@/api/auth';
+import { requestWithReturn } from 'helpers/requestWithReturn';
+import { TReturnToken } from '@/types/tokens';
 
 
 const LoginPage = () => {
   const [submittable, setSubmittable] = useState<boolean>(false);
   const [form] = Form.useForm();
 
-  const onFinish: FormProps<TLoginData>['onFinish'] = (values) => {
-    console.log('Успех:', values);
+  const onFinish: FormProps<TLoginData>['onFinish'] = async (values) => {
+    const response = await requestWithReturn<TLoginData, TReturnToken>(loginUser, values);
+    if (response) {
+      localStorage.setItem("token", response.token);
+    }
+    const user = await requestWithReturn<number, >
   };
   
   const onFinishFailed: FormProps<TLoginData>['onFinishFailed'] = (errorInfo) => {
@@ -56,7 +63,7 @@ const LoginPage = () => {
           rules={
             [
               { required: true, message: 'Введите пароль' },
-              { min: 8, message: 'Минимальная длина 8 символов' }
+              { min: 6, message: 'Минимальная длина 6 символов' }
             ]
           }
         >

@@ -48,7 +48,10 @@ export class BookmarksController {
     @Req() req: IRequestBody,
     @Body() markPostDto: TMarkPost,
   ): Promise<Bookmark> {
-    return this.bookmarksService.markPost(req.user.user_id, markPostDto.article_id);
+    return this.bookmarksService.markPost(
+      req.user.user_id,
+      markPostDto.article_id,
+    );
   }
 
   @Delete(":id")

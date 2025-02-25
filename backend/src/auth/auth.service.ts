@@ -62,7 +62,6 @@ export class AuthService {
   async login(loginDto: LoginDto): Promise<{ token: string }> {
     const { email, password } = loginDto;
 
-    // Ищем пользователя по email
     const user = await this.userRepository
       .createQueryBuilder("user")
       .addSelect("user.password")
@@ -72,8 +71,7 @@ export class AuthService {
     if (!user) throw new UnauthorizedException("Неверный email или пароль");
 
     // Проверяем пароль
-    let isPasswordValid = false;
-    isPasswordValid = await compare(password, user.password!);
+    const isPasswordValid = await compare(password, user.password!);
 
     if (!isPasswordValid) {
       throw new UnauthorizedException("Неверный email или пароль");

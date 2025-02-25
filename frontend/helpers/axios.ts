@@ -21,7 +21,7 @@ api.interceptors.response.use(
   async (error) => {
     if (error.response?.status === 401) {
       console.warn("Неавторизован! Перенаправляем на логин...");
-      window.location.href = "/login";
+      window.location.href = "/auth/login";
     }
     return Promise.reject(error);
   }

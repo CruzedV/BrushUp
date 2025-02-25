@@ -41,6 +41,9 @@ export class CommentController {
     @Req() req: IRequestBody,
     @Body() updateCommentDto: updateCommentDto,
   ) {
-    return this.commentService.updateComment(req.user.user_id, updateCommentDto);
+    return this.commentService.updateComment(
+      req.user.user_id,
+      updateCommentDto,
+    );
   }
 }
