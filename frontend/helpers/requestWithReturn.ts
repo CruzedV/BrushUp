@@ -7,7 +7,7 @@
  */
 
 export const requestWithReturn = async <DataType, ReturnType>(
-  request: (data: DataType) => Promise<ReturnType | null>,
+  request: (data: DataType) => Promise<ReturnType>,
   data: DataType,
   setter?: (value: React.SetStateAction<ReturnType>) => void,
   loadingSetter?: (value: React.SetStateAction<boolean>) => void,

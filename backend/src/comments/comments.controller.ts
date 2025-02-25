@@ -11,7 +11,7 @@ import {
 import { addCommentDto, updateCommentDto } from "src/dto/comment.dto";
 import { CommentService } from "./comments.service";
 import { AuthGuard } from "src/auth/auth.guard";
-import { IRequestBody } from "src/dto/token.dto";
+import { TRequestBody } from "@shared/types/tokens";
 
 @Controller("comments")
 export class CommentController {
@@ -20,7 +20,7 @@ export class CommentController {
   @Post()
   @UseGuards(AuthGuard)
   async addComment(
-    @Req() req: IRequestBody,
+    @Req() req: TRequestBody,
     @Body() addCommentDto: addCommentDto,
   ) {
     return this.commentService.addComment(req.user.user_id, addCommentDto);
@@ -29,7 +29,7 @@ export class CommentController {
   @Delete(":id")
   @UseGuards(AuthGuard)
   async deleteComment(
-    @Req() req: IRequestBody,
+    @Req() req: TRequestBody,
     @Param("id") comment_id: number,
   ) {
     return this.commentService.deleteComment(req.user.user_id, comment_id);
@@ -38,7 +38,7 @@ export class CommentController {
   @Patch()
   @UseGuards(AuthGuard)
   async updateComment(
-    @Req() req: IRequestBody,
+    @Req() req: TRequestBody,
     @Body() updateCommentDto: updateCommentDto,
   ) {
     return this.commentService.updateComment(

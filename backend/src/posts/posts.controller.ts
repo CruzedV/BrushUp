@@ -19,7 +19,7 @@ import {
   TUpdatePost,
 } from "@shared/types/post";
 import { AuthGuard } from "src/auth/auth.guard";
-import { IRequestBody } from "src/dto/token.dto";
+import { TRequestBody } from "@shared/types/tokens";
 
 @Controller("posts")
 export class PostsController {
@@ -39,7 +39,7 @@ export class PostsController {
   async getSubscribedPosts(
     @Query("page") page: number = 1,
     @Body() body: TMarkedPost,
-    @Req() req: IRequestBody,
+    @Req() req: TRequestBody,
   ): Promise<TResponsePosts> {
     return this.postsService.getSubscribedPosts(
       req.user.user_id,
@@ -53,7 +53,7 @@ export class PostsController {
   @UseGuards(AuthGuard)
   async createPost(
     @Body() createPostDto: TCreatePost,
-    @Req() req: IRequestBody,
+    @Req() req: TRequestBody,
   ) {
     return this.postsService.createPost(req.user.user_id, createPostDto);
   }
@@ -62,14 +62,14 @@ export class PostsController {
   @UseGuards(AuthGuard)
   async updatePost(
     @Body() updatePostDto: TUpdatePost,
-    @Req() req: IRequestBody,
+    @Req() req: TRequestBody,
   ) {
     return this.postsService.updatePost(req.user.user_id, updatePostDto);
   }
 
   @Delete(":id")
   @UseGuards(AuthGuard)
-  async deletePost(@Param("id") article_id: number, @Req() req: IRequestBody) {
+  async deletePost(@Param("id") article_id: number, @Req() req: TRequestBody) {
     return this.postsService.deletePost(req.user.user_id, article_id);
   }
 

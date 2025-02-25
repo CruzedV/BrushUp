@@ -15,7 +15,7 @@ import { RegisterDto } from "src/dto/register.dto";
 import { User } from "src/entities/user.entity";
 import { UpdateUserDto } from "src/dto/user.dto";
 import { AuthGuard } from "src/auth/auth.guard";
-import { IRequestBody } from "src/dto/token.dto";
+import { TRequestBody } from "@shared/types/tokens";
 
 @Controller("users")
 export class UserController {
@@ -29,7 +29,7 @@ export class UserController {
 
   @Delete("self-delete")
   @UseGuards(AuthGuard)
-  async deleteUser(@Req() req: IRequestBody) {
+  async deleteUser(@Req() req: TRequestBody) {
     return this.userService.deleteUser(req.user.user_id);
   }
 
@@ -37,7 +37,7 @@ export class UserController {
   @UseGuards(AuthGuard)
   async updateUser(
     @Body() updateUserDto: UpdateUserDto,
-    @Req() req: IRequestBody,
+    @Req() req: TRequestBody,
   ) {
     return this.userService.updateUser(req.user.user_id, updateUserDto);
   }
@@ -58,7 +58,7 @@ export class UserController {
   @UseGuards(AuthGuard)
   async followUser(
     @Param("id") followed_id: number,
-    @Req() req: IRequestBody,
+    @Req() req: TRequestBody,
   ): Promise<void> {
     return this.userService.followUser(req.user.user_id, followed_id);
   }
@@ -67,7 +67,7 @@ export class UserController {
   @UseGuards(AuthGuard)
   async unfollowUser(
     @Param("id") followed_id: number,
-    @Req() req: IRequestBody,
+    @Req() req: TRequestBody,
   ) {
     await this.userService.unfollowUser(req.user.user_id, followed_id);
     return { message: "Вы отписались от пользователя" };

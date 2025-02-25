@@ -1,25 +1,43 @@
 'use client';
 
 import type { FormProps } from 'antd';
-import { Button, Card, Form, Input } from 'antd';
+import { Button, Card, Form, Input, message } from 'antd';
 import styles from './styles.module.scss';
 import { useEffect, useState } from 'react';
 import { TLoginData } from '@/types/auth';
 import { loginUser } from '@/api/auth';
 import { requestWithReturn } from 'helpers/requestWithReturn';
 import { TReturnToken } from '@/types/tokens';
+import { getUserById } from '@/api/users';
+import { TUser } from '@/types/user';
+import { useUserStore } from 'store/user';
+import { getUserFromToken } from 'helpers/getUserIdFromToken';
 
 
 const LoginPage = () => {
   const [submittable, setSubmittable] = useState<boolean>(false);
   const [form] = Form.useForm();
+  const setUser = useUserStore((state) => state.setUser)
 
   const onFinish: FormProps<TLoginData>['onFinish'] = async (values) => {
     const response = await requestWithReturn<TLoginData, TReturnToken>(loginUser, values);
     if (response) {
-      localStorage.setItem("token", response.token);
+      const user_id = getUserFromToken(response.token)?.user_id;
+      if (user_id) {
+        const user = await requestWithReturn<number, TUser>(getUserById, user_id);
+        if (user) {
+          setUser(user);
+          localStorage.setItem("token", response.token);
+          
+        } else {
+          message.error('Ошибка при получении пользователя');
+        }
+      } else {
+        message.error('Ошибка при определении пользователя');
+      }
+    } else {
+      message.error('Ошибка при запросе входа');
     }
-    const user = await requestWithReturn<number, >
   };
   
   const onFinishFailed: FormProps<TLoginData>['onFinishFailed'] = (errorInfo) => {
