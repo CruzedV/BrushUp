@@ -19,24 +19,39 @@ const LoginPage = () => {
   const [form] = Form.useForm();
   const setUser = useUserStore((state) => state.setUser)
 
+  const errorMessage = (text: string) => {
+    messageApi.open({
+      type: "error",
+      content: text,
+    })
+  }
+
   const onFinish: FormProps<TLoginData>['onFinish'] = async (values) => {
-    const response = await requestWithReturn<TLoginData, TReturnToken>(loginUser, values);
+    const response = await requestWithReturn<TLoginData, TReturnToken>(
+      loginUser,
+      values,
+      () => errorMessage("Ошибка при загрузке"),
+    );
     if (response) {
       const user_id = getUserFromToken(response.token)?.user_id;
       if (user_id) {
-        const user = await requestWithReturn<number, TUser>(getUserById, user_id);
+        const user = await requestWithReturn<number, TUser>(
+          getUserById,
+          user_id,
+          () => errorMessage("Ошибка при загрузке"),
+        );
         if (user) {
           setUser(user);
           localStorage.setItem("token", response.token);
           
         } else {
-          message.error('Ошибка при получении пользователя');
+          errorMessage('Ошибка при получении пользователя');
         }
       } else {
-        message.error('Ошибка при определении пользователя');
+        errorMessage('Ошибка при определении пользователя');
       }
     } else {
-      message.error('Ошибка при запросе входа');
+      errorMessage('Ошибка при запросе входа');
     }
   };
   
@@ -54,47 +69,50 @@ const LoginPage = () => {
   }, [form, values]);
 
   return (
-    <Form
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      form={form}
-      className={styles.authForm}
-      layout="vertical"
-    >
-      <Card className={styles.authCard}>
-        <Form.Item<TLoginData>
-          label="Почта"
-          name="email"
-          rules={
-            [
-              { required: true, message: 'Введите почту' },
-              { min: 4, message: 'Минимальная длина 4 символа' }
-            ]
-          }
-        >
-          <Input />
-        </Form.Item>
-        
-        <Form.Item<TLoginData>
-          label="Пароль"
-          name="password"
-          rules={
-            [
-              { required: true, message: 'Введите пароль' },
-              { min: 6, message: 'Минимальная длина 6 символов' }
-            ]
-          }
-        >
-          <Input.Password />
-        </Form.Item>
-        
-        <Form.Item<TLoginData> className={styles.authSubmit}>
-          <Button type="primary" htmlType="submit" disabled={!submittable}>
-            Войти
-          </Button>
-        </Form.Item>
-      </Card>
-    </Form>
+    <>
+      {contextHolder}
+      <Form
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        form={form}
+        className={styles.authForm}
+        layout="vertical"
+      >
+        <Card className={styles.authCard}>
+          <Form.Item<TLoginData>
+            label="Почта"
+            name="email"
+            rules={
+              [
+                { required: true, message: 'Введите почту' },
+                { min: 4, message: 'Минимальная длина 4 символа' }
+              ]
+            }
+          >
+            <Input />
+          </Form.Item>
+          
+          <Form.Item<TLoginData>
+            label="Пароль"
+            name="password"
+            rules={
+              [
+                { required: true, message: 'Введите пароль' },
+                { min: 6, message: 'Минимальная длина 6 символов' }
+              ]
+            }
+          >
+            <Input.Password />
+          </Form.Item>
+          
+          <Form.Item<TLoginData> className={styles.authSubmit}>
+            <Button type="primary" htmlType="submit" disabled={!submittable}>
+              Войти
+            </Button>
+          </Form.Item>
+        </Card>
+      </Form>
+    </>
   );
 };
 
