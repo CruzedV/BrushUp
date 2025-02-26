@@ -9,7 +9,7 @@
 export const requestWithReturn = async <DataType, ReturnType>(
   request: (data: DataType) => Promise<ReturnType>,
   data: DataType,
-  errorMessage: (text: string) => void,
+  errorMessage: () => void,
   setter?: (value: React.SetStateAction<ReturnType>) => void,
   loadingSetter?: (value: React.SetStateAction<boolean>) => void,
 ): Promise<Awaited<ReturnType> | null> => {

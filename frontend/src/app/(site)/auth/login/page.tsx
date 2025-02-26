@@ -1,36 +1,35 @@
 'use client';
 
 import type { FormProps } from 'antd';
-import { Button, Card, Form, Input, message } from 'antd';
+import { Button, Card, Form, Input } from 'antd';
 import styles from './styles.module.scss';
 import { useEffect, useState } from 'react';
 import { TLoginData } from '@/types/auth';
 import { loginUser } from '@/api/auth';
-import { requestWithReturn } from 'helpers/requestWithReturn';
+import { requestWithReturn } from 'helpers/functions/requestWithReturn';
 import { TReturnToken } from '@/types/tokens';
 import { getUserById } from '@/api/users';
 import { TUser } from '@/types/user';
 import { useUserStore } from 'store/user';
-import { getUserFromToken } from 'helpers/getUserIdFromToken';
+import { getUserFromToken } from 'helpers/functions/getUserIdFromToken';
+import { useMessages } from 'helpers/hooks/useMessages';
+import { redirect } from 'next/navigation';
 
 
 const LoginPage = () => {
-  const [submittable, setSubmittable] = useState<boolean>(false);
+  const [submittable, setSubmittable] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [form] = Form.useForm();
   const setUser = useUserStore((state) => state.setUser)
-
-  const errorMessage = (text: string) => {
-    messageApi.open({
-      type: "error",
-      content: text,
-    })
-  }
+  const { errorMessage, successMessage, contextHolder } = useMessages();
 
   const onFinish: FormProps<TLoginData>['onFinish'] = async (values) => {
     const response = await requestWithReturn<TLoginData, TReturnToken>(
       loginUser,
       values,
       () => errorMessage("Ошибка при загрузке"),
+      undefined,
+      setIsLoading,
     );
     if (response) {
       const user_id = getUserFromToken(response.token)?.user_id;
@@ -39,11 +38,14 @@ const LoginPage = () => {
           getUserById,
           user_id,
           () => errorMessage("Ошибка при загрузке"),
+          undefined,
+          setIsLoading,
         );
         if (user) {
           setUser(user);
           localStorage.setItem("token", response.token);
-          
+          successMessage('Вход выполнен успешно!');
+          redirect('/');
         } else {
           errorMessage('Ошибка при получении пользователя');
         }
@@ -77,6 +79,7 @@ const LoginPage = () => {
         form={form}
         className={styles.authForm}
         layout="vertical"
+        disabled={isLoading}
       >
         <Card className={styles.authCard}>
           <Form.Item<TLoginData>
@@ -106,7 +109,12 @@ const LoginPage = () => {
           </Form.Item>
           
           <Form.Item<TLoginData> className={styles.authSubmit}>
-            <Button type="primary" htmlType="submit" disabled={!submittable}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              disabled={!submittable}
+              loading={isLoading}
+            >
               Войти
             </Button>
           </Form.Item>
