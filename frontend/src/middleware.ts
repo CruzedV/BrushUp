@@ -1,17 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCookie } from "cookies-next";
 
-export function middleware(req: NextRequest) {
-  const token = getCookie("token");
-  console.log(token);
-
-  if (!token) {
+export async function middleware(req: NextRequest) {
+  const token = req.cookies.get("token")?.value;
+  
+  if (!token && !req.nextUrl.pathname.startsWith('/auth')) {
     return NextResponse.redirect(new URL("/auth/login", req.url));
+  }
+
+  if (req.nextUrl.pathname.startsWith('/auth') && token) {
+    return NextResponse.redirect(new URL("/", req.url));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/create", "/favorite", "/subs", "/user/settings"],
+  matcher: [
+    "/create",
+    "/favorite",
+    "/subs",
+    "/user/settings",
+    "/auth/login",
+    "/auth/register",
+  ],
 };
