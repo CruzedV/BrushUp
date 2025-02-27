@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import variables from "@/variables.module.scss";
 import { ConfigProvider } from "antd";
 import { Metadata } from "next";
+import { authUser } from "helpers/functions/authUser";
+import { useMessages } from "helpers/hooks/useMessages";
+import { useUserStore } from "store/user";
 
 export const metadata: Metadata = {
   title: "BrushUp",
   description: "Blog site for artists",
 };
 
-export default function RLayout({
+export default function MainLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

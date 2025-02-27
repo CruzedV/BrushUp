@@ -8,12 +8,9 @@ import { TLoginData } from '@/types/auth';
 import { loginUser } from '@/api/auth';
 import { requestWithReturn } from 'helpers/functions/requestWithReturn';
 import { TReturnToken } from '@/types/tokens';
-import { getUserById } from '@/api/users';
-import { TUser } from '@/types/user';
 import { useUserStore } from 'store/user';
-import { getUserFromToken } from 'helpers/functions/getUserIdFromToken';
 import { useMessages } from 'helpers/hooks/useMessages';
-import { redirect } from 'next/navigation';
+import { authUser } from 'helpers/functions/authUser';
 
 
 const LoginPage = () => {
@@ -32,28 +29,7 @@ const LoginPage = () => {
       setIsLoading,
     );
     if (response) {
-      const user_id = getUserFromToken(response.token)?.user_id;
-      if (user_id) {
-        const user = await requestWithReturn<number, TUser>(
-          getUserById,
-          user_id,
-          () => errorMessage("Ошибка при загрузке"),
-          undefined,
-          setIsLoading,
-        );
-        if (user) {
-          setUser(user);
-          localStorage.setItem("token", response.token);
-          successMessage('Вход выполнен успешно!');
-          redirect('/');
-        } else {
-          errorMessage('Ошибка при получении пользователя');
-        }
-      } else {
-        errorMessage('Ошибка при определении пользователя');
-      }
-    } else {
-      errorMessage('Ошибка при запросе входа');
+      authUser(response, errorMessage, successMessage, setUser, setIsLoading);
     }
   };
   
