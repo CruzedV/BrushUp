@@ -10,7 +10,7 @@ import {
 
 export const getPostById = async (id: number): Promise<TPost> => {
   const response = await api.get(`/api/posts/${id}`);
-  return response.data;
+  return response.status == 404 ? response : response.data;
 };
 
 export const getAllPosts = async (

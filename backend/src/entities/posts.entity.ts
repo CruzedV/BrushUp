@@ -24,6 +24,9 @@ export class Post {
   @Column()
   content: string;
 
+  @Column()
+  cover: string;
+
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   creation_date: Date;
 

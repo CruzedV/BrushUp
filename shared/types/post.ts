@@ -5,6 +5,7 @@ export type TCreatePost = {
   title: string;
   content: string;
   tags: TTag[];
+  cover: string;
 };
 
 export type TUpdatePost = {
@@ -34,6 +35,7 @@ export type TPost = {
   title: string;
   content: string;
   creation_date: Date;
+  cover: string;
 };
 
 export type TResponsePosts = {

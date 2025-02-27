@@ -47,6 +47,7 @@ export class PostsService {
         title: post.title,
         content: post.content,
         creation_date: post.creation_date,
+        cover: post.cover,
         user: {
           user_id: post.user.user_id,
           username: post.user.username,
@@ -128,6 +129,7 @@ export class PostsService {
         title: post.title,
         content: post.content,
         creation_date: post.creation_date,
+        cover: post.cover,
         user: {
           user_id: post.user.user_id,
           username: post.user.username,

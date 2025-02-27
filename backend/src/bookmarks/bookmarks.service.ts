@@ -96,6 +96,7 @@ export class BookmarksService {
         title: bookmark.post.title,
         content: bookmark.post.content,
         creation_date: bookmark.post.creation_date,
+        cover: bookmark.post.cover,
         user: {
           user_id: bookmark.post.user.user_id,
           username: bookmark.post.user.username,

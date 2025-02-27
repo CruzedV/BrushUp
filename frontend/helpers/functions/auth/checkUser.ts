@@ -1,7 +1,7 @@
 import { getUserById } from "@/api/users";
 import { getUserFromToken } from "../getUserIdFromToken";
 import { TUser } from "@/types/user";
-import { CookieValueTypes } from "cookies-next";
+import { CookieValueTypes, deleteCookie } from "cookies-next";
 
 
 export const checkUser = async (
@@ -18,5 +18,6 @@ export const checkUser = async (
       } 
     }
   }
+  deleteCookie("token");
   return null;
 }

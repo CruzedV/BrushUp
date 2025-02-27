@@ -17,7 +17,7 @@ const withConditionalFeedback =
   <DataType, PropsWithoutData extends object>(
     { loadingFeedback, noDataFeedback, dataEmptyFeedback }: FeedbackProps
   ) =>
-  (Component: ComponentType<PropsWithoutData & { data: DataType[] }>) => {
+  (Component: ComponentType<PropsWithoutData & { data: DataType | DataType[] }>) => {
     const WrappedComponent = (props: PropsWithoutData & ConditionalFeedbackProps<DataType>) => {
       if (props.isLoading) {
         return (
@@ -43,7 +43,11 @@ const withConditionalFeedback =
         );
       }
 
-      return <Component {...(props as PropsWithoutData & { data: DataType[] })} />;
+      return (
+        <Component
+          {...(props as PropsWithoutData & { data: DataType | DataType[] })}
+        />
+      );
     };
 
     WrappedComponent.displayName = `withConditionalFeedback(${Component.displayName || Component.name || "Component"})`;
