@@ -8,9 +8,9 @@ import { TLoginData } from '@/types/auth';
 import { loginUser } from '@/api/auth';
 import { requestWithReturn } from 'helpers/functions/requestWithReturn';
 import { TReturnToken } from '@/types/tokens';
-import { useUserStore } from 'store/user';
+import { useUserStore } from '@/store/user';
 import { useMessages } from 'helpers/hooks/useMessages';
-import { authUser } from 'helpers/functions/authUser';
+import { authUser } from 'helpers/functions/auth/authUser';
 
 
 const LoginPage = () => {

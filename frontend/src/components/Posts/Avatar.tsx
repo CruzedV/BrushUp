@@ -19,11 +19,11 @@ const Avatar = ({
     <div className={`${styles.avatar} ${styles[variant]}`}>
       <div
         className={styles.user}
-        onClick={() => window.open('/user/1')}
+        onClick={() => window.open(`/user/${user?.user_id}`)}
       >
         <Image
           alt="User avatar"
-          src={user?.profile_picture && "/Avatar.png"}
+          src={user?.profile_picture || "/Avatar.png"}
           preview={false}
         />
         <span itemProp={variant == EAvatar.article ? 'image' : ''}>

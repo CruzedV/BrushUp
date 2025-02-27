@@ -11,11 +11,10 @@ import {
   UserAddOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { useUserStore } from "store/user";
+import { useUserStore } from "@/store/user";
 
 const Sider = () => {
   const user = useUserStore((state) => state.user)
-  console.log(user);
 
   return (
     <div className="sider">

@@ -3,7 +3,7 @@ import { create } from 'zustand';
 
 interface UserStore {
   user: TUser | null;
-  setUser: (user: TUser) => void;
+  setUser: (user: TUser | null) => void;
   clearUser: () => void;
 }
 
