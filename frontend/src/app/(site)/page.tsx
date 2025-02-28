@@ -1,6 +1,8 @@
-import PostFilters from "@/components/Posts/PostFilters";
-import Post from "@/components/Posts/Post";
+"use client";
+
+import { getAllPosts } from "@/api/posts";
 import PageTitle from "@/components/common/PageTitle";
+import PostsListWithFeedback from "@/components/Posts/PostsList";
 
 export default function DefaultPage() {
   return (
@@ -8,15 +10,7 @@ export default function DefaultPage() {
       <PageTitle>
         Список всех постов
       </PageTitle>
-      <PostFilters />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
+      <PostsListWithFeedback request={getAllPosts} />
     </>
   );
 }
