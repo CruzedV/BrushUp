@@ -15,7 +15,7 @@ import { getPostById } from "@/api/posts";
 import { useMessages } from "helpers/hooks/useMessages";
 
 type TProps = {
-  article_id: number;
+  article_id: string;
 }
 
 const DetailedPost = ({ article_id }: TProps) => {
@@ -24,8 +24,8 @@ const DetailedPost = ({ article_id }: TProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const { errorMessage } = useMessages();
 
-  const fetchPost = async (article_id: number) => {
-    const response = await requestWithReturn<number, TPost | null>(
+  const fetchPost = async (article_id: string) => {
+    const response = await requestWithReturn<string, TPost | null>(
       getPostById,
       article_id,
       () => {

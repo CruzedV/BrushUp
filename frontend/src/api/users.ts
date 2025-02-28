@@ -17,17 +17,17 @@ export const updateUser = async (data: TUpdateUser): Promise<TUser> => {
   return response.data;
 }
 
-export const getUserById = async (id: number): Promise<TUser> => {
+export const getUserById = async (id: string): Promise<TUser> => {
   const response = await api.get<TUser>(`/api/users/${id}`);
   return response.data;
 }
 
-export const followUser = async (followed_id: number) => {
+export const followUser = async (followed_id: string) => {
   const response = await api.post(`/api/users/follow/${followed_id}`);
   return response;
 }
 
-export const unfollowUser = async (followed_id: number) => {
+export const unfollowUser = async (followed_id: string) => {
   const response = await api.delete(
     `/api/users/unfollow/${followed_id}`
   )

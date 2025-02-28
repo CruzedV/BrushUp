@@ -1,4 +1,4 @@
-import api from "helpers/axios";
+  import api from "helpers/axios";
 import {
   TCreatePost,
   TDeletePost,
@@ -8,7 +8,7 @@ import {
   TUpdatePost,
 } from "@shared/types/post";
 
-export const getPostById = async (id: number): Promise<TPost> => {
+export const getPostById = async (id: string): Promise<TPost> => {
   const response = await api.get(`/api/posts/${id}`);
   return response.status == 404 ? response : response.data;
 };
@@ -34,6 +34,17 @@ export const getSubscribedPosts = async (
   );
   return response.data;
 };
+
+export const getUserPosts = async (
+  page: number,
+  data: TRequestPosts,
+): Promise<TResponsePosts> => {
+  const response = await api.post<TResponsePosts>(
+    `/api/users/user-posts?page=${page}`,
+    data
+  );
+  return response.data;
+}
 
 export const createPost = async (data: TCreatePost): Promise<TPost> => {
   const response = await api.post<TPost>(`/api/posts/create`, data);

@@ -3,8 +3,8 @@ import { TBookmark } from "./bookmark";
 import { TComment } from "./comment";
 
 export type TPost = {
-  article_id: number;
-  user_id: number;
+  article_id: string;
+  user_id: string;
   title: string;
   content: string;
   creation_date: Date;

@@ -14,7 +14,7 @@ export const markPost = async (data: TMarkPost) => {
   return response;
 }
 
-export const unmarkPost = async (id: number) => {
+export const unmarkPost = async (id: string) => {
   const response = await api.delete(`/api/bookmarks/${id}`);
   return response;
 }

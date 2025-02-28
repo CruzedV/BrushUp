@@ -12,7 +12,7 @@ export const updateComment = async (data: TUpdateComment): Promise<TComment> => 
   return response.data;
 }
 
-export const deleteComment = async (id: number) => {
+export const deleteComment = async (id: string) => {
   const response = await api.delete(`/api/comments/${id}`);
   return response;
 }

@@ -1,3 +1,3 @@
 export type TWithId = {
-  id: number;
+  id: string;
 }

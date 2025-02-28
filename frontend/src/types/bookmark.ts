@@ -1,3 +1,3 @@
 export type TBookmark = {
-  bookmark_id: number;
+  bookmark_id: string;
 }
