@@ -30,7 +30,7 @@ export class CommentController {
   @UseGuards(AuthGuard)
   async deleteComment(
     @Req() req: TRequestBody,
-    @Param("id") comment_id: number,
+    @Param("id") comment_id: string,
   ) {
     return this.commentService.deleteComment(req.user.user_id, comment_id);
   }

@@ -69,12 +69,12 @@ export class PostsController {
 
   @Delete(":id")
   @UseGuards(AuthGuard)
-  async deletePost(@Param("id") article_id: number, @Req() req: TRequestBody) {
+  async deletePost(@Param("id") article_id: string, @Req() req: TRequestBody) {
     return this.postsService.deletePost(req.user.user_id, article_id);
   }
 
   @Get(":id")
-  async getPostById(@Param("id") article_id: number) {
+  async getPostById(@Param("id") article_id: string) {
     return this.postsService.getPostById(article_id);
   }
 }

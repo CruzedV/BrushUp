@@ -12,11 +12,11 @@ export type TUpdatePost = {
   title: string;
   content: string;
   tags: TTag[];
-  article_id: number;
+  article_id: string;
 };
 
 export type TDeletePost = {
-  article_id: number;
+  article_id: string;
 };
 
 export type TRequestPosts = {
@@ -30,12 +30,13 @@ export type TMarkedPost = {
 };
 
 export type TPost = {
-  article_id: number;
+  article_id: string;
   user: TPostUser;
   title: string;
   content: string;
   creation_date: Date;
   cover: string;
+  tags: TTag[];
 };
 
 export type TResponsePosts = {

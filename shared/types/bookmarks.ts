@@ -1,4 +1,4 @@
 export type TMarkPost = {
-  bookmark_id?: number;
-  article_id: number;
+  bookmark_id?: string;
+  article_id: string;
 };

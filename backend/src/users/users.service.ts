@@ -12,6 +12,8 @@ import { RegisterDto } from "src/dto/register.dto";
 import { TExtendedUser } from "src/dto/user.dto";
 import { UpdateUserDto } from "src/dto/user.dto";
 import { hash, compare } from "bcrypt";
+import { LIMIT } from "src/config";
+import { Post } from "src/entities/posts.entity";
 
 @Injectable()
 export class UserService {
@@ -21,6 +23,9 @@ export class UserService {
 
     @InjectRepository(Follower)
     private readonly followerRepository: Repository<Follower>,
+
+    @InjectRepository(Post)
+    private readonly postRepository: Repository<Post>,
   ) {}
 
   async createUser(registerDto: RegisterDto): Promise<User> {
@@ -28,7 +33,7 @@ export class UserService {
     return this.userRepository.save(user);
   }
 
-  async deleteUser(user_id: number): Promise<void> {
+  async deleteUser(user_id: string): Promise<void> {
     const user = await this.userRepository.findOne({ where: { user_id } });
 
     if (!user) {
@@ -41,7 +46,7 @@ export class UserService {
     await this.userRepository.remove(user);
   }
 
-  async updateUser(user_id: number, dto: UpdateUserDto): Promise<void> {
+  async updateUser(user_id: string, dto: UpdateUserDto): Promise<void> {
     const user = await this.userRepository
       .createQueryBuilder("user")
       .addSelect("user.password")
@@ -62,10 +67,10 @@ export class UserService {
     await this.userRepository.save(user);
   }
 
-  async getUserById(user_id: number): Promise<TExtendedUser> {
+  async getUserById(user_id: string): Promise<TExtendedUser> {
     const user = await this.userRepository.findOne({
       where: { user_id },
-      relations: ["posts", "followers"],
+      relations: ["followers"],
     });
 
     if (!user) {
@@ -79,6 +84,64 @@ export class UserService {
     return { ...user, followersCount };
   }
 
+  async getUserPosts(
+    user_id: string,
+    page: number,
+    query: string = "",
+    tags: string[] = [],
+  ) {
+    const offset = (page - 1) * LIMIT;
+
+    const queryBuilder = this.postRepository
+      .createQueryBuilder("post")
+      .leftJoinAndSelect("post.user", "user")
+      .where("post.user.user_id = :user_id", { user_id });
+
+    // Фильтрация по тексту (в заголовке или контенте)
+    if (query.trim()) {
+      queryBuilder.andWhere(
+        "post.title ILIKE :query OR post.content ILIKE :query",
+        {
+          query: `%${query}%`,
+        },
+      );
+    }
+
+    // Фильтрация по тегам
+    if (tags.length > 0) {
+      queryBuilder
+        .innerJoin("post.tags", "tag")
+        .andWhere("tag.name IN (:...tags)", { tags });
+    }
+
+    // Пагинация
+    const [posts, total] = await queryBuilder
+      .orderBy("post.creation_date", "DESC")
+      .skip(offset)
+      .take(LIMIT)
+      .getManyAndCount();
+
+    return {
+      totalPages: Math.ceil(total / LIMIT),
+      totalPosts: total,
+      page,
+      posts: posts.map((post: Post) => ({
+        article_id: post.article_id,
+        user_id: post.user.user_id,
+        title: post.title,
+        creation_date: post.creation_date,
+        content: post.content,
+        cover: post.cover,
+        tags: post.tags,
+        user: {
+          user_id: post.user.user_id,
+          username: post.user.username,
+          profile_picture: post.user.profile_picture,
+        },
+      })),
+    };
+  }
+
   async getAllUsers(): Promise<User[]> {
     const users = await this.userRepository.find();
     return users;
@@ -86,7 +149,7 @@ export class UserService {
 
   // FOLLOW
 
-  async followUser(user_id: number, followed_id: number): Promise<void> {
+  async followUser(user_id: string, followed_id: string): Promise<void> {
     if (user_id === followed_id) {
       throw new BadRequestException("Нельзя подписаться на самого себя");
     }
@@ -109,7 +172,7 @@ export class UserService {
     await this.followerRepository.save(follow);
   }
 
-  async unfollowUser(follower_id: number, followed_id: number): Promise<void> {
+  async unfollowUser(follower_id: string, followed_id: string): Promise<void> {
     if (follower_id === followed_id) {
       throw new BadRequestException("Нельзя отписаться от самого себя");
     }

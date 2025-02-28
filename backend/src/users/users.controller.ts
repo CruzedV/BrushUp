@@ -9,6 +9,7 @@ import {
   Put,
   UseGuards,
   Req,
+  Query,
 } from "@nestjs/common";
 import { UserService } from "./users.service";
 import { RegisterDto } from "src/dto/register.dto";
@@ -16,6 +17,7 @@ import { User } from "src/entities/user.entity";
 import { UpdateUserDto } from "src/dto/user.dto";
 import { AuthGuard } from "src/auth/auth.guard";
 import { TRequestBody } from "@shared/types/tokens";
+import { TMarkedPost, TResponsePosts } from "@shared/types/post";
 
 @Controller("users")
 export class UserController {
@@ -44,8 +46,22 @@ export class UserController {
 
   // Получение пользователя по ID
   @Get(":id")
-  async getUserById(@Param("id", ParseIntPipe) user_id: number): Promise<User> {
+  async getUserById(@Param("id", ParseIntPipe) user_id: string): Promise<User> {
     return this.userService.getUserById(user_id);
+  }
+
+  @Post("user-posts")
+  async getUserPosts(
+    @Query("page") page: number = 1,
+    @Body() body: TMarkedPost,
+    @Req() req: TRequestBody,
+  ): Promise<TResponsePosts> {
+    return this.userService.getUserPosts(
+      req.user.user_id,
+      page,
+      body.query,
+      body.tags,
+    );
   }
 
   @Get()
@@ -57,7 +73,7 @@ export class UserController {
   @Post("follow/:id")
   @UseGuards(AuthGuard)
   async followUser(
-    @Param("id") followed_id: number,
+    @Param("id") followed_id: string,
     @Req() req: TRequestBody,
   ): Promise<void> {
     return this.userService.followUser(req.user.user_id, followed_id);
@@ -66,7 +82,7 @@ export class UserController {
   @Delete("unfollow/:id")
   @UseGuards(AuthGuard)
   async unfollowUser(
-    @Param("id") followed_id: number,
+    @Param("id") followed_id: string,
     @Req() req: TRequestBody,
   ) {
     await this.userService.unfollowUser(req.user.user_id, followed_id);

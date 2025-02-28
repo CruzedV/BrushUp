@@ -4,8 +4,8 @@ import { Post } from "./posts.entity";
 
 @Entity("bookmarks")
 export class Bookmark {
-  @PrimaryGeneratedColumn()
-  bookmark_id: number;
+  @PrimaryGeneratedColumn("uuid")
+  bookmark_id: string;
 
   @ManyToOne(() => User, (user) => user.bookmarks, { onDelete: "CASCADE" })
   user: User;

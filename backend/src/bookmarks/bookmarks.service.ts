@@ -18,7 +18,7 @@ export class BookmarksService {
   ) {}
 
   // Добавление в закладки
-  async markPost(user_id: number, article_id: number): Promise<Bookmark> {
+  async markPost(user_id: string, article_id: string): Promise<Bookmark> {
     const post = await this.postRepository.findOne({ where: { article_id } });
     if (!post) throw new NotFoundException("Пост не найден");
 
@@ -39,7 +39,7 @@ export class BookmarksService {
     return await this.bookmarkRepository.save(bookmark);
   }
   // Удаление из закладок
-  async unmarkPost(user_id: number, article_id: number): Promise<void> {
+  async unmarkPost(user_id: string, article_id: string): Promise<void> {
     const bookmark = await this.bookmarkRepository.findOne({
       where: {
         user: { user_id: user_id },
@@ -60,7 +60,7 @@ export class BookmarksService {
 
   // Получение закладок
   async getMarkedPosts(
-    user_id: number,
+    user_id: string,
     page: number,
     query: string = "",
     tags: string[] = [],
@@ -97,6 +97,7 @@ export class BookmarksService {
         content: bookmark.post.content,
         creation_date: bookmark.post.creation_date,
         cover: bookmark.post.cover,
+        tags: bookmark.post.tags,
         user: {
           user_id: bookmark.post.user.user_id,
           username: bookmark.post.user.username,

@@ -3,8 +3,8 @@ import { User } from "./user.entity";
 
 @Entity("followers")
 export class Follower {
-  @PrimaryGeneratedColumn()
-  follow_id: number;
+  @PrimaryGeneratedColumn("uuid")
+  follow_id: string;
 
   @ManyToOne(() => User, (user) => user.followers)
   @JoinColumn({ name: "followed_id" })

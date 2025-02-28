@@ -10,8 +10,8 @@ import { Post } from "./posts.entity";
 
 @Entity("articlecomments")
 export class Comment {
-  @PrimaryGeneratedColumn()
-  comment_id: number;
+  @PrimaryGeneratedColumn("uuid")
+  comment_id: string;
 
   @ManyToOne(() => Post, (post) => post.comments, { onDelete: "CASCADE" })
   @JoinColumn({ name: "article_id" })

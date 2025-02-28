@@ -21,7 +21,7 @@ export class CommentService {
     private readonly userRepository: Repository<User>,
   ) {}
   // Добавление комментария
-  async addComment(user_id: number, dto: addCommentDto) {
+  async addComment(user_id: string, dto: addCommentDto) {
     const post = await this.postRepository.findOne({
       where: { article_id: dto.article_id },
       relations: ["comments"],
@@ -41,7 +41,7 @@ export class CommentService {
     return await this.commentRepository.save(comment);
   }
 
-  async deleteComment(user_id: number, comment_id: number): Promise<void> {
+  async deleteComment(user_id: string, comment_id: string): Promise<void> {
     const comment = await this.commentRepository.findOne({
       where: { comment_id: comment_id },
       relations: ["user"],
@@ -58,7 +58,7 @@ export class CommentService {
   }
 
   async updateComment(
-    user_id: number,
+    user_id: string,
     dto: updateCommentDto,
   ): Promise<Comment> {
     const comment = await this.commentRepository.findOne({

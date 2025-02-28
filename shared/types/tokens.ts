@@ -1,5 +1,5 @@
 export type TRequestBodyUser = {
-  user_id: number;
+  user_id: string;
   username: string;
 }
 export type TRequestBody = {

@@ -1,9 +1,9 @@
 export type TPostComment = {
-  article_id: number;
+  article_id: string;
   text: string;
 };
 
 export type TUpdateComment = {
-  comment_id: number;
+  comment_id: string;
   text: string;
 };

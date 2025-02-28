@@ -1,13 +1,17 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, ManyToMany } from "typeorm";
+import { Post } from "./posts.entity";
 
 @Entity("tags")
 export class Tag {
-  @PrimaryGeneratedColumn()
-  tag_id: number;
+  @PrimaryGeneratedColumn("uuid")
+  tag_id: string;
 
-  @Column({ type: "varchar", length: 60 })
+  @Column({ type: "varchar", length: 50, unique: true })
   name: string;
 
   @Column({ type: "varchar", length: 7 })
   color: string;
+
+  @ManyToMany(() => Post, (post) => post.tags)
+  posts: Post[];
 }

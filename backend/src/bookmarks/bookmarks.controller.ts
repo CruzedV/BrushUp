@@ -58,7 +58,7 @@ export class BookmarksController {
   @UseGuards(AuthGuard)
   async unmarkPost(
     @Req() req: TRequestBody,
-    @Param("id") article_id: number,
+    @Param("id") article_id: string,
   ): Promise<void> {
     return this.bookmarksService.unmarkPost(req.user.user_id, article_id);
   }

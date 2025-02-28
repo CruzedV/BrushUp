@@ -5,18 +5,21 @@ import {
   ManyToOne,
   JoinColumn,
   OneToMany,
+  ManyToMany,
+  JoinTable,
 } from "typeorm";
 import { User } from "./user.entity";
 import { Comment } from "./comment.entity";
 import { Bookmark } from "./bookmark.entity";
+import { Tag } from "./tags.entity";
 
 @Entity("articles")
 export class Post {
-  @PrimaryGeneratedColumn()
-  article_id: number;
+  @PrimaryGeneratedColumn("uuid")
+  article_id: string;
 
   @Column()
-  user_id: number;
+  user_id: string;
 
   @Column()
   title: string;
@@ -39,4 +42,12 @@ export class Post {
 
   @OneToMany(() => Bookmark, (bookmark) => bookmark.post, { cascade: true })
   bookmarks: Bookmark[];
+
+  @ManyToMany(() => Tag, (tag) => tag.posts)
+  @JoinTable({
+    name: "articletags",
+    joinColumn: { name: "article_id", referencedColumnName: "article_id" },
+    inverseJoinColumn: { name: "tag_id", referencedColumnName: "tag_id" },
+  })
+  tags: Tag[];
 }

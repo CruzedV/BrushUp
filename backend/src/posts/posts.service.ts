@@ -48,6 +48,7 @@ export class PostsService {
         content: post.content,
         creation_date: post.creation_date,
         cover: post.cover,
+        tags: post.tags,
         user: {
           user_id: post.user.user_id,
           username: post.user.username,
@@ -58,13 +59,13 @@ export class PostsService {
   }
 
   // Создание поста
-  async createPost(user_id: number, dto: TCreatePost) {
+  async createPost(user_id: string, dto: TCreatePost) {
     const newPost = this.postRepository.create({ user_id, ...dto });
     return await this.postRepository.save(newPost);
   }
 
   // Обновлние поста
-  async updatePost(user_id: number, dto: TUpdatePost) {
+  async updatePost(user_id: string, dto: TUpdatePost) {
     const post = await this.postRepository.findOne({
       where: { article_id: dto.article_id },
       relations: ["user"],
@@ -78,7 +79,7 @@ export class PostsService {
   }
 
   // Удаление поста
-  async deletePost(user_id: number, article_id: number) {
+  async deletePost(user_id: string, article_id: string) {
     const post = await this.postRepository.findOne({
       where: { article_id: article_id },
       relations: ["user"],
@@ -90,7 +91,7 @@ export class PostsService {
   }
 
   async getSubscribedPosts(
-    user_id: number,
+    user_id: string,
     page: number,
     query: string = "",
     tags: string[] = [],
@@ -130,6 +131,7 @@ export class PostsService {
         content: post.content,
         creation_date: post.creation_date,
         cover: post.cover,
+        tags: post.tags,
         user: {
           user_id: post.user.user_id,
           username: post.user.username,
@@ -140,7 +142,7 @@ export class PostsService {
   }
 
   // Получение поста по id
-  async getPostById(article_id: number) {
+  async getPostById(article_id: string) {
     const post = await this.postRepository.findOne({
       where: { article_id },
       relations: ["user", "comments", "comments.user"],

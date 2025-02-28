@@ -83,7 +83,7 @@ export class AuthService {
   }
 
   // Генерация JWT-токена
-  private async generateToken(user_id: number): Promise<string> {
+  private async generateToken(user_id: string): Promise<string> {
     const payload = { user_id };
     const token = this.jwtService.sign(payload, {
       expiresIn: "1d",
