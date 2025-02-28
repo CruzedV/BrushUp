@@ -1,7 +1,7 @@
-import PostFilters from "@/components/Posts/PostFilters";
-import Post from "@/components/Posts/Post";
 import { UserAddOutlined } from "@ant-design/icons";
 import PageTitle from "@/components/common/PageTitle";
+import PostsListWithFeedback from "@/components/Posts/PostsList";
+import { getSubscribedPosts } from "@/api/posts";
 
 export default function SubsPage() {
   return (
@@ -11,15 +11,7 @@ export default function SubsPage() {
           Подписки <UserAddOutlined />
         </span>
       </PageTitle>
-      <PostFilters />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
+      <PostsListWithFeedback request={getSubscribedPosts} />
     </>
   );
 }

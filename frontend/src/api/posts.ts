@@ -2,11 +2,11 @@
 import {
   TCreatePost,
   TDeletePost,
-  TRequestPosts,
   TResponsePosts,
   TPost,
   TUpdatePost,
 } from "@shared/types/post";
+import { TGetPostsParams } from "@/types/post";
 
 export const getPostById = async (id: string): Promise<TPost> => {
   const response = await api.get(`/api/posts/${id}`);
@@ -14,34 +14,41 @@ export const getPostById = async (id: string): Promise<TPost> => {
 };
 
 export const getAllPosts = async (
-  page: number,
-  data: TRequestPosts,
+  params: TGetPostsParams,
 ): Promise<TResponsePosts> => {
   const response = await api.post<TResponsePosts>(
-    `/api/posts/all?page=${page}`,
-    data
+    `/api/posts/all?page=${params.page}`,
+    params.data,
   );
   return response.data;
 };
 
 export const getSubscribedPosts = async (
-  page: number,
-  data: TRequestPosts,
+  params: TGetPostsParams,
 ): Promise<TResponsePosts> => {
   const response = await api.post<TResponsePosts>(
-    `/api/posts/subscribed?page=${page}`,
-    data
+    `/api/posts/subscribed?page=${params.page}`,
+    params.data,
   );
   return response.data;
 };
 
 export const getUserPosts = async (
-  page: number,
-  data: TRequestPosts,
+  params: TGetPostsParams,
 ): Promise<TResponsePosts> => {
   const response = await api.post<TResponsePosts>(
-    `/api/users/user-posts?page=${page}`,
-    data
+    `/api/users/user-posts?page=${params.page}`,
+    params.data
+  );
+  return response.data;
+}
+
+export const getMarkedPosts = async (
+  params: TGetPostsParams,
+): Promise<TResponsePosts> => {
+  const response = await api.post(
+    `/api/bookmarks/marked?page=${params.page}`,
+    params.data,
   );
   return response.data;
 }

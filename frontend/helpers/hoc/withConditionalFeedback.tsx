@@ -1,6 +1,4 @@
-import { Spin } from "antd";
 import React, { ComponentType } from "react";
-import styles from './styles.module.scss';
 
 interface FeedbackProps {
   loadingFeedback?: React.ReactNode;
@@ -9,35 +7,25 @@ interface FeedbackProps {
 }
 
 interface ConditionalFeedbackProps<DataType> {
-  isLoading: boolean;
   data?: DataType[] | null;
 }
 
 const withConditionalFeedback =
   <DataType, PropsWithoutData extends object>(
-    { loadingFeedback, noDataFeedback, dataEmptyFeedback }: FeedbackProps
+    { noDataFeedback, dataEmptyFeedback }: FeedbackProps
   ) =>
   (Component: ComponentType<PropsWithoutData & { data: DataType | DataType[] }>) => {
     const WrappedComponent = (props: PropsWithoutData & ConditionalFeedbackProps<DataType>) => {
-      if (props.isLoading) {
-        return (
-          <div className={styles.feedbackContainer}>
-            {loadingFeedback || "Загрузка данных..."}
-            <Spin />
-          </div>
-        );
-      }
-
       if (!props.data) {
         return (
-          <div className={styles.feedbackContainer}>
+          <div className="feedbackContainer">
             {noDataFeedback || "Данные не загружены"}
           </div>
         );
       }
       if (!props.data.length) { 
         return (
-          <div className={styles.feedbackContainer}>
+          <div className="feedbackContainer">
             {dataEmptyFeedback || "Пусто"}
           </div>
         );

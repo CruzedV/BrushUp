@@ -12,7 +12,7 @@ import {
 import { TMarkPost } from "@shared/types/bookmarks";
 import { Bookmark } from "src/entities/bookmark.entity";
 
-import { TMarkedPost, TResponsePosts } from "@shared/types/post";
+import { TPostFilters, TResponsePosts } from "@shared/types/post";
 import { BookmarksService } from "./bookmarks.service";
 import { AuthGuard } from "src/auth/auth.guard";
 import { TRequestBody } from "@shared/types/tokens";
@@ -25,7 +25,7 @@ export class BookmarksController {
   @UseGuards(AuthGuard)
   async getMarkedPosts(
     @Query("page") page: number = 1,
-    @Body() body: TMarkedPost,
+    @Body() body: TPostFilters,
     @Req() req: TRequestBody,
   ): Promise<TResponsePosts> {
     return this.bookmarksService.getMarkedPosts(

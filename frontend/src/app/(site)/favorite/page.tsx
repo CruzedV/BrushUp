@@ -1,7 +1,7 @@
-import PostFilters from "@/components/Posts/PostFilters";
-import Post from "@/components/Posts/Post";
 import PageTitle from "@/components/common/PageTitle";
 import { BookOutlined } from "@ant-design/icons";
+import PostsListWithFeedback from "@/components/Posts/PostsList";
+import { getMarkedPosts } from "@/api/posts";
 
 export default function FavoritePage() {
   return (
@@ -11,15 +11,7 @@ export default function FavoritePage() {
           Закладки <BookOutlined />
         </span>
       </PageTitle>
-      <PostFilters />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
+      <PostsListWithFeedback request={getMarkedPosts} />
     </>
   );
 }

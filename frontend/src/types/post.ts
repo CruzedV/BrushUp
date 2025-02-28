@@ -1,6 +1,7 @@
 import { TPostUser } from "@shared/types/user";
 import { TBookmark } from "./bookmark";
 import { TComment } from "./comment";
+import { TPostFilters } from "@shared/types/post";
 
 export type TPost = {
   article_id: string;
@@ -12,3 +13,8 @@ export type TPost = {
   comments: TComment[];
   bookmarks: TBookmark[]
 };
+
+export type TGetPostsParams = {
+  page: number;
+  data: TPostFilters;
+}

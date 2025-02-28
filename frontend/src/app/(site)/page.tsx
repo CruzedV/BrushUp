@@ -1,5 +1,3 @@
-"use client";
-
 import { getAllPosts } from "@/api/posts";
 import PageTitle from "@/components/common/PageTitle";
 import PostsListWithFeedback from "@/components/Posts/PostsList";

@@ -12,8 +12,8 @@ import {
 } from "@nestjs/common";
 import { PostsService } from "./posts.service";
 import {
-  TMarkedPost,
-  TRequestPosts,
+  TPostFilters,
+  TPostFilters,
   TResponsePosts,
   TCreatePost,
   TUpdatePost,
@@ -29,7 +29,7 @@ export class PostsController {
   @UseGuards(AuthGuard)
   async getPosts(
     @Query("page") page: number = 1,
-    @Body() body: TRequestPosts,
+    @Body() body: TPostFilters,
   ): Promise<TResponsePosts> {
     return this.postsService.getAllPosts(page, body.query, body.tags);
   }
@@ -38,7 +38,7 @@ export class PostsController {
   @UseGuards(AuthGuard)
   async getSubscribedPosts(
     @Query("page") page: number = 1,
-    @Body() body: TMarkedPost,
+    @Body() body: TPostFilters,
     @Req() req: TRequestBody,
   ): Promise<TResponsePosts> {
     return this.postsService.getSubscribedPosts(

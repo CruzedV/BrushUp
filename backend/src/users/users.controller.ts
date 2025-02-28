@@ -17,7 +17,7 @@ import { User } from "src/entities/user.entity";
 import { UpdateUserDto } from "src/dto/user.dto";
 import { AuthGuard } from "src/auth/auth.guard";
 import { TRequestBody } from "@shared/types/tokens";
-import { TMarkedPost, TResponsePosts } from "@shared/types/post";
+import { TPostFilters, TResponsePosts } from "@shared/types/post";
 
 @Controller("users")
 export class UserController {
@@ -53,7 +53,7 @@ export class UserController {
   @Post("user-posts")
   async getUserPosts(
     @Query("page") page: number = 1,
-    @Body() body: TMarkedPost,
+    @Body() body: TPostFilters,
     @Req() req: TRequestBody,
   ): Promise<TResponsePosts> {
     return this.userService.getUserPosts(

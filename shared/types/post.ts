@@ -19,12 +19,7 @@ export type TDeletePost = {
   article_id: string;
 };
 
-export type TRequestPosts = {
-  tags?: string[];
-  query?: string;
-};
-
-export type TMarkedPost = {
+export type TPostFilters = {
   tags: string[];
   query: string;
 };
