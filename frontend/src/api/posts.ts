@@ -1,10 +1,8 @@
 import api from "helpers/axios";
 import {
   TCreatePost,
-  TDeletePost,
   TResponsePosts,
   TPost,
-  TUpdatePost,
 } from "@shared/types/post";
 import { TGetPostsParams } from "@/types/post";
 
@@ -58,12 +56,12 @@ export const createPost = async (data: TCreatePost): Promise<TPost> => {
   return response.data;
 }
 
-export const updatePost = async (data: TUpdatePost): Promise<TPost> => {
+export const updatePost = async (data: TCreatePost): Promise<TPost> => {
   const response = await api.put<TPost>(`/api/posts/update`, data);
   return response.data;
 }
 
-export const deletePost = async (data: TDeletePost) => {
-  const response = api.delete(`/api/posts/${data.article_id}`);
-  return response;
+export const deletePost = async (article_id: string) => {
+  const response = await api.delete(`/api/posts/${article_id}`);
+  return response.status;
 }

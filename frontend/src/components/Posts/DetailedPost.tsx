@@ -11,8 +11,10 @@ import type { MenuProps } from "antd";
 import { useEffect, useState } from "react";
 import { TPost } from "@shared/types/post";
 import { requestWithReturn } from "helpers/functions/requestWithReturn";
-import { getPostById } from "@/api/posts";
+import { deletePost, getPostById } from "@/api/posts";
 import { useMessages } from "helpers/hooks/useMessages";
+import { redirect } from "next/navigation";
+import { useUserStore } from "@/store/user";
 
 type TProps = {
   article_id: string;
@@ -22,7 +24,10 @@ const DetailedPost = ({ article_id }: TProps) => {
   const [post, setPost] = useState<TPost | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const { errorMessage } = useMessages();
+  const { errorMessage, successMessage } = useMessages();
+  const user = useUserStore((state) => state.user);
+
+  const isOwner = post?.user.user_id == user?.user_id;
 
   const fetchPost = async (article_id: string) => {
     const response = await requestWithReturn<string, TPost | null>(
@@ -38,48 +43,56 @@ const DetailedPost = ({ article_id }: TProps) => {
     return response;
   };
 
+  const fetchDeletePost = async () => {
+    const status = await requestWithReturn<string, number>(
+      deletePost,
+      article_id,
+      errorMessage,
+    );
+    if (status == 200) {
+      successMessage("Пост удален успешно");
+      setTimeout(() => redirect("/"), 200);
+    }
+  };
+
+  const fetchEditPost = () => {
+    redirect(`/create?article_id=${article_id}`)
+  }
+
   useEffect(() => {
     fetchPost(article_id);
   }, [article_id])
-
-  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('click left button', e);
-  };
-
-  const handleMenuClick: MenuProps['onClick'] = (e) => {
-    console.log('click', e);
-  };
 
   const items: MenuProps['items'] = [
     {
       label: 'Редактировать пост',
       key: '1',
-      icon: <EditOutlined />, 
+      icon: <EditOutlined />,
+      onClick: fetchEditPost,
     },
     {
       label: 'Удалить пост',
       key: '2',
       icon: <DeleteOutlined />,
       danger: true,
+      onClick: fetchDeletePost,
     },
   ];
 
   const menuProps = {
     items,
-    onClick: handleMenuClick,
   };
 
   const Action = (
     <div className={styles.postActions}>
-      <Button type="primary" onClick={() => console.log('bookmark')}>
+      <Button type="primary" onClick={}>
         <PlusOutlined /> В закладки
       </Button>
-      <Dropdown.Button
-        menu={menuProps}
-        onClick={handleButtonClick}
-      >
-        Действия с постом
-      </Dropdown.Button>
+      {isOwner && (
+        <Dropdown.Button menu={menuProps}>
+          Действия с постом
+        </Dropdown.Button>
+      )}
     </div>
   )
 
@@ -97,27 +110,29 @@ const DetailedPost = ({ article_id }: TProps) => {
           <>
             <article className={styles.post}>
               <Card>
-              <div className={styles.header}>
-                <Avatar
-                  user={post.user}
-                  variant={EAvatar.article}
-                  action={Action}
-                />
-                <Button itemProp="headline" type="link">{post.title}</Button>
-                <TagGroup tags={[]}/>
-              </div>
-              <div className={`${styles.body}, ${styles.detailedBody}`}>
-                <Image
-                  itemProp="image"
-                  alt="Post cover image"
-                  src={post.cover || "/BG.png"}
-                />
-                <span>{post.content}</span>
-              </div>
-            </Card>
-          </article>
-          <Divider />
-          <CommentBlock />
+                <div className={styles.header}>
+                  <Avatar
+                    user={post.user}
+                    variant={EAvatar.article}
+                    action={Action}
+                  />
+                  <Button itemProp="headline" type="link">{post.title}</Button>
+                  <TagGroup tags={[]}/>
+                </div>
+                <div className={`${styles.body}, ${styles.detailedBody}`}>
+                  {post.cover && (
+                    <Image
+                      itemProp="image"
+                      alt="Post cover image"
+                      src={post.cover}
+                    />
+                  )}
+                  <span>{post.content}</span>
+                </div>
+              </Card>
+            </article>
+            <Divider />
+            <CommentBlock />
           </>
         )}
     </>

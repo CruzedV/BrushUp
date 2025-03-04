@@ -15,7 +15,6 @@ import {
   TPostFilters,
   TResponsePosts,
   TCreatePost,
-  TUpdatePost,
 } from "@shared/types/post";
 import { AuthGuard } from "src/auth/auth.guard";
 import { TRequestBody } from "@shared/types/tokens";
@@ -57,10 +56,10 @@ export class PostsController {
     return this.postsService.createPost(req.user.user_id, createPostDto);
   }
 
-  @Put("update")
+  @Put("update/:id")
   @UseGuards(AuthGuard)
   async updatePost(
-    @Body() updatePostDto: TUpdatePost,
+    @Body() updatePostDto: TCreatePost,
     @Req() req: TRequestBody,
   ) {
     return this.postsService.updatePost(req.user.user_id, updatePostDto);

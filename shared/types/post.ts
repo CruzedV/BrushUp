@@ -6,16 +6,6 @@ export type TCreatePost = {
   content: string;
   tags: TTag[];
   cover: string;
-};
-
-export type TUpdatePost = {
-  title: string;
-  content: string;
-  tags: TTag[];
-  article_id: string;
-};
-
-export type TDeletePost = {
   article_id: string;
 };
 

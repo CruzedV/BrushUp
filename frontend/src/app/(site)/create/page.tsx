@@ -1,25 +1,35 @@
 'use client';
 
 import type { FormProps } from 'antd';
-import { Card, Button, Divider, Input, Form } from 'antd';
-import CoverUpload from "./CoverUpload";
-import Editor from "./Editor";
-import TagsInput from '@/components/Tags/TagsInput';
-import styles from './styles.module.scss';
 import { useEffect, useState } from 'react';
 import { requestWithReturn } from 'helpers/functions/requestWithReturn';
 import { TCreatePost, TPost } from '@shared/types/post';
-import { createPost } from '@/api/posts';
+import { createPost, getPostById, updatePost } from '@/api/posts';
 import { useMessages } from 'helpers/hooks/useMessages';
-import { redirect } from 'next/navigation';
+import { redirect, useSearchParams } from 'next/navigation';
+import PostCreateForm from './PostCreateForm';
 
 const CreatePage = () => {
-  const [submittable, setSubmittable] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [form] = Form.useForm();
+  const [post, setPost] = useState<TCreatePost | undefined>();
   const { errorMessage } = useMessages();
+  const article_id = useSearchParams()?.get("article_id");
 
-  const onFinish: FormProps<TCreatePost>['onFinish'] = async (values) => {
+  const fetchPost = async (article_id: string) => {
+    const response = await requestWithReturn<string, TCreatePost | undefined>(
+      getPostById,
+      article_id,
+      errorMessage,
+      setPost,
+      setIsLoading,
+    )
+    return response;
+  };
+  useEffect(() => {
+    if (article_id) fetchPost(article_id);
+  }, [])
+
+  const onFinishCreating: FormProps<TCreatePost>['onFinish'] = async (values) => {
     const response = await requestWithReturn<TCreatePost, TPost>(
       createPost,
       values,
@@ -32,61 +42,44 @@ const CreatePage = () => {
     }
   };
   
-  const onFinishFailed: FormProps<TCreatePost>['onFinishFailed'] = (errorInfo) => {
-    console.log('Ошибка:', errorInfo);
+  const onFinishFailedCreating = () => {
+    errorMessage("Ошибка при создании поста");
   };
 
-  const values = Form.useWatch([], form);
+  const onFinishUpdating: FormProps<TCreatePost>['onFinish'] = async (values) => {
+    const response = await requestWithReturn<TCreatePost, TPost>(
+      updatePost,
+      values,
+      errorMessage,
+      undefined,
+      setIsLoading,
+    )
+    if (response) {
+      redirect(`/posts/${response.article_id}`)
+    }
+  }
 
-  useEffect(() => {
-    form
-      .validateFields({ validateOnly: true })
-      .then(() => setSubmittable(true))
-      .catch(() => setSubmittable(false));
-  }, [form, values]);
+  const onFinishFailedUpdating = () => {
+    errorMessage("Ошибка при обновлении поста");
+  };
 
   return (
-    <Form
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      form={form}
-      className={styles.createPostForm}
-      disabled={isLoading}
-      initialValues={{
-        tags: []
-      }}
-    >
-      <Card className={styles.createPage}>
-        <Form.Item<TCreatePost>
-          label="Название статьи"
-          name="title"
-          rules={
-            [
-              { required: true, message: 'Укажите название поста'},
-              { min: 15, message: "Минимальная длина 15 символов"},
-            ]
-          }
-        >
-          <Input />
-        </Form.Item>
-        <CoverUpload />
-        <Divider />
-        <Editor />
-        <Divider />
-        <TagsInput title="Теги для статьи" form={form}/>
-        <Divider />
-        <Form.Item<TCreatePost>>
-          <Button
-            type="primary"
-            htmlType="submit"
-            disabled={!submittable}
-            loading={isLoading}
-          >
-            Опубликовать
-          </Button>
-        </Form.Item>
-      </Card>
-    </Form>
+    <>
+      {article_id ? (
+        <PostCreateForm
+           isLoading={isLoading}
+           onFinish={onFinishCreating}
+           onFinishFailed={() => onFinishFailedCreating}
+        />
+      ) : (
+        <PostCreateForm
+          isLoading={isLoading}
+          onFinish={onFinishUpdating}
+          onFinishFailed={() => onFinishFailedUpdating}
+          initialValues={post}
+        />
+      )}
+    </>
   )
 };
 

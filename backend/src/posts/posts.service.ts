@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Post } from "src/entities/posts.entity";
-import { TCreatePost, TUpdatePost } from "@shared/types/post";
+import { TCreatePost } from "@shared/types/post";
 import { Follower } from "src/entities/followers.entity";
 import { LIMIT } from "src/config";
 
@@ -65,7 +65,7 @@ export class PostsService {
   }
 
   // Обновлние поста
-  async updatePost(user_id: string, dto: TUpdatePost) {
+  async updatePost(user_id: string, dto: Required<TCreatePost>) {
     const post = await this.postRepository.findOne({
       where: { article_id: dto.article_id },
       relations: ["user"],

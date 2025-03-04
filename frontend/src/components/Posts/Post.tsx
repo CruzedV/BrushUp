@@ -22,6 +22,7 @@ const Post = ({ data }: TProps) => {
       <Card>
         <div className={styles.header}>
           <Avatar
+            user={data.user}
             variant={EAvatar.article}
             action={
               <span>
@@ -38,11 +39,13 @@ const Post = ({ data }: TProps) => {
           <TagGroup tags={data.tags} />
         </div>
         <div className={styles.body}>
-          <Image
-            itemProp="image"
-            alt="Post cover image"
-            src={data.cover ? data.cover : "/BG.png"}
-          />
+          {data.cover && (
+            <Image
+              itemProp="image"
+              alt="Post cover image"
+              src={data.cover}
+            />
+          )}
           <span>{data.content}</span>
           <Button type="primary" onClick={handleOpenPost}>
             Читать статью
