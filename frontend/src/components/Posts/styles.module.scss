@@ -181,5 +181,8 @@
     & > div:nth-child(2) {
       width: 100%;
     }
+    button {
+      min-width: 32px;
+    }
   }
 }

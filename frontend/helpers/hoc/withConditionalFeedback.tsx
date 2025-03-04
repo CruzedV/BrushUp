@@ -1,4 +1,5 @@
 import { TResponsePosts } from "@shared/types/post";
+import { Spin } from "antd";
 import React, { ComponentType } from "react";
 
 interface FeedbackProps {
@@ -18,6 +19,16 @@ const withConditionalFeedback =
   ) =>
   (Component: ComponentType<PropsWithoutData & { data: DataType | null }>) => {
     const WrappedComponent = (props: PropsWithoutData & ConditionalFeedbackProps<DataType>) => {
+      if (props.isLoading) {
+        return (
+          <div className="feedbackContainer">
+            <Spin />
+            Идет загрузка...
+          </div>
+
+        )
+      }
+
       if (!props.data) {
         return (
           <div className="feedbackContainer">
@@ -31,15 +42,6 @@ const withConditionalFeedback =
             {dataEmptyFeedback || "Пусто"}
           </div>
         );
-      }
-
-      if (props.isLoading) {
-        return (
-          <div className="feedbackContainer">
-            Идет загрузка...
-          </div>
-
-        )
       }
 
       return (

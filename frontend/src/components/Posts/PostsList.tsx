@@ -8,13 +8,12 @@ import PostFilters from "./PostFilters";
 import { requestWithReturn } from "helpers/functions/requestWithReturn";
 import { useMessages } from "helpers/hooks/useMessages";
 import { TGetPostsParams } from "@/types/post";
-import { Pagination, Spin } from "antd";
+import { Pagination } from "antd";
 import { useFiltersStore } from "@/store/filters";
 import { EPostList } from "@/enums/post";
 import { getAllPosts, getMarkedPosts, getSubscribedPosts, getUserPosts } from "@/api/posts";
 
 type TProps = {
-  isLoading: boolean;
   data: TResponsePosts | null;
   page: number;
   changePage: (page: number) => void;
@@ -22,22 +21,12 @@ type TProps = {
 
 // Компонент, который рендерит список
 
-const PostsList = ({ isLoading, data, page, changePage }: TProps) => {
+const PostsList = ({ data, page, changePage }: TProps) => {
   return (
     <>
-      <PostFilters />
-      {isLoading ? (
-        <div className="feedbackContainer">
-          Загрузка постов...
-          <Spin />
-        </div>
-      ) : (
-        <>
-          {data?.posts?.map((post: TPost, index: number) => (
-            <Post data={post} key={post.article_id + index} />
-          ))}
-        </>
-      )}
+      {data?.posts?.map((post: TPost, index: number) => (
+        <Post data={post} key={post.article_id + index} />
+      ))}
       <Pagination defaultCurrent={page} total={data?.totalPages} onChange={changePage} />
     </>
   );
@@ -89,18 +78,22 @@ const PostsListWithFeedback = ({ variant, user_id }: TPostListProps) => {
         setData,
         setIsLoading
       );
+      
       console.log(posts);
     };
     fetchPosts();
   }, [page, filters]);
 
   return (
-    <WithFeedback
-      data={data}
-      isLoading={isLoading}
-      page={page}
-      changePage={changePage}
-    />
+    <>
+      <PostFilters />
+      <WithFeedback
+        data={data}
+        isLoading={isLoading}
+        page={page}
+        changePage={changePage}
+      />
+    </>
   );
 };
 
