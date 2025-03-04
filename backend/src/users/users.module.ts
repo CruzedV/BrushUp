@@ -7,11 +7,12 @@ import { Follower } from "src/entities/followers.entity";
 import { AuthModule } from "src/auth/auth.module";
 import { Token } from "src/entities/token.entity";
 import { Post } from "src/entities/posts.entity";
+import { Bookmark } from "src/entities/bookmark.entity";
 
 @Module({
   imports: [
     AuthModule,
-    TypeOrmModule.forFeature([User, Follower, Token, Post]),
+    TypeOrmModule.forFeature([User, Follower, Token, Post, Bookmark]),
   ],
   controllers: [UserController],
   providers: [UserService],

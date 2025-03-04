@@ -14,12 +14,16 @@ import { UpdateUserDto } from "src/dto/user.dto";
 import { hash, compare } from "bcrypt";
 import { LIMIT } from "src/config";
 import { Post } from "src/entities/posts.entity";
+import { Bookmark } from "src/entities/bookmark.entity";
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+
+    @InjectRepository(Bookmark)
+    private readonly bookmarkRepository: Repository<Bookmark>,
 
     @InjectRepository(Follower)
     private readonly followerRepository: Repository<Follower>,
@@ -190,5 +194,19 @@ export class UserService {
     }
 
     await this.followerRepository.remove(follow);
+  }
+
+  async isFollowing(user_id: string, target_id: string): Promise<boolean> {
+    const follow = await this.followerRepository.findOne({
+      where: { follower: { user_id }, followed: { user_id: target_id } },
+    });
+    return !!follow;
+  }
+
+  async isBookmarked(user_id: string, post_id: string): Promise<boolean> {
+    const bookmark = await this.bookmarkRepository.findOne({
+      where: { user: { user_id }, post: { article_id: post_id } },
+    });
+    return !!bookmark;
   }
 }
