@@ -103,8 +103,8 @@ export class PostsService {
       .innerJoin(
         Follower,
         "follower",
-        "follower.followed_id.user_id = user.user_id AND follower.follower_id.user_id = :user_id",
-        { user_id: user_id },
+        "follower.followed_id = user.user_id AND follower.follower_id = :user_id",
+        { user_id },
       )
       .where("post.title ILIKE :query OR post.content ILIKE :query", {
         query: `%${query}%`,

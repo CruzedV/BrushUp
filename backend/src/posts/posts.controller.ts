@@ -13,7 +13,6 @@ import {
 import { PostsService } from "./posts.service";
 import {
   TPostFilters,
-  TPostFilters,
   TResponsePosts,
   TCreatePost,
   TUpdatePost,

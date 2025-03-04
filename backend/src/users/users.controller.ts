@@ -4,7 +4,6 @@ import {
   Post,
   Body,
   Param,
-  ParseIntPipe,
   Delete,
   Put,
   UseGuards,
@@ -46,22 +45,17 @@ export class UserController {
 
   // Получение пользователя по ID
   @Get(":id")
-  async getUserById(@Param("id", ParseIntPipe) user_id: string): Promise<User> {
+  async getUserById(@Param("id") user_id: string): Promise<User> {
     return this.userService.getUserById(user_id);
   }
 
-  @Post("user-posts")
+  @Post("user-posts/:id")
   async getUserPosts(
     @Query("page") page: number = 1,
+    @Param("id") user_id: string,
     @Body() body: TPostFilters,
-    @Req() req: TRequestBody,
   ): Promise<TResponsePosts> {
-    return this.userService.getUserPosts(
-      req.user.user_id,
-      page,
-      body.query,
-      body.tags,
-    );
+    return this.userService.getUserPosts(user_id, page, body.query, body.tags);
   }
 
   @Get()
