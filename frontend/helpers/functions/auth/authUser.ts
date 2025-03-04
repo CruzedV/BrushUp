@@ -17,10 +17,10 @@ export const authUser = async (
   if (data) {
     const user_id = getUserFromToken(token)?.user_id;
     if (user_id) {
-      const user = await requestWithReturn<number, TUser>(
+      const user = await requestWithReturn<string, TUser>(
         getUserById,
         user_id,
-        () => errorMessage("Ошибка при загрузке"),
+        errorMessage,
         undefined,
         setIsLoading,
       );

@@ -24,7 +24,7 @@ const LoginPage = () => {
     const response = await requestWithReturn<TLoginData, TReturnToken>(
       loginUser,
       values,
-      () => errorMessage("Ошибка при загрузке"),
+      errorMessage,
       undefined,
       setIsLoading,
     );

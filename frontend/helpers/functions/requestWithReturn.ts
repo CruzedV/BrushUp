@@ -1,3 +1,5 @@
+import axios from "axios";
+
 /**
  * Функция возвращает результат овтета, либо null, если его нет.
  * @param request запрос на отправку данных
@@ -9,7 +11,7 @@
 export const requestWithReturn = async <DataType, ReturnType>(
   request: (data: DataType) => Promise<ReturnType>,
   data: DataType,
-  errorMessage: () => void,
+  errorMessage: (text: string) => void,
   setter?: (value: React.SetStateAction<ReturnType>) => void,
   loadingSetter?: (value: React.SetStateAction<boolean>) => void,
 ): Promise<Awaited<ReturnType> | null> => {
@@ -21,8 +23,11 @@ export const requestWithReturn = async <DataType, ReturnType>(
     }
     return response;
   } catch (error) {
-    console.error(error);
-    errorMessage();
+    if (axios.isAxiosError(error)) {
+      errorMessage(error.response?.data.message);
+    } else {
+      console.error(error);
+    }
     return null;
   } finally {
     if (loadingSetter) loadingSetter(false);

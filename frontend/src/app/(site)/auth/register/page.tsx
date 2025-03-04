@@ -23,7 +23,7 @@ const RegisterPage = () => {
     const response = await requestWithReturn<TRegisterData, TReturnToken>(
       registerUser,
       values,
-      () => errorMessage("Ошибка при загрузке"),
+      errorMessage,
       undefined,
       setIsLoading,
     );

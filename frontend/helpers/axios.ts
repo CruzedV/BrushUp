@@ -20,7 +20,10 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.response?.status === 401) {
+    if (
+      error.response?.status === 401 &&
+      !["/api/auth/login", "/api/auth/register"].includes(error.config?.url)
+    ) {
       console.warn("Неавторизован! Перенаправляем на логин...");
       window.location.href = "/auth/login";
     }
