@@ -3,9 +3,10 @@ import styles from './styles.module.scss';
 import { EAvatar } from '@/variants/avatar';
 import React from 'react';
 import { TUser } from '@/types/user';
+import { TPostUser } from '@shared/types/user';
 
 type TProps = {
-  user?: TUser;
+  user: TUser | TPostUser | null;
   variant?: EAvatar;
   action?: React.ReactNode;
 };
@@ -27,7 +28,7 @@ const Avatar = ({
           preview={false}
         />
         <span itemProp={variant == EAvatar.article ? 'image' : ''}>
-          HairBall2D
+          {user?.username}
         </span>
       </div>
       {action && (

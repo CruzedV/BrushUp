@@ -83,7 +83,7 @@ const DetailedPost = ({ article_id }: TProps) => {
     </div>
   )
 
-  if (notFound) {
+  if (notFound || !post) {
     return (
       <span>Пост не найден</span>
     )
@@ -99,19 +99,20 @@ const DetailedPost = ({ article_id }: TProps) => {
               <Card>
               <div className={styles.header}>
                 <Avatar
+                  user={post.user}
                   variant={EAvatar.article}
                   action={Action}
                 />
-                <Button itemProp="headline" type="link">{post?.title}</Button>
+                <Button itemProp="headline" type="link">{post.title}</Button>
                 <TagGroup tags={[]}/>
               </div>
               <div className={`${styles.body}, ${styles.detailedBody}`}>
                 <Image
                   itemProp="image"
                   alt="Post cover image"
-                  src={post?.cover || "/BG.png"}
+                  src={post.cover || "/BG.png"}
                 />
-                <span>{post?.content}</span>
+                <span>{post.content}</span>
               </div>
             </Card>
           </article>
@@ -120,7 +121,7 @@ const DetailedPost = ({ article_id }: TProps) => {
           </>
         )}
     </>
-  )
+  );
 };
 
 export default DetailedPost;

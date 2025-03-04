@@ -4,6 +4,7 @@
   display: flex;
   gap: $paddingMedium;
   flex-direction: column;
+  width: 100%;
   &Info {
     font-size: 16px;
     & > div > span {
