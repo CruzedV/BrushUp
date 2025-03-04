@@ -10,40 +10,19 @@ import { useMessages } from "helpers/hooks/useMessages";
 import { TGetPostsParams } from "@/types/post";
 import { Pagination, Spin } from "antd";
 import { useFiltersStore } from "@/store/filters";
+import { EPostList } from "@/enums/post";
+import { getAllPosts, getMarkedPosts, getSubscribedPosts, getUserPosts } from "@/api/posts";
 
 type TProps = {
-  request: (params: TGetPostsParams) => Promise<TResponsePosts>
+  isLoading: boolean;
+  data: TResponsePosts | null;
+  page: number;
+  changePage: (page: number) => void;
 }
 
-const PostsList = ({ request }: TProps) => {
-  const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState<TResponsePosts | null>();
-  const { errorMessage } = useMessages();
-  const filters = useFiltersStore((state) => state.filters);
+// Компонент, который рендерит список
 
-  const changePage = (page: number) => {
-    setPage(page);
-  }
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const prepData: TGetPostsParams = {
-        page: page,
-        data: filters,
-      }
-      const posts = await requestWithReturn<TGetPostsParams, TResponsePosts | null | undefined>(
-        request,
-        prepData,
-        () => errorMessage("Ошибка при получении постов"),
-        setData,
-        setIsLoading,
-      );
-      console.log(posts);
-    }
-    fetchPosts();
-  }, [page, filters])
-
+const PostsList = ({ isLoading, data, page, changePage }: TProps) => {
   return (
     <>
       <PostFilters />
@@ -54,23 +33,75 @@ const PostsList = ({ request }: TProps) => {
         </div>
       ) : (
         <>
-        {data?.posts?.map((post: TPost, index: number) => (
-          <Post data={post} key={post.article_id + index}/>
-        ))}
+          {data?.posts?.map((post: TPost, index: number) => (
+            <Post data={post} key={post.article_id + index} />
+          ))}
         </>
       )}
-      <Pagination
-        defaultCurrent={page}
-        total={data?.totalPages}
-        onChange={changePage}
-      />
+      <Pagination defaultCurrent={page} total={data?.totalPages} onChange={changePage} />
     </>
-  )
-}
+  );
+};
 
-const PostsListWithFeedback = withConditionalFeedback<TPost[], TProps>({
+// HoC компонент для списка
+
+const WithFeedback = withConditionalFeedback<TResponsePosts, TProps>({
   noDataFeedback: "Посты не загружены",
   dataEmptyFeedback: "Для вас не найдено постов!"
 })(PostsList);
 
-export default PostsListWithFeedback
+type TPostListProps = {
+  variant: EPostList;
+  user_id?: string;
+}
+
+// Логика работы компонента
+
+const PostsListWithFeedback = ({ variant, user_id }: TPostListProps) => {
+  const [data, setData] = useState<TResponsePosts | null>(null);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const { errorMessage } = useMessages();
+  const filters = useFiltersStore((state) => state.filters);
+
+  const defineRequest = () => {
+    if (variant === EPostList.FAVS) return getMarkedPosts;
+    if (variant === EPostList.SUBS) return getSubscribedPosts;
+    if (variant === EPostList.USER) return getUserPosts;
+    return getAllPosts;
+  };
+  const request = defineRequest();
+
+  const changePage = (page: number) => setPage(page);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const prepData: TGetPostsParams = {
+        page,
+        data: filters,
+        user_id: user_id,
+      };
+
+      const posts = await requestWithReturn<TGetPostsParams, TResponsePosts | null>(
+        request,
+        prepData,
+        errorMessage,
+        setData,
+        setIsLoading
+      );
+      console.log(posts);
+    };
+    fetchPosts();
+  }, [page, filters]);
+
+  return (
+    <WithFeedback
+      data={data}
+      isLoading={isLoading}
+      page={page}
+      changePage={changePage}
+    />
+  );
+};
+
+export default PostsListWithFeedback;

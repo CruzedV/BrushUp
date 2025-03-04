@@ -1,7 +1,7 @@
 import { UserAddOutlined } from "@ant-design/icons";
 import PageTitle from "@/components/common/PageTitle";
 import PostsListWithFeedback from "@/components/Posts/PostsList";
-import { getSubscribedPosts } from "@/api/posts";
+import { EPostList } from "@/enums/post";
 
 export default function SubsPage() {
   return (
@@ -11,7 +11,7 @@ export default function SubsPage() {
           Подписки <UserAddOutlined />
         </span>
       </PageTitle>
-      <PostsListWithFeedback request={getSubscribedPosts} />
+      <PostsListWithFeedback variant={EPostList.SUBS} />
     </>
   );
 }

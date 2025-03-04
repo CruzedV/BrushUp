@@ -23,7 +23,7 @@ const CreatePage = () => {
     const response = await requestWithReturn<TCreatePost, TPost>(
       createPost,
       values,
-      () => errorMessage("Ошибка при создании поста"),
+      errorMessage,
       undefined,
       setIsLoading,
     )

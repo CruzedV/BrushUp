@@ -1,6 +1,6 @@
-import { getAllPosts } from "@/api/posts";
 import PageTitle from "@/components/common/PageTitle";
 import PostsListWithFeedback from "@/components/Posts/PostsList";
+import { EPostList } from "@/enums/post";
 
 export default function DefaultPage() {
   return (
@@ -8,7 +8,7 @@ export default function DefaultPage() {
       <PageTitle>
         Список всех постов
       </PageTitle>
-      <PostsListWithFeedback request={getAllPosts} />
+      <PostsListWithFeedback variant={EPostList.ALL} />
     </>
   );
 }

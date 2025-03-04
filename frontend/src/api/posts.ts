@@ -1,4 +1,4 @@
-  import api from "helpers/axios";
+import api from "helpers/axios";
 import {
   TCreatePost,
   TDeletePost,
@@ -37,7 +37,7 @@ export const getUserPosts = async (
   params: TGetPostsParams,
 ): Promise<TResponsePosts> => {
   const response = await api.post<TResponsePosts>(
-    `/api/users/user-posts?page=${params.page}`,
+    `/api/users/user-posts/${params.user_id}?page=${params.page}`,
     params.data
   );
   return response.data;

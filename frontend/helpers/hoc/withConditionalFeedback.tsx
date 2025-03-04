@@ -1,3 +1,4 @@
+import { TResponsePosts } from "@shared/types/post";
 import React, { ComponentType } from "react";
 
 interface FeedbackProps {
@@ -6,15 +7,16 @@ interface FeedbackProps {
   dataEmptyFeedback?: React.ReactNode;
 }
 
-interface ConditionalFeedbackProps<DataType> {
-  data?: DataType[] | null;
+interface ConditionalFeedbackProps<DataType extends TResponsePosts> {
+  data: DataType | null;
+  isLoading: boolean;
 }
 
 const withConditionalFeedback =
-  <DataType, PropsWithoutData extends object>(
+  <DataType extends TResponsePosts, PropsWithoutData extends object>(
     { noDataFeedback, dataEmptyFeedback }: FeedbackProps
   ) =>
-  (Component: ComponentType<PropsWithoutData & { data: DataType | DataType[] }>) => {
+  (Component: ComponentType<PropsWithoutData & { data: DataType | null }>) => {
     const WrappedComponent = (props: PropsWithoutData & ConditionalFeedbackProps<DataType>) => {
       if (!props.data) {
         return (
@@ -23,7 +25,7 @@ const withConditionalFeedback =
           </div>
         );
       }
-      if (!props.data.length) { 
+      if (!props.data.posts.length) {
         return (
           <div className="feedbackContainer">
             {dataEmptyFeedback || "Пусто"}
@@ -31,9 +33,18 @@ const withConditionalFeedback =
         );
       }
 
+      if (props.isLoading) {
+        return (
+          <div className="feedbackContainer">
+            Идет загрузка...
+          </div>
+
+        )
+      }
+
       return (
         <Component
-          {...(props as PropsWithoutData & { data: DataType | DataType[] })}
+          {...(props as PropsWithoutData & { data: DataType })}
         />
       );
     };

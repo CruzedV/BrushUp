@@ -17,4 +17,5 @@ export type TPost = {
 export type TGetPostsParams = {
   page: number;
   data: TPostFilters;
+  user_id?: string;
 }
