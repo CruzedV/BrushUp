@@ -27,7 +27,9 @@ const PostsList = ({ data, page, changePage }: TProps) => {
       {data?.posts?.map((post: TPost, index: number) => (
         <Post data={post} key={post.article_id + index} />
       ))}
-      <Pagination defaultCurrent={page} total={data?.totalPages} onChange={changePage} />
+      {data?.totalPages && data.totalPages > 1 && (
+        <Pagination defaultCurrent={page} total={data?.totalPages} onChange={changePage} />
+      )}
     </>
   );
 };
@@ -71,15 +73,13 @@ const PostsListWithFeedback = ({ variant, user_id }: TPostListProps) => {
         user_id: user_id,
       };
 
-      const posts = await requestWithReturn<TGetPostsParams, TResponsePosts | null>(
+      await requestWithReturn<TGetPostsParams, TResponsePosts | null>(
         request,
         prepData,
         errorMessage,
         setData,
         setIsLoading
       );
-      
-      console.log(posts);
     };
     fetchPosts();
   }, [page, filters]);

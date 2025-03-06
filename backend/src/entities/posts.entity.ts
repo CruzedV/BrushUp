@@ -27,7 +27,7 @@ export class Post {
   @Column()
   content: string;
 
-  @Column()
+  @Column({ nullable: true })
   cover: string;
 
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })

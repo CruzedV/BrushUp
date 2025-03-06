@@ -11,11 +11,7 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { PostsService } from "./posts.service";
-import {
-  TPostFilters,
-  TResponsePosts,
-  TCreatePost,
-} from "@shared/types/post";
+import { TPostFilters, TResponsePosts, TCreatePost } from "@shared/types/post";
 import { AuthGuard } from "src/auth/auth.guard";
 import { TRequestBody } from "@shared/types/tokens";
 
@@ -24,7 +20,6 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Post("/all")
-  @UseGuards(AuthGuard)
   async getPosts(
     @Query("page") page: number = 1,
     @Body() body: TPostFilters,

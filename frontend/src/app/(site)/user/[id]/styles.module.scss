@@ -17,6 +17,8 @@
     display: flex;
     flex-direction: column;
     gap: $paddingMedium;
+    align-items: center;
+    justify-content: center;
     &Title {
       font-size: 20px;
       font-weight: 500;

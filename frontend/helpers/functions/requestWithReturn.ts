@@ -4,6 +4,7 @@ import axios from "axios";
  * Функция возвращает результат овтета, либо null, если его нет.
  * @param request запрос на отправку данных
  * @param data отправляемые данные
+ * @param errorMessage обработчик ошибок в случае ошибки с сервера
  * @param setter установщик значения для данных
  * @param lodaingSetter опциональный установщик загрузки
  */
@@ -11,7 +12,7 @@ import axios from "axios";
 export const requestWithReturn = async <DataType, ReturnType>(
   request: (data: DataType) => Promise<ReturnType>,
   data: DataType,
-  errorMessage: (text: string) => void,
+  errorMessage?: (text: string) => void,
   setter?: (value: React.SetStateAction<ReturnType>) => void,
   loadingSetter?: (value: React.SetStateAction<boolean>) => void,
 ): Promise<Awaited<ReturnType> | null> => {
@@ -23,7 +24,7 @@ export const requestWithReturn = async <DataType, ReturnType>(
     }
     return response;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
+    if (axios.isAxiosError(error) && errorMessage) {
       errorMessage(error.response?.data.message);
     } else {
       console.error(error);

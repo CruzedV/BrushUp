@@ -1,3 +1,5 @@
+"use client";
+
 import { Button, Card } from 'antd';
 import styles from './styles.module.scss';
 import { useState } from 'react';
@@ -6,13 +8,19 @@ import { ESettings } from '@/variants/settings';
 import { EAvatar } from '@/variants/avatar';
 import Avatar from '../Avatar';
 import { PlusOutlined } from '@ant-design/icons';
+import { TUser } from '@/types/user';
 
-const WriteComment = () => {
+type TProps = {
+  user: TUser;
+}
+
+const WriteComment = ({ user }: TProps) => {
   const [value, setValue] = useState<string>('');
 
   return (
     <Card className={styles.writeComment}>
       <Avatar
+        user={user}
         variant={EAvatar.small}
         action={
           <Button type="primary">

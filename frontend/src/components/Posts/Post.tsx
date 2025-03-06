@@ -28,7 +28,7 @@ const Post = ({ data }: TProps) => {
               <span>
                 Дата публикации: {}
                 <b style={{color: variables.primaryColor}}>
-                  {data.creation_date.toDateString()}
+                  {data.creation_date.toString()}
                 </b>
               </span>
             }

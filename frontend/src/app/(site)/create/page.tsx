@@ -65,7 +65,7 @@ const CreatePage = () => {
 
   return (
     <>
-      {article_id ? (
+      {!article_id ? (
         <PostCreateForm
            isLoading={isLoading}
            onFinish={onFinishCreating}
