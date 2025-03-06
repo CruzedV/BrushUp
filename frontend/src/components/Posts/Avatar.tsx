@@ -1,3 +1,5 @@
+"use client"; 
+
 import { Image } from 'antd';
 import styles from './styles.module.scss';
 import { EAvatar } from '@/variants/avatar';

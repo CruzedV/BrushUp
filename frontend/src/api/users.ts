@@ -22,14 +22,14 @@ export const getUserById = async (id: string): Promise<TUser> => {
   return response.data;
 }
 
-export const followUser = async (followed_id: string) => {
+export const followUser = async (followed_id: string): Promise<number> => {
   const response = await api.post(`/api/users/follow/${followed_id}`);
-  return response;
+  return response.status;
 }
 
-export const unfollowUser = async (followed_id: string) => {
+export const unfollowUser = async (followed_id: string): Promise<number> => {
   const response = await api.delete(
     `/api/users/unfollow/${followed_id}`
   )
-  return response;
+  return response.status;
 }
