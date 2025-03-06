@@ -9,7 +9,6 @@ import {
   Req,
   UseGuards,
 } from "@nestjs/common";
-import { TMarkPost } from "@shared/types/bookmarks";
 import { Bookmark } from "src/entities/bookmark.entity";
 
 import { TPostFilters, TResponsePosts } from "@shared/types/post";
@@ -42,16 +41,13 @@ export class BookmarksController {
     return this.bookmarksService.getAllMarks();
   }
 
-  @Post()
+  @Post(":id")
   @UseGuards(AuthGuard)
   async markPost(
     @Req() req: TRequestBody,
-    @Body() markPostDto: TMarkPost,
+    @Param("id") article_id: string,
   ): Promise<Bookmark> {
-    return this.bookmarksService.markPost(
-      req.user.user_id,
-      markPostDto.article_id,
-    );
+    return this.bookmarksService.markPost(req.user.user_id, article_id);
   }
 
   @Delete(":id")

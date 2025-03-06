@@ -1,12 +1,12 @@
-import { TMarkPost } from "@shared/types/bookmarks";
+import { TBookmark } from "@/types/bookmark";
 import api from "helpers/axios";
 
-export const markPost = async (data: TMarkPost) => {
-  const response = await api.post(`/api/bookmarks`, data);
-  return response;
+export const markPost = async (id: string): Promise<TBookmark> => {
+  const response = await api.post(`/api/bookmarks/${id}`);
+  return response.data;
 }
 
-export const unmarkPost = async (id: string) => {
+export const unmarkPost = async (id: string): Promise<number> => {
   const response = await api.delete(`/api/bookmarks/${id}`);
-  return response;
+  return response.status;
 }
