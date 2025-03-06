@@ -1,8 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, ManyToOne, Unique } from "typeorm";
 import { User } from "./user.entity";
 import { Post } from "./posts.entity";
 
 @Entity("bookmarks")
+@Unique(["user", "post"])
 export class Bookmark {
   @PrimaryGeneratedColumn("uuid")
   bookmark_id: string;

@@ -25,16 +25,6 @@ export class BookmarksService {
     const user = await this.userRepository.findOne({ where: { user_id } });
     if (!user) throw new NotFoundException("Пользователь не найден");
 
-    // Проверяем, есть ли уже такая закладка
-    const existingBookmark = await this.bookmarkRepository.findOne({
-      where: {
-        user: { user_id },
-        post: { article_id },
-      },
-    });
-
-    if (existingBookmark) return existingBookmark;
-
     const bookmark = this.bookmarkRepository.create({ user, post });
     return await this.bookmarkRepository.save(bookmark);
   }
