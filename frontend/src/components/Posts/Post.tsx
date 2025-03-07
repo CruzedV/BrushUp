@@ -1,20 +1,22 @@
 "use client";
 
-import { Button, Card, Image } from "antd"
+import { Button, Card, Divider, Image } from "antd"
 import styles from './styles.module.scss';
 import TagGroup from "../Tags/TagGroup";
 import Avatar from "./Avatar";
 import { EAvatar } from "@/variants/avatar";
 import variables from "@/variables.module.scss";
 import { TPost } from "@shared/types/post";
+import { useRouter } from "next/navigation";
 
 type TProps = {
   data: TPost;
 }
 
 const Post = ({ data }: TProps) => {
+  const router = useRouter();
   const handleOpenPost = () => {
-    window.open(`/posts/${data.article_id}`);
+    router.push(`/posts/${data.article_id}`);
   };
 
   return (
@@ -33,11 +35,13 @@ const Post = ({ data }: TProps) => {
               </span>
             }
           />
-          <Button itemProp="headline" type="link" onClick={handleOpenPost}>
+          <Button itemProp="headline" type="text" onClick={handleOpenPost}>
             {data.title}
           </Button>
           <TagGroup tags={data.tags} />
         </div>
+        <TagGroup tags={[]} />
+        <Divider />
         <div className={styles.body}>
           {data.cover && (
             <Image

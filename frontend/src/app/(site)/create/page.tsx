@@ -12,7 +12,7 @@ import PostCreateForm from './PostCreateForm';
 const CreatePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [post, setPost] = useState<TCreatePost | undefined>();
-  const { errorMessage } = useMessages();
+  const { errorMessage, contextHolder } = useMessages();
   const article_id = useSearchParams()?.get("article_id");
 
   const fetchPost = async (article_id: string) => {
@@ -65,6 +65,7 @@ const CreatePage = () => {
 
   return (
     <>
+      {contextHolder}
       {!article_id ? (
         <PostCreateForm
            isLoading={isLoading}

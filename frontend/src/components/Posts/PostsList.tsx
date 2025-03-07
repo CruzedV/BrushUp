@@ -52,7 +52,7 @@ const PostsListWithFeedback = ({ variant, user_id }: TPostListProps) => {
   const [data, setData] = useState<TResponsePosts | null>(null);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const { errorMessage } = useMessages();
+  const { errorMessage, contextHolder } = useMessages();
   const filters = useFiltersStore((state) => state.filters);
 
   const defineRequest = () => {
@@ -86,6 +86,7 @@ const PostsListWithFeedback = ({ variant, user_id }: TPostListProps) => {
 
   return (
     <>
+      {contextHolder}
       <PostFilters />
       <WithFeedback
         data={data}

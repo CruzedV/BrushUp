@@ -6,6 +6,7 @@ import { EAvatar } from '@/variants/avatar';
 import React from 'react';
 import { TUser } from '@/types/user';
 import { TPostUser } from '@shared/types/user';
+import { useRouter } from 'next/navigation';
 
 type TProps = {
   user: TUser | TPostUser | null;
@@ -18,11 +19,12 @@ const Avatar = ({
   variant = EAvatar.normal,
   action
 }: TProps) => {
+  const router = useRouter();
   return (
     <div className={`${styles.avatar} ${styles[variant]}`}>
       <div
         className={styles.user}
-        onClick={() => window.open(`/user/${user?.user_id}`)}
+        onClick={() => router.push(`/user/${user?.user_id}`)}
       >
         <Image
           alt="User avatar"

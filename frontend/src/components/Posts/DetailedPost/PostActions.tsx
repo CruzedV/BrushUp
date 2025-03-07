@@ -20,7 +20,7 @@ type TProps = {
 const PostActions = ({ post }: TProps) => {
   const [isMarked, setIsMarked] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { errorMessage, successMessage } = useMessages();
+  const { errorMessage, successMessage, contextHolder } = useMessages();
 
   const user = useUserStore((state) => state.user);
   const isOwner = post?.user.user_id == user?.user_id;
@@ -89,6 +89,7 @@ const PostActions = ({ post }: TProps) => {
 
   return (
     <div className={styles.postActions}>
+      {contextHolder}
       {isMarked ? (
         <Button type="primary" onClick={fetchUnmarkPost} loading={isLoading}>
           <MinusOutlined /> Из закладок

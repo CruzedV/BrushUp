@@ -44,7 +44,7 @@
     flex-direction: column;
     gap: $paddingBig;
 
-    span {
+    & > span {
       width: 100%;
       text-overflow: ellipsis;
       display: -webkit-box;
@@ -52,6 +52,7 @@
       overflow: hidden;
       -webkit-line-clamp: 8;
       line-clamp: 8;
+      font-size: 0.95rem;
       padding: 0 $paddingMedium;
       white-space: pre-wrap;
     }

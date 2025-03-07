@@ -15,7 +15,7 @@ type TProps = {
 const FollowUserButton = ({ user_id }: TProps) => {
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { errorMessage } = useMessages();
+  const { errorMessage, contextHolder } = useMessages();
   const user = useUserStore((state) => state.user);
 
 
@@ -60,6 +60,7 @@ const FollowUserButton = ({ user_id }: TProps) => {
 
   return (
     <> 
+      {contextHolder}
       {isFollowed ? (
         <Button type="primary" onClick={fetchUnfollowUser} loading={isLoading}>
           <UserDeleteOutlined />

@@ -1,15 +1,16 @@
-import { Button, Card, Divider, Image } from "antd"
+import { Card, Divider, Image } from "antd"
 import styles from './styles.module.scss';
 import TagGroup from "../../Tags/TagGroup";
 import Avatar from "../Avatar";
 import CommentBlock from "../Comment/CommentBlock";
 import { EAvatar } from "@/variants/avatar";
-import { TPost } from "@shared/types/post";
+import { TDetailedPost } from "@/types/post";
 
 import PostActions from "./PostActions";
+import DetailedPostHeader from "./DetailedPostheader";
 
 type TProps = {
-  post: TPost | null;
+  post: TDetailedPost | null;
 }
 
 const DetailedPost = ({ post }: TProps) => {
@@ -29,10 +30,12 @@ const DetailedPost = ({ post }: TProps) => {
               variant={EAvatar.article}
               action={<PostActions post={post} />}
             />
-            <Button itemProp="headline" type="link">{post.title}</Button>
+            <DetailedPostHeader title={post.title} />
             <TagGroup tags={[]}/>
           </div>
-          <div className={`${styles.body}, ${styles.detailedBody}`}>
+          <Divider />
+          <TagGroup tags={[]} />
+          <div className={`${styles.body} ${styles.detailedBody}`}>
             {post.cover && (
               <Image
                 itemProp="image"
@@ -45,7 +48,7 @@ const DetailedPost = ({ post }: TProps) => {
         </Card>
       </article>
       <Divider />
-      <CommentBlock />
+      <CommentBlock post={post} />
     </>
   );
 };

@@ -1,18 +1,14 @@
-import { TPostUser } from "@shared/types/user";
+import { TPost } from "@shared/types/post";
 import { TBookmark } from "./bookmark";
 import { TComment } from "./comment";
 import { TPostFilters } from "@shared/types/post";
 
-export type TPost = {
-  article_id: string;
+export type TDetailedPost = {
   user_id: string;
-  title: string;
-  content: string;
   creation_date: Date;
-  user: TPostUser;
   comments: TComment[];
   bookmarks: TBookmark[]
-};
+} & TPost;
 
 export type TGetPostsParams = {
   page: number;
