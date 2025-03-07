@@ -1,11 +1,12 @@
 import {
   BadRequestException,
+  ConflictException,
   ForbiddenException,
   Injectable,
   NotFoundException,
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { QueryFailedError, Repository } from "typeorm";
 import { User } from "src/entities/user.entity";
 import { Follower } from "src/entities/followers.entity";
 import { RegisterDto } from "src/dto/register.dto";
@@ -158,9 +159,7 @@ export class UserService {
       throw new BadRequestException("Нельзя подписаться на самого себя");
     }
 
-    const follower = await this.userRepository.findOne({
-      where: { user_id: user_id },
-    });
+    const follower = await this.userRepository.findOne({ where: { user_id } });
     const followed = await this.userRepository.findOne({
       where: { user_id: followed_id },
     });
@@ -169,11 +168,19 @@ export class UserService {
       throw new NotFoundException("Пользователь не найден");
     }
 
-    const follow = this.followerRepository.create({
-      followed: followed,
-      follower: follower,
-    });
-    await this.followerRepository.save(follow);
+    try {
+      const follow = this.followerRepository.create({ followed, follower });
+      await this.followerRepository.save(follow);
+    } catch (error: unknown) {
+      if (
+        error instanceof QueryFailedError &&
+        "code" in error &&
+        error.code === "23505"
+      ) {
+        throw new ConflictException("Вы уже подписаны на этого пользователя");
+      }
+      throw error;
+    }
   }
 
   async unfollowUser(follower_id: string, followed_id: string): Promise<void> {

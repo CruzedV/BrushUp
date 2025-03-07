@@ -1,10 +1,14 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { LIMIT } from "src/config";
 import { Bookmark } from "src/entities/bookmark.entity";
 import { Post } from "src/entities/posts.entity";
 import { User } from "src/entities/user.entity";
-import { Repository } from "typeorm";
+import { QueryFailedError, Repository } from "typeorm";
 
 @Injectable()
 export class BookmarksService {
@@ -25,8 +29,19 @@ export class BookmarksService {
     const user = await this.userRepository.findOne({ where: { user_id } });
     if (!user) throw new NotFoundException("Пользователь не найден");
 
-    const bookmark = this.bookmarkRepository.create({ user, post });
-    return await this.bookmarkRepository.save(bookmark);
+    try {
+      const bookmark = this.bookmarkRepository.create({ user, post });
+      return await this.bookmarkRepository.save(bookmark);
+    } catch (error: unknown) {
+      if (
+        error instanceof QueryFailedError &&
+        "code" in error &&
+        error.code === "23505"
+      ) {
+        throw new ConflictException("Этот пост уже добавлен в закладки");
+      }
+      throw error;
+    }
   }
   // Удаление из закладок
   async unmarkPost(user_id: string, article_id: string): Promise<void> {
