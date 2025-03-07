@@ -6,7 +6,7 @@ import Avatar from "../Posts/Avatar";
 import { EAvatar } from "@/variants/avatar";
 import { Button, Divider } from "antd";
 import { useUserStore } from "@/store/user";
-import { logout } from "helpers/functions/auth/logout";
+import { logout } from "@/helpers/functions/auth/logout";
 
 type TProps = {
   className?: string;

@@ -1,6 +1,6 @@
 import { TRegisterData } from "@/types/auth";
 import { TUpdateUser, TUser } from "@/types/user";
-import api from "helpers/axios";
+import api from "@/helpers/axios";
 
 export const createUser = async (data: TRegisterData): Promise<TUser> => {
   const response = await api.post<TUser>(`/api/users`, data);

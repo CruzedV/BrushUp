@@ -1,7 +1,7 @@
 import { getPostById } from "@/api/posts";
 import DetailedPost from "@/components/Posts/DetailedPost/DetailedPost";
 import { TPost } from "@shared/types/post";
-import { requestWithReturn } from "helpers/functions/requestWithReturn";
+import { requestWithReturn } from "@/helpers/functions/requestWithReturn";
 
 const PostPage = async ({ params }: { params: { postId: string }}) => {
   const { postId } = await params;

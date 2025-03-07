@@ -2,10 +2,10 @@
 
 import { followUser, unfollowUser } from '@/api/users';
 import { useUserStore } from '@/store/user';
-import { UserAddOutlined, UserDeleteOutlined } from '@ant-design/icons';
+import { LockOutlined, UserAddOutlined, UserDeleteOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
-import { requestWithReturn } from 'helpers/functions/requestWithReturn';
-import { useMessages } from 'helpers/hooks/useMessages';
+import { requestWithReturn } from '@/helpers/functions/requestWithReturn';
+import { useMessages } from '@/helpers/hooks/useMessages';
 import { useState } from 'react';
 
 type TProps = {
@@ -19,7 +19,7 @@ const FollowUserButton = ({ user_id }: TProps) => {
   const user = useUserStore((state) => state.user);
 
 
-  const fetcFollowUser = async () => {
+  const fetchFollowUser = async () => {
     const response = await requestWithReturn<string, number>(
       followUser,
       user_id,
@@ -49,6 +49,15 @@ const FollowUserButton = ({ user_id }: TProps) => {
     return null;
   }
 
+  if (!user) {
+    return (
+      <Button type="primary" disabled={true}>
+        <LockOutlined />
+        Подписаться
+      </Button>
+    )
+  }
+
   return (
     <> 
       {isFollowed ? (
@@ -57,7 +66,7 @@ const FollowUserButton = ({ user_id }: TProps) => {
           Отписаться
         </Button>
       ) : (
-        <Button type="primary" onClick={fetcFollowUser} loading={isLoading}>
+        <Button type="primary" onClick={fetchFollowUser} loading={isLoading}>
           <UserAddOutlined />
           Подписаться
         </Button>

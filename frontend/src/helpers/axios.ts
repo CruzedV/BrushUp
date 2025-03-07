@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getCookie } from "cookies-next";
+import { deleteCookie, getCookie } from "cookies-next";
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001",
@@ -24,7 +24,8 @@ api.interceptors.response.use(
       error.response?.status === 401 &&
       !["/api/auth/login", "/api/auth/register"].includes(error.config?.url)
     ) {
-      console.warn("Неавторизован! Перенаправляем на логин...");
+      deleteCookie("token");
+      console.warn("Неавторизован! Перенаправляем на логин...");  
       window.location.href = "/auth/login";
     }
     return Promise.reject(error);

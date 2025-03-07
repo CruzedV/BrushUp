@@ -1,9 +1,9 @@
 "use client";
 
 import { TPost } from "@shared/types/post";
-import { requestWithReturn } from "helpers/functions/requestWithReturn";
+import { requestWithReturn } from "@/helpers/functions/requestWithReturn";
 import { deletePost } from "@/api/posts";
-import { useMessages } from "helpers/hooks/useMessages";
+import { useMessages } from "@/helpers/hooks/useMessages";
 import { redirect } from "next/navigation";
 import { useUserStore } from "@/store/user";
 import { Button, Dropdown, type MenuProps } from "antd";

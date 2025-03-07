@@ -1,6 +1,6 @@
 import { TLoginData, TRegisterData } from "@/types/auth";
 import { TReturnToken } from "@/types/tokens";
-import api from "helpers/axios";
+import api from "@/helpers/axios";
 
 export const loginUser = async (
   data: TLoginData

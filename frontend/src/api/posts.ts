@@ -1,4 +1,4 @@
-import api from "helpers/axios";
+import api from "@/helpers/axios";
 import {
   TCreatePost,
   TResponsePosts,

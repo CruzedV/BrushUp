@@ -5,12 +5,12 @@ import { Button, Card, Form, Input } from 'antd';
 import styles from '../login/styles.module.scss';
 import { useEffect, useState } from 'react';
 import { TRegisterData } from '@/types/auth';
-import { requestWithReturn } from 'helpers/functions/requestWithReturn';
-import { useMessages } from 'helpers/hooks/useMessages';
+import { requestWithReturn } from '@/helpers/functions/requestWithReturn';
+import { useMessages } from '@/helpers/hooks/useMessages';
 import { useUserStore } from '@/store/user';
 import { registerUser } from '@/api/auth';
 import { TReturnToken } from '@/types/tokens';
-import { authUser } from 'helpers/functions/auth/authUser';
+import { authUser } from '@/helpers/functions/auth/authUser';
 
 const RegisterPage = () => {
   const [submittable, setSubmittable] = useState<boolean>(false);

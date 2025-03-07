@@ -2,10 +2,10 @@
 
 import type { FormProps } from 'antd';
 import { useEffect, useState } from 'react';
-import { requestWithReturn } from 'helpers/functions/requestWithReturn';
+import { requestWithReturn } from '@/helpers/functions/requestWithReturn';
 import { TCreatePost, TPost } from '@shared/types/post';
 import { createPost, getPostById, updatePost } from '@/api/posts';
-import { useMessages } from 'helpers/hooks/useMessages';
+import { useMessages } from '@/helpers/hooks/useMessages';
 import { redirect, useSearchParams } from 'next/navigation';
 import PostCreateForm from './PostCreateForm';
 

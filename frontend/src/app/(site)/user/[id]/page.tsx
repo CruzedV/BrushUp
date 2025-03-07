@@ -1,4 +1,4 @@
-import { requestWithReturn } from "helpers/functions/requestWithReturn";
+import { requestWithReturn } from "@/helpers/functions/requestWithReturn";
 import UserProfileBody from "./UserProfileBody";
 import { getUserById } from "@/api/users";
 import { TUser } from "@/types/user";

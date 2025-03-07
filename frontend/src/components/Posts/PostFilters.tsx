@@ -9,7 +9,7 @@ import { useFiltersStore } from "@/store/filters";
 import { CloseOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { TPostFilters } from "@shared/types/post";
-import useDebounce from "helpers/hooks/useDebounce";
+import useDebounce from "@/helpers/hooks/useDebounce";
 
 const PostFilters = () => {
   const filters = useFiltersStore((state) => state.filters);

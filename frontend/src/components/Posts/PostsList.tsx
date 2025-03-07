@@ -1,12 +1,12 @@
 "use client";
 
 import { TPost, TResponsePosts } from "@shared/types/post";
-import withConditionalFeedback from "helpers/hoc/withConditionalFeedback";
+import withConditionalFeedback from "@/helpers/hoc/withConditionalFeedback";
 import Post from "./Post";
 import { useEffect, useState } from "react";
 import PostFilters from "./PostFilters";
-import { requestWithReturn } from "helpers/functions/requestWithReturn";
-import { useMessages } from "helpers/hooks/useMessages";
+import { requestWithReturn } from "@/helpers/functions/requestWithReturn";
+import { useMessages } from "@/helpers/hooks/useMessages";
 import { TGetPostsParams } from "@/types/post";
 import { Pagination } from "antd";
 import { useFiltersStore } from "@/store/filters";

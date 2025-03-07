@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect } from "react";
 import { useUserStore } from "@/store/user";
 import { TUser } from "@/types/user";
-import { checkUser } from "helpers/functions/auth/checkUser";
+import { checkUser } from "@/helpers/functions/auth/checkUser";
 import { getCookie } from "cookies-next";
 
 const UserContext = createContext<TUser | null>(null);
