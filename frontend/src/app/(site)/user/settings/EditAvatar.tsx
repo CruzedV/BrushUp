@@ -1,10 +1,17 @@
 import { Button, Image, Upload } from 'antd';
 import styles from './styles.module.scss';
 
-const EditAvatar = () => {
+type TProps = {
+  profile_picture: string;
+}
+
+const EditAvatar = ({ profile_picture }: TProps) => {
   return (
     <div className={styles.editAvatar}>
-      <Image alt="Edit User avatar" src="/Avatar.png" />
+      <Image
+        alt="Edit User avatar"
+        src={profile_picture || "/Avatar.png"}
+      />
       <Upload>
           <Button>Изменить изображение профиля</Button>
       </Upload>

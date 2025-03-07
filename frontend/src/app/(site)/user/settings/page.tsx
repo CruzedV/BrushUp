@@ -1,44 +1,138 @@
 "use client"
 
 import styles from './styles.module.scss';
-import { Button, Card, Divider } from "antd";
+import { Button, Card, Divider, Form, FormProps, Input } from "antd";
 import EditAvatar from "./EditAvatar";
-import InputItem from '@/components/common/InputItem';
-import { ESettings } from '@/variants/settings';
 import { CloseOutlined, SaveOutlined } from '@ant-design/icons';
 import PageTitle from '@/components/common/PageTitle';
+import { useUserStore } from '@/store/user';
+import { TUpdateUser, TUser } from '@/types/user';
+import { requestWithReturn } from '@/helpers/functions/requestWithReturn';
+import { updateUser } from '@/api/users';
+import { useEffect, useState } from 'react';
+import { useMessages } from '@/helpers/hooks/useMessages';
+import { emailRules, passwordRules, usernameRules } from '@/formsRules/userRules';
 
 const UserSettings = () => {
+  const [submittable, setSubmittable] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [form] = Form.useForm();
+  const values = Form.useWatch([], form);
+
+  const { errorMessage, successMessage, contextHolder } = useMessages();
+
+  const user = useUserStore((state) => state.user);
+  const setUser = useUserStore((state) => state.setUser);
+
+  useEffect(() => {
+      form
+        .validateFields({ validateOnly: true })
+        .then(() => setSubmittable(true))
+        .catch(() => setSubmittable(false));
+    }, [form, values]);
+
+  const onFinishUpdating: FormProps<TUpdateUser>['onFinish'] = async (values) => {
+    const response = await requestWithReturn<TUpdateUser, TUser>(
+      updateUser,
+      values,
+      errorMessage,
+      undefined,
+      setIsLoading,
+    )
+    if (response) {
+      setUser(response);
+      successMessage("Данные успешно изменены");
+    }
+  }
+
+  const onFinishFailedUpdating = () => {
+    errorMessage("Ошибка при изменении данных пользователя");
+  };
+
+  if (!user) {
+    return (
+      <span>Пользователь не найден</span>
+    )
+  }
+
   return (
     <>
-      <PageTitle>Настройки</PageTitle>
-      <Card className={styles.settings}>
-        <div className={styles.doubleRow}>
-          <EditAvatar />
-          <div className={styles.nextToAvatar}>
-            <InputItem title="Имя пользователя" defaultValue="HairBall2D" />
-            <InputItem title="Почта" defaultValue="HairBall2D@meow.com" />
+      {contextHolder}
+      <Form
+        onFinish={onFinishUpdating}
+        onFinishFailed={onFinishFailedUpdating}
+        form={form}
+        disabled={isLoading}
+        initialValues={user}
+      >
+        <PageTitle>Настройки</PageTitle>
+        <Card className={styles.settings}>
+          <div className={styles.doubleRow}>
+            <EditAvatar
+              profile_picture={user.profile_picture}
+            />
+            <div className={styles.nextToAvatar}>
+              <Form.Item<TUpdateUser>
+                label="Имя пользователя"
+                name="username"
+                rules={usernameRules}
+              />
+              <Form.Item<TUpdateUser>
+                label="Почта"
+                name="email"
+                rules={emailRules}
+              />
+            </div>
           </div>
-        </div>
-        <Divider />
-        <InputItem title="Обо мне" variant={ESettings.textarea} defaultValue="Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя Описание профиля пользователя " />
-        <Divider />
-        <div className={styles.doubleRow}>
-          <InputItem title="Старый пароль" variant={ESettings.password} defaultValue="hairball2d2d" />
-          <InputItem title="Новый пароль" variant={ESettings.password} defaultValue="hairball2d2d" />
-        </div>
-        <Divider />
-        <div className={styles.doubleRow}>
-          <Button type="primary">
-            <SaveOutlined />
-            Сохранить настройки
-          </Button>
-          <Button>
-            <CloseOutlined />
-            Отменить настройки
-          </Button>
-        </div>
-      </Card>
+          <Divider />
+          <Form.Item
+            name="bio"
+            label="Обо мне"
+          />
+          <Divider />
+          <div className={styles.doubleRow}>
+            <Form.Item<TUpdateUser>
+              label="Старый пароль"
+              name="password"
+              rules={passwordRules}
+            >
+              <Input.Password />
+            </Form.Item>
+            <Form.Item<TUpdateUser>
+              label="Новый пароль"
+              name="new_password"
+              rules={passwordRules}
+            >
+              <Input.Password />
+            </Form.Item>
+          </div>
+          <Divider />
+          <div className={styles.doubleRow}>
+            <Form.Item<TUpdateUser>>
+              <Button
+                type="primary"
+                htmlType="submit"
+                disabled={!submittable}
+                loading={isLoading}
+              >
+                <SaveOutlined />
+                Сохранить настройки
+              </Button>
+            </Form.Item>
+            <Form.Item<TUpdateUser>>
+              <Button
+                htmlType="reset"
+                disabled={!submittable}
+                loading={isLoading}
+              >
+                <CloseOutlined />
+                Отменить настройки
+              </Button>
+            </Form.Item>
+          </div>
+        </Card>
+      </Form>
     </>
   );
 };

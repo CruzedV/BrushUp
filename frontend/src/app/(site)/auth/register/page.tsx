@@ -11,6 +11,7 @@ import { useUserStore } from '@/store/user';
 import { registerUser } from '@/api/auth';
 import { TReturnToken } from '@/types/tokens';
 import { authUser } from '@/helpers/functions/auth/authUser';
+import { emailRules, passwordRules, usernameRules } from '@/formsRules/userRules';
 
 const RegisterPage = () => {
   const [submittable, setSubmittable] = useState<boolean>(false);
@@ -60,12 +61,7 @@ const RegisterPage = () => {
           <Form.Item<TRegisterData>
               label="Почта"
               name="email"
-              rules={
-                [
-                  { required: true, message: 'Введите почту' },
-                  { type: 'email', message: 'Введена не корректная почта' }
-                ]
-              }
+              rules={emailRules}
             >
               <Input.Password />
           </Form.Item>
@@ -73,12 +69,7 @@ const RegisterPage = () => {
           <Form.Item<TRegisterData>
             label="Имя пользователя"
             name="username"
-            rules={
-              [
-                { required: true, message: 'Введите имя пользователя' },
-                { min: 4, message: 'Минимальная длина 4 символа' }
-              ]
-            }
+            rules={usernameRules}
           >
             <Input />
           </Form.Item>
@@ -86,12 +77,7 @@ const RegisterPage = () => {
           <Form.Item<TRegisterData>
             label="Пароль"
             name="password"
-            rules={
-              [
-                { required: true, message: 'Введите пароль' },
-                { min: 6, message: 'Минимальная длина 6 символов' }
-              ]
-            }
+            rules={passwordRules}
           >
             <Input.Password />
           </Form.Item>

@@ -82,4 +82,13 @@ export class UserController {
     await this.userService.unfollowUser(req.user.user_id, followed_id);
     return { message: "Вы отписались от пользователя" };
   }
+
+  @Post("is-following/:id")
+  @UseGuards(AuthGuard)
+  async checkIsFollowing(
+    @Param("id") target_id: string,
+    @Req() req: TRequestBody,
+  ) {
+    await this.userService.
+  }
 }
