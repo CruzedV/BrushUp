@@ -4,6 +4,7 @@ import { Repository, In } from "typeorm";
 import { ImageReference } from "../entities/reference.entity";
 import { ImageTag } from "../entities/reference.entity";
 import { ReferenceTag } from "../entities/reference.entity";
+import { TReferenceTags } from "@shared/types/reference";
 
 @Injectable()
 export class ReferenceService {
@@ -58,5 +59,29 @@ export class ReferenceService {
       totalCount: imageUrls.length,
       images: imageUrls,
     };
+  }
+  async getAllTags(): Promise<TReferenceTags> {
+    const result = await this.referenceTagRepository.query(`
+      SELECT jsonb_build_object(
+        'sex', (
+          SELECT jsonb_agg(jsonb_build_object('tag_id', tag_id, 'name', name)) 
+          FROM imagetags WHERE name IN ('Мужчина', 'Женщина')
+        ),
+        'clothing', (
+          SELECT jsonb_agg(jsonb_build_object('tag_id', tag_id, 'name', name)) 
+          FROM imagetags WHERE name IN ('В одежде', 'Без одежды')
+        ),
+        'pose', (
+          SELECT jsonb_agg(jsonb_build_object('tag_id', tag_id, 'name', name)) 
+          FROM imagetags WHERE name IN ('В действии', 'Статичная')
+        ),
+        'view', (
+          SELECT jsonb_agg(jsonb_build_object('tag_id', tag_id, 'name', name)) 
+          FROM imagetags WHERE name IN ('Спереди', 'Сбоку', 'Сзади', 'Другое')
+        )
+      ) AS generator_tags;
+    `);
+
+    return result[0].generator_tags;
   }
 }

@@ -1,35 +1,18 @@
+import { TReferenceTag } from "@shared/types/reference";
+
 export type TGenerator = {
-  sex: null | ESex;
+  sex: null | TReferenceTag;
   clothing: null | boolean;
-  pose: null | EPose;
-  view: EView;
-  timer: null | ETimer;
+  pose: null | TReferenceTag;
+  view: null | TReferenceTag;
+  timer: null | TGeneratorTimer;
 };
 
 // В секундах
-export enum ETimer {
-  halfMinute = 30,
-  minute =  60, 
-  twoMinutes = 120, 
-  fiveMinutes = 300,
-  tenMinutes = 600,
-  halfHour = 1800,
-  hour = 3600,
-};
+export type TGeneratorTimer = 30 | 60 | 120 | 300 | 600 | 1800 | 3600;
 
-export enum ESex {
-  male = 'male',
-  female = 'female',
-};
-
-export enum EPose {
-  action = 'action',
-  stationary = 'stationary',
-};
-
-export enum EView {
-  front = 'front',
-  side = 'side',
-  back = 'back',
-  another = 'another',
-};
+export type TTimerOption = {
+  tag_id: string;
+  name: string;
+  value: TGeneratorTimer;
+}
