@@ -15,6 +15,12 @@ import { Bookmark } from "./entities/bookmark.entity";
 import { TagsModule } from "./tags/tags.module";
 import { CommentsModule } from "./comments/comments.module";
 import { BookmarksModule } from "./bookmarks/bookmarks.module";
+import { ReferencesModule } from "./references/references.module";
+import {
+  ImageReference,
+  ImageTag,
+  ReferenceTag,
+} from "./entities/reference.entity";
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -26,7 +32,18 @@ import { BookmarksModule } from "./bookmarks/bookmarks.module";
       database: "BrushUp",
       autoLoadEntities: true,
       synchronize: true,
-      entities: [User, Post, Follower, Token, Tag, Comment, Bookmark],
+      entities: [
+        User,
+        Post,
+        Follower,
+        Token,
+        Tag,
+        Bookmark,
+        Comment,
+        ReferenceTag,
+        ImageTag,
+        ImageReference,
+      ],
     }),
     PostsModule,
     UserModule,
@@ -34,6 +51,7 @@ import { BookmarksModule } from "./bookmarks/bookmarks.module";
     TagsModule,
     BookmarksModule,
     CommentsModule,
+    ReferencesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
