@@ -89,6 +89,15 @@ export class UserController {
     @Param("id") target_id: string,
     @Req() req: TRequestBody,
   ) {
-    await this.userService.
+    return await this.userService.isFollowing(req.user.user_id, target_id);
+  }
+
+  @Post("is-bookmarked/:id")
+  @UseGuards(AuthGuard)
+  async checkIsBookmarked(
+    @Param("id") post_id: string,
+    @Req() req: TRequestBody,
+  ) {
+    return await this.userService.isBookmarked(req.user.user_id, post_id);
   }
 }

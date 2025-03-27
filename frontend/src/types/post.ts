@@ -12,6 +12,6 @@ export type TDetailedPost = {
 
 export type TGetPostsParams = {
   page: number;
-  data: TPostFilters;
+  data: TPostFilters<string[]>;
   user_id?: string;
 }

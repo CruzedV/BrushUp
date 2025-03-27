@@ -7,25 +7,6 @@ import {
   ManyToOne,
 } from "typeorm";
 
-@Entity("referencetags")
-export class ReferenceTag {
-  @PrimaryColumn("uuid")
-  tag_id: string;
-
-  @PrimaryColumn("uuid")
-  reference_id: string;
-
-  @ManyToOne(() => ImageTag, (tag) => tag.referenceTags, {
-    onDelete: "CASCADE",
-  })
-  tag: ImageTag;
-
-  @ManyToOne(() => ImageReference, (reference) => reference.referenceTags, {
-    onDelete: "CASCADE",
-  })
-  reference: ImageReference;
-}
-
 @Entity("imagereferences")
 export class ImageReference {
   @PrimaryGeneratedColumn("uuid")
@@ -48,4 +29,23 @@ export class ImageTag {
 
   @OneToMany(() => ReferenceTag, (referenceTag) => referenceTag.tag)
   referenceTags: ReferenceTag[];
+}
+
+@Entity("referencetags")
+export class ReferenceTag {
+  @PrimaryColumn("uuid")
+  tag_id: string;
+
+  @PrimaryColumn("uuid")
+  reference_id: string;
+
+  @ManyToOne(() => ImageTag, (tag) => tag.referenceTags, {
+    onDelete: "CASCADE",
+  })
+  tag: ImageTag;
+
+  @ManyToOne(() => ImageReference, (reference) => reference.referenceTags, {
+    onDelete: "CASCADE",
+  })
+  reference: ImageReference;
 }

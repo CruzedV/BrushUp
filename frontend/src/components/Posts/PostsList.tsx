@@ -12,6 +12,7 @@ import { Pagination } from "antd";
 import { useFiltersStore } from "@/store/filters";
 import { EPostList } from "@/enums/post";
 import { getAllPosts, getMarkedPosts, getSubscribedPosts, getUserPosts } from "@/api/posts";
+import { TTag } from "@shared/types/tag";
 
 type TProps = {
   data: TResponsePosts | null;
@@ -66,10 +67,11 @@ const PostsListWithFeedback = ({ variant, user_id }: TPostListProps) => {
   const changePage = (page: number) => setPage(page);
 
   useEffect(() => {
+    const newFilterTags = filters.tags.map((item: TTag) => item.name)
     const fetchPosts = async () => {
       const prepData: TGetPostsParams = {
         page,
-        data: filters,
+        data: { ...filters, tags: newFilterTags },
         user_id: user_id,
       };
 

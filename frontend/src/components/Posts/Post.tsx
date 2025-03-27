@@ -40,7 +40,7 @@ const Post = ({ data }: TProps) => {
           </Button>
           <TagGroup tags={data.tags} />
         </div>
-        <TagGroup tags={[]} />
+        <TagGroup tags={data.tags} />
         <Divider />
         <div className={styles.body}>
           {data.cover && (

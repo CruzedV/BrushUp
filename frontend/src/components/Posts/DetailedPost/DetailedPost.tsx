@@ -7,7 +7,7 @@ import { EAvatar } from "@/variants/avatar";
 import { TDetailedPost } from "@/types/post";
 
 import PostActions from "./PostActions";
-import DetailedPostHeader from "./DetailedPostheader";
+import DetailedPostHeader from "./DetailedPostHeader";
 
 type TProps = {
   post: TDetailedPost | null;
@@ -31,10 +31,10 @@ const DetailedPost = ({ post }: TProps) => {
               action={<PostActions post={post} />}
             />
             <DetailedPostHeader title={post.title} />
-            <TagGroup tags={[]}/>
+            <TagGroup tags={post.tags}/>
           </div>
           <Divider />
-          <TagGroup tags={[]} />
+          <TagGroup tags={post.tags} />
           <div className={`${styles.body} ${styles.detailedBody}`}>
             {post.cover && (
               <Image

@@ -20,7 +20,6 @@ const TagGroup = ({
         <>
           {tags.map((tag, index) => (
             <Tag
-              color="purple"
               key={tag.tag_id + index}
               closable={!!onDelete}
               onClose={
@@ -29,6 +28,10 @@ const TagGroup = ({
                   onDelete(tag);
                 }
               }
+              style={{
+                "background": tag.color + "60",
+                "borderColor": tag.color,
+              }}
             >
               {tag.name}
             </Tag>

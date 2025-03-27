@@ -9,8 +9,8 @@ export type TCreatePost = {
   article_id: string;
 };
 
-export type TPostFilters = {
-  tags: string[];
+export type TPostFilters<Type = TTag[]> = {
+  tags: Type;
   query: string;
 };
 

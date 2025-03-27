@@ -10,6 +10,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { TPostFilters } from "@shared/types/post";
 import useDebounce from "@/helpers/hooks/useDebounce";
+import { TTag } from "@shared/types/tag";
 
 const PostFilters = () => {
   const filters = useFiltersStore((state) => state.filters);
@@ -23,7 +24,7 @@ const PostFilters = () => {
     setLocalFilters({ ...filters, query: data});
   };
 
-  const handleChangeTags = (data: string[]) => {
+  const handleChangeTags = (data: TTag[]) => {
     setLocalFilters({ ...filters, tags: data});
   };
 
