@@ -22,7 +22,7 @@ export class PostsController {
   @Post("/all")
   async getPosts(
     @Query("page") page: number = 1,
-    @Body() body: TPostFilters,
+    @Body() body: TPostFilters<string[]>,
   ): Promise<TResponsePosts> {
     return this.postsService.getAllPosts(page, body.query, body.tags);
   }
@@ -31,7 +31,7 @@ export class PostsController {
   @UseGuards(AuthGuard)
   async getSubscribedPosts(
     @Query("page") page: number = 1,
-    @Body() body: TPostFilters,
+    @Body() body: TPostFilters<string[]>,
     @Req() req: TRequestBody,
   ): Promise<TResponsePosts> {
     return this.postsService.getSubscribedPosts(

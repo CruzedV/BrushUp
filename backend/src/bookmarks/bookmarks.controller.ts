@@ -24,7 +24,7 @@ export class BookmarksController {
   @UseGuards(AuthGuard)
   async getMarkedPosts(
     @Query("page") page: number = 1,
-    @Body() body: TPostFilters,
+    @Body() body: TPostFilters<string[]>,
     @Req() req: TRequestBody,
   ): Promise<TResponsePosts> {
     return this.bookmarksService.getMarkedPosts(

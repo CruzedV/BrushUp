@@ -1,4 +1,5 @@
-// import { TTag } from "@/app/types/article"
+"use client";
+
 import { TTag } from "@shared/types/tag";
 import styles from "./styles.module.scss";
 import { Tag } from "antd";

@@ -34,7 +34,6 @@ const DetailedPost = ({ post }: TProps) => {
             <TagGroup tags={post.tags}/>
           </div>
           <Divider />
-          <TagGroup tags={post.tags} />
           <div className={`${styles.body} ${styles.detailedBody}`}>
             {post.cover && (
               <Image

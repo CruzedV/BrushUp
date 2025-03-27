@@ -76,6 +76,7 @@ export class BookmarksService {
       .createQueryBuilder("bookmark")
       .leftJoinAndSelect("bookmark.post", "post")
       .leftJoinAndSelect("post.user", "user")
+      .leftJoinAndSelect("post.tags", "tag")
       .where("bookmark.user = :user_id", { user_id: user_id })
       .andWhere("post.title ILIKE :query OR post.content ILIKE :query", {
         query: `%${query}%`,
@@ -84,9 +85,7 @@ export class BookmarksService {
       .take(LIMIT);
 
     if (tags.length > 0) {
-      queryBuilder
-        .innerJoin("post.tags", "tag")
-        .andWhere("tag.name IN (:...tags)", { tags });
+      queryBuilder.andWhere("tag.name IN (:...tags)", { tags });
     }
 
     const [bookmarks, total] = await queryBuilder.getManyAndCount();

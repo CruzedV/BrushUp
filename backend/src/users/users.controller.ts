@@ -53,7 +53,7 @@ export class UserController {
   async getUserPosts(
     @Query("page") page: number = 1,
     @Param("id") user_id: string,
-    @Body() body: TPostFilters,
+    @Body() body: TPostFilters<string[]>,
   ): Promise<TResponsePosts> {
     return this.userService.getUserPosts(user_id, page, body.query, body.tags);
   }

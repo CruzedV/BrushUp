@@ -100,6 +100,7 @@ export class UserService {
     const queryBuilder = this.postRepository
       .createQueryBuilder("post")
       .leftJoinAndSelect("post.user", "user")
+      .leftJoinAndSelect("post.tags", "tag")
       .where("post.user.user_id = :user_id", { user_id });
 
     // Фильтрация по тексту (в заголовке или контенте)
@@ -114,9 +115,7 @@ export class UserService {
 
     // Фильтрация по тегам
     if (tags.length > 0) {
-      queryBuilder
-        .innerJoin("post.tags", "tag")
-        .andWhere("tag.name IN (:...tags)", { tags });
+      queryBuilder.andWhere("tag.name IN (:...tags)", { tags });
     }
 
     // Пагинация

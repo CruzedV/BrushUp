@@ -23,6 +23,7 @@ export class PostsService {
     const queryBuilder = this.postRepository
       .createQueryBuilder("post")
       .leftJoinAndSelect("post.user", "user")
+      .leftJoinAndSelect("post.tags", "tag")
       .where("post.title ILIKE :query OR post.content ILIKE :query", {
         query: `%${query}%`,
       })
@@ -30,9 +31,7 @@ export class PostsService {
       .take(LIMIT);
 
     if (tags.length > 0) {
-      queryBuilder
-        .innerJoin("post.tags", "tag")
-        .andWhere("tag.name IN (:...tags)", { tags });
+      queryBuilder.andWhere("tag.name IN (:...tags)", { tags });
     }
 
     const [posts, total] = await queryBuilder.getManyAndCount();
@@ -100,6 +99,7 @@ export class PostsService {
     const queryBuilder = this.postRepository
       .createQueryBuilder("post")
       .leftJoinAndSelect("post.user", "user")
+      .leftJoinAndSelect("post.tags", "tag")
       .innerJoin(
         Follower,
         "follower",
@@ -145,7 +145,7 @@ export class PostsService {
   async getPostById(article_id: string) {
     const post = await this.postRepository.findOne({
       where: { article_id },
-      relations: ["user", "comments", "comments.user"],
+      relations: ["user", "comments", "comments.user", "tags"],
     });
     if (!post) throw new NotFoundException("Пост не найден");
     return post;
