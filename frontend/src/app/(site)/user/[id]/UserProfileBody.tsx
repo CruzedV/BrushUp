@@ -12,13 +12,14 @@ type TProps = {
   user: TUser | null;
 };
 
-const UserProfileBody = ({ user }: TProps) => {
+const UserProfileBody = async ({ user }: TProps) => {
+
   if (!user) {
     return (
-      <span>Поьзователь не найден</span>
+      <span>Пользователь не найден</span>
     )
   }
-
+  
   return (
     <>
       <article className={styles.userPage}>

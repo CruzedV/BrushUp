@@ -1,12 +1,12 @@
 "use client";
 
-import { followUser, unfollowUser } from '@/api/users';
+import { checkIsFollowing, followUser, unfollowUser } from '@/api/users';
 import { useUserStore } from '@/store/user';
 import { LockOutlined, UserAddOutlined, UserDeleteOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { requestWithReturn } from '@/helpers/functions/requestWithReturn';
 import { useMessages } from '@/helpers/hooks/useMessages';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type TProps = {
   user_id: string;
@@ -44,6 +44,18 @@ const FollowUserButton = ({ user_id }: TProps) => {
       setIsFollowed(false);
     }
   }
+
+  useEffect(() => {
+    const checkFollow = async () => {
+      await requestWithReturn<string, boolean>(
+        checkIsFollowing,
+        user_id,
+        errorMessage,
+        setIsFollowed,
+      );
+    };
+    checkFollow();
+  }, [])
 
   if (user_id == user?.user_id) {
     return null;

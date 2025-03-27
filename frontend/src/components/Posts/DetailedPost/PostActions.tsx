@@ -7,11 +7,12 @@ import { useMessages } from "@/helpers/hooks/useMessages";
 import { redirect } from "next/navigation";
 import { useUserStore } from "@/store/user";
 import { Button, Dropdown, type MenuProps } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DeleteOutlined, EditOutlined, MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import styles from "./styles.module.scss";
 import { markPost, unmarkPost } from "@/api/bookmarks";
 import { TBookmark } from "@/types/bookmark";
+import { checkIsBookmarked } from "@/api/users";
 
 type TProps = {
   post: TPost;
@@ -21,6 +22,18 @@ const PostActions = ({ post }: TProps) => {
   const [isMarked, setIsMarked] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const { errorMessage, successMessage, contextHolder } = useMessages();
+
+  useEffect(() => {
+    const checkBookmark = async () => {
+      await requestWithReturn<string, boolean>(
+        checkIsBookmarked,
+        post.article_id,
+        errorMessage,
+        setIsMarked,
+      );
+    };
+    checkBookmark();
+  }, [])
 
   const user = useUserStore((state) => state.user);
   const isOwner = post?.user.user_id == user?.user_id;

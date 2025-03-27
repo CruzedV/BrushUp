@@ -4,10 +4,10 @@ import {
   TResponsePosts,
   TPost,
 } from "@shared/types/post";
-import { TGetPostsParams } from "@/types/post";
+import { TDetailedPost, TGetPostsParams } from "@/types/post";
 
-export const getPostById = async (id: string): Promise<TPost> => {
-  const response = await api.get(`/api/posts/${id}`);
+export const getPostById = async (id: string): Promise<TDetailedPost> => {
+  const response = await api.get<TDetailedPost>(`/api/posts/${id}`);
   return response.status == 404 ? response : response.data;
 };
 

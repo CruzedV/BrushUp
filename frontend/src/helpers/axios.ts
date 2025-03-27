@@ -26,7 +26,6 @@ api.interceptors.response.use(
     ) {
       deleteCookie("token");
       console.warn("Неавторизован! Перенаправляем на логин...");  
-      window.location.href = "/auth/login";
     }
     return Promise.reject(error);
   }
