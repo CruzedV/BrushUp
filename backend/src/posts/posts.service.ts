@@ -28,6 +28,7 @@ export class PostsService {
         query: `%${query}%`,
       })
       .skip(offset)
+      .orderBy("post.creation_date", "DESC", "NULLS LAST")
       .take(LIMIT);
 
     if (tags.length > 0) {
@@ -110,6 +111,7 @@ export class PostsService {
         query: `%${query}%`,
       })
       .skip(offset)
+      .orderBy("post.creation_date", "DESC", "NULLS LAST")
       .take(LIMIT);
 
     if (tags.length > 0) {

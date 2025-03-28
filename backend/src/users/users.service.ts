@@ -101,7 +101,8 @@ export class UserService {
       .createQueryBuilder("post")
       .leftJoinAndSelect("post.user", "user")
       .leftJoinAndSelect("post.tags", "tag")
-      .where("post.user.user_id = :user_id", { user_id });
+      .where("post.user.user_id = :user_id", { user_id })
+      .orderBy("post.creation_date", "DESC", "NULLS LAST");
 
     // Фильтрация по тексту (в заголовке или контенте)
     if (query.trim()) {
