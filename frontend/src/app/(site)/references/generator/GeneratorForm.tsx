@@ -20,7 +20,6 @@ const GeneratorForm = ({ referenceTags }: TProps) => {
   const onFinish: FormProps<TGenerator>['onFinish'] = (values) => {
     const requestedTags = [];
     requestedTags.push();
-    console.log(values);
     
     router.push('/ref/1');
   };

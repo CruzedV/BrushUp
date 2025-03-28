@@ -8,6 +8,8 @@ import { EAvatar } from "@/variants/avatar";
 import variables from "@/variables.module.scss";
 import { TPost } from "@shared/types/post";
 import { useRouter } from "next/navigation";
+import parse from "html-react-parser";
+import { formatDate } from "@/helpers/functions/formatDate";
 
 type TProps = {
   data: TPost;
@@ -30,7 +32,7 @@ const Post = ({ data }: TProps) => {
               <span>
                 Дата публикации: {}
                 <b style={{color: variables.primaryColor}}>
-                  {data.creation_date.toString()}
+                  {formatDate(data.creation_date.toString())}
                 </b>
               </span>
             }
@@ -49,7 +51,7 @@ const Post = ({ data }: TProps) => {
               src={data.cover}
             />
           )}
-          <span>{data.content}</span>
+          <span>{parse(data.content)}</span>
           <Button type="primary" onClick={handleOpenPost}>
             Читать статью
           </Button>

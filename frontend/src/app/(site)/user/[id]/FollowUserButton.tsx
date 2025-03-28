@@ -50,7 +50,7 @@ const FollowUserButton = ({ user_id }: TProps) => {
       await requestWithReturn<string, boolean>(
         checkIsFollowing,
         user_id,
-        errorMessage,
+        undefined,
         setIsFollowed,
       );
     };

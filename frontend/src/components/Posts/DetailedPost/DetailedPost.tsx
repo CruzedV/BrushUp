@@ -5,6 +5,7 @@ import Avatar from "../Avatar";
 import CommentBlock from "../Comment/CommentBlock";
 import { EAvatar } from "@/variants/avatar";
 import { TDetailedPost } from "@/types/post";
+import parse from "html-react-parser";
 
 import PostActions from "./PostActions";
 import DetailedPostHeader from "./DetailedPostHeader";
@@ -42,7 +43,7 @@ const DetailedPost = ({ post }: TProps) => {
                 src={post.cover}
               />
             )}
-            <span>{post.content}</span>
+            <span>{parse(post.content)}</span>
           </div>
         </Card>
       </article>

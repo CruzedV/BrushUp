@@ -36,12 +36,10 @@ export const unfollowUser = async (followed_id: string): Promise<number> => {
 
 export const checkIsFollowing = async (user_id: string): Promise<boolean> => {
   const response = await api.post(`/api/users/is-following/${user_id}`)
-  console.log(response.data);
   return response.data;
 }
 
 export const checkIsBookmarked = async (post_id: string): Promise<boolean> => {
   const response = await api.post(`/api/users/is-bookmarked/${post_id}`)
-  console.log(response.data);
   return response.data;
 }

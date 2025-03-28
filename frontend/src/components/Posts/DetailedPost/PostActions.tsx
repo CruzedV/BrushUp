@@ -13,6 +13,8 @@ import styles from "./styles.module.scss";
 import { markPost, unmarkPost } from "@/api/bookmarks";
 import { TBookmark } from "@/types/bookmark";
 import { checkIsBookmarked } from "@/api/users";
+import { formatDate } from "@/helpers/functions/formatDate";
+import variables from "@/variables.module.scss";
 
 type TProps = {
   post: TPost;
@@ -28,7 +30,7 @@ const PostActions = ({ post }: TProps) => {
       await requestWithReturn<string, boolean>(
         checkIsBookmarked,
         post.article_id,
-        errorMessage,
+        undefined,
         setIsMarked,
       );
     };
@@ -103,6 +105,12 @@ const PostActions = ({ post }: TProps) => {
   return (
     <div className={styles.postActions}>
       {contextHolder}
+      <span>
+        Дата публикации:
+        <b style={{color: variables.primaryColor}}>
+          {"" + formatDate(post.creation_date.toString())}
+        </b>
+      </span>
       {isMarked ? (
         <Button type="primary" onClick={fetchUnmarkPost} loading={isLoading}>
           <MinusOutlined /> Из закладок

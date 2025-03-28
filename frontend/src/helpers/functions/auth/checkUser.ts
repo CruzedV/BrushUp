@@ -14,7 +14,7 @@ export const checkUser = async (
         const user = await getUserById(user_id);
         return user;
       } catch (error) {
-        console.log(error);
+        console.error(error);
       } 
     }
   }
