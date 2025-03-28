@@ -2,7 +2,7 @@
 
 import { Input } from 'antd';
 import styles from './styles.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ESettings } from '@/variants/settings';
 import TextArea from 'antd/es/input/TextArea';
 
@@ -29,6 +29,10 @@ const InputItem = ({
     setValue(data);
     if (onChange) onChange(data);
   };
+
+  useEffect(() => {
+    setValue(defaultValue);
+  }, [defaultValue])
 
   return (
     <div className={styles.settingsItem}>

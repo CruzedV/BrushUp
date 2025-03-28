@@ -1,7 +1,7 @@
 'use client';
 
 import { AutoComplete, Form, Input } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { AutoCompleteProps, FormInstance } from 'antd';
 import TagGroup from './TagGroup';
 import styles from './styles.module.scss';
@@ -13,9 +13,10 @@ type TProps = {
   form?: FormInstance;
   title?: string;
   emptyTagsText?: string;
+  defaultValues?: TTag[];
 };
 
-const TagsInput = ({ form, title, emptyTagsText, onChange }: TProps) => {
+const TagsInput = ({ form, title, emptyTagsText, onChange, defaultValues }: TProps) => {
   return (
     <>
       {form ? (
@@ -29,6 +30,7 @@ const TagsInput = ({ form, title, emptyTagsText, onChange }: TProps) => {
           title={title}
           emptyTagsText={emptyTagsText}
           onChange={onChange}
+          defaultValues={defaultValues}
         />
       )}
     </>
@@ -87,11 +89,22 @@ const TagsInputForm = ({
   );
 };
 
-const TagsInputFormless = ({ title, emptyTagsText, onChange }: TProps) => {
+const TagsInputFormless = ({
+  title,
+  emptyTagsText,
+  onChange,
+  defaultValues,
+}: TProps) => {
   const [value, setValue] = useState<string>('');
-  const [tags, setTags] = useState<TTag[]>([]);
+  const [tags, setTags] = useState<TTag[]>(defaultValues || []);
   const tagOptions = useTagsStore((state) => state.tags);
   const [options, setOptions] = useState<AutoCompleteProps['options']>(tagOptions);
+
+  useEffect(() => {
+    if (defaultValues && defaultValues?.length >= 0) {
+      setTags(defaultValues);
+    }
+  }, [defaultValues])
 
   const onSearch = (searchText: string) => {
     setOptions(

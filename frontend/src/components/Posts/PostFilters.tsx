@@ -16,7 +16,11 @@ const PostFilters = () => {
   const filters = useFiltersStore((state) => state.filters);
   const [localFitlers, setLocalFilters] = useState<TPostFilters>(filters);
   const setFilters = useFiltersStore((state) => state.setFilters);
-  const clearFilters = useFiltersStore((state) => state.clearFilters);
+  // const clearFilters = useFiltersStore((state) => state.clearFilters);
+
+  const clearAllFilters = () => {
+    setLocalFilters({ query: "", tags: [] });
+  }
 
   const debouncedFilters = useDebounce<TPostFilters>(localFitlers, 1500);
 
@@ -40,8 +44,8 @@ const PostFilters = () => {
         onChange={handleChangeSearchText}
         variant={ESettings.input}
       />
-      <TagsInput onChange={handleChangeTags} />
-      <Button onClick={clearFilters} type="primary" icon={<CloseOutlined />} />
+      <TagsInput onChange={handleChangeTags} defaultValues={localFitlers.tags} />
+      <Button onClick={clearAllFilters} type="primary" icon={<CloseOutlined />} />
     </Card>
   )
 }
