@@ -3,21 +3,42 @@
 import { Button, Card, Divider } from "antd";
 import styles from './styles.module.scss';
 import TagGroup from "@/components/Tags/TagGroup";
+import { TPost } from "@shared/types/post";
+import parse from "html-react-parser";
+import Avatar from "@/components/Posts/Avatar";
+import { EAvatar } from "@/variants/avatar";
+import variables from "@/variables.module.scss";
+import { formatDate } from "@/helpers/functions/formatDate";
 
-const LatestItem = () => {
+type TProps = {
+  post: TPost;
+}
+
+const LatestItem = ({ post }: TProps) => {
+  console.log(post);
   return (
     <article>
       <Card className={styles.latestItem}>
-        <h4>Короткое название статьи</h4>
+        <Avatar
+          user={post.user}
+          variant={EAvatar.small}
+          action={
+            <span>
+              {formatDate(post.creation_date.toString())}
+            </span>
+          }
+        />
+        <h4>{post.title}</h4>
+        {post.tags.length > 0 && (
+          <TagGroup tags={post.tags} />
+        )}
         <Divider />
-        <TagGroup tags={[]} />
-        <Divider />
-        <div>
-          Текст статьи текст статьи текст статьи текст статьи
-          Текст статьи текст статьи текст статьи текст статьи
-          Текст статьи текст статьи текст статьи текст статьи
+        <div className={styles.latestItemContent}>
+          {parse(post.content)}
         </div>
-        <Button onClick={() => window.open('/posts/1')}>Читать</Button>
+        <Button onClick={() => window.open(`/posts/${post.article_id}`)}>
+          Читать
+        </Button>
       </Card>
     </article>
   );

@@ -51,6 +51,11 @@ export class PostsController {
     return this.postsService.createPost(req.user.user_id, createPostDto);
   }
 
+  @Get("interesting")
+  async getInterestingPosts() {
+    return this.postsService.getInterestingPosts();
+  }
+
   @Put("update/:id")
   @UseGuards(AuthGuard)
   async updatePost(

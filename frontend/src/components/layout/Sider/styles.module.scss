@@ -2,7 +2,16 @@
 
 .latestItem {
   padding: $paddingSmall;
-  & > div {
-    line-height: 16px;
+  p {
+    margin: 0px;
+  }
+  .latestItemContent {
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    white-space: pre-wrap;
   }
 }

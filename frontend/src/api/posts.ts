@@ -6,7 +6,7 @@ import {
 } from "@shared/types/post";
 import { TDetailedPost, TGetPostsParams } from "@/types/post";
 
-export const getPostById = async (id: string): Promise<TDetailedPost> => {
+export const getPostById = async (id: string) => {
   const response = await api.get<TDetailedPost>(`/api/posts/${id}`);
   return response.status == 404 ? response : response.data;
 };
@@ -62,6 +62,12 @@ export const updatePost = async (data: TCreatePost): Promise<TPost> => {
 }
 
 export const deletePost = async (article_id: string) => {
+  console.log(article_id);
   const response = await api.delete(`/api/posts/${article_id}`);
   return response.status;
+}
+
+export const getInterestingPosts = async () => {
+  const response = await api.get(`/api/posts/interesting`);
+  return response.data;
 }

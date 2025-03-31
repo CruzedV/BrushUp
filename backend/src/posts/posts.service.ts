@@ -152,4 +152,22 @@ export class PostsService {
     if (!post) throw new NotFoundException("Пост не найден");
     return post;
   }
+
+  // Получение интересных статей
+  async getInterestingPosts() {
+    const count = await this.postRepository.count();
+    if (count === 0) return [];
+
+    const randomOffset = Math.floor(Math.random() * Math.max(1, count - 1));
+
+    const posts = await this.postRepository
+      .createQueryBuilder("post")
+      .leftJoinAndSelect("post.user", "user")
+      .leftJoinAndSelect("post.tags", "tags")
+      .skip(randomOffset)
+      .take(2)
+      .getMany();
+
+    return posts;
+  }
 }
