@@ -7,7 +7,6 @@ import { TPost } from "@shared/types/post";
 import parse from "html-react-parser";
 import Avatar from "@/components/Posts/Avatar";
 import { EAvatar } from "@/variants/avatar";
-import variables from "@/variables.module.scss";
 import { formatDate } from "@/helpers/functions/formatDate";
 
 type TProps = {
