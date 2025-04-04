@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { LIMIT } from "src/config";
+import { LIMIT } from "@shared/config";
 import { Bookmark } from "src/entities/bookmark.entity";
 import { Post } from "src/entities/posts.entity";
 import { User } from "src/entities/user.entity";

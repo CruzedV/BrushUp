@@ -8,13 +8,15 @@ import { Repository } from "typeorm";
 import { Post } from "src/entities/posts.entity";
 import { TCreatePost } from "@shared/types/post";
 import { Follower } from "src/entities/followers.entity";
-import { LIMIT } from "src/config";
+import { LIMIT } from "@shared/config";
+import { ImageService } from "src/images/images.service";
 
 @Injectable()
 export class PostsService {
   constructor(
     @InjectRepository(Post)
     private readonly postRepository: Repository<Post>,
+    private readonly imageService: ImageService,
   ) {}
 
   async getAllPosts(page: number, query: string = "", tags: string[] = []) {
@@ -60,8 +62,20 @@ export class PostsService {
 
   // Создание поста
   async createPost(user_id: string, dto: TCreatePost) {
-    const newPost = this.postRepository.create({ user_id, ...dto });
-    return await this.postRepository.save(newPost);
+    let content = dto.content;
+
+    // Регулярка для поиска base64-изображений в content
+    const regex = /<img[^>]+src="(data:image\/[a-z]+;base64,[^">]+)"/g;
+    let match;
+    while ((match = regex.exec(dto.content)) !== null) {
+      const base64 = match[1];
+      const url = this.imageService.saveBase64Image(base64);
+      content = content.replace(base64, url);
+    }
+
+    // Создаём пост с обновлённым контентом
+    const post = this.postRepository.create({ title: dto.title, content });
+    return await this.postRepository.save(post);
   }
 
   // Обновлние поста

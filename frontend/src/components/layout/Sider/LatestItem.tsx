@@ -14,7 +14,6 @@ type TProps = {
 }
 
 const LatestItem = ({ post }: TProps) => {
-  console.log(post);
   return (
     <article>
       <Card className={styles.latestItem}>

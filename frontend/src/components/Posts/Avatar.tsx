@@ -7,6 +7,7 @@ import React from 'react';
 import { TUser } from '@/types/user';
 import { TPostUser } from '@shared/types/user';
 import { useRouter } from 'next/navigation';
+import { IMAGE_PREFIX } from '@shared/config';
 
 type TProps = {
   user: TUser | TPostUser | null;
@@ -28,7 +29,7 @@ const Avatar = ({
       >
         <Image
           alt="User avatar"
-          src={user?.profile_picture || "/Avatar.png"}
+          src={user?.profile_picture || IMAGE_PREFIX+"/Avatar.png"}
           preview={false}
         />
         <span itemProp={variant == EAvatar.article ? 'image' : ''}>

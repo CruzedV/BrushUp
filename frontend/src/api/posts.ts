@@ -62,7 +62,6 @@ export const updatePost = async (data: TCreatePost): Promise<TPost> => {
 }
 
 export const deletePost = async (article_id: string) => {
-  console.log(article_id);
   const response = await api.delete(`/api/posts/${article_id}`);
   return response.status;
 }

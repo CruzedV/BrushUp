@@ -13,7 +13,7 @@ import { RegisterDto } from "src/dto/register.dto";
 import { TExtendedUser } from "src/dto/user.dto";
 import { UpdateUserDto } from "src/dto/user.dto";
 import { hash, compare } from "bcrypt";
-import { LIMIT } from "src/config";
+import { LIMIT } from "@shared/config";
 import { Post } from "src/entities/posts.entity";
 import { Bookmark } from "src/entities/bookmark.entity";
 

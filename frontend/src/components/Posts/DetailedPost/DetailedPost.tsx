@@ -9,6 +9,7 @@ import parse from "html-react-parser";
 
 import PostActions from "./PostActions";
 import DetailedPostHeader from "./DetailedPostHeader";
+import { IMAGE_PREFIX } from "@shared/config";
 
 type TProps = {
   post: TDetailedPost | null;
@@ -40,7 +41,7 @@ const DetailedPost = ({ post }: TProps) => {
               <Image
                 itemProp="image"
                 alt="Post cover image"
-                src={post.cover}
+                src={IMAGE_PREFIX+post.cover}
               />
             )}
             <span>{parse(post.content)}</span>
