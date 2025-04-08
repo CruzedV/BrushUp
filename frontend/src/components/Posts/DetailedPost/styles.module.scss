@@ -1,6 +1,7 @@
 @import "@/variables.module.scss";
 
 .post {
+  width: 100%;
   max-width: 100%;
 
   .header {
@@ -42,6 +43,9 @@
       align-items: center;
       gap: 0.4rem;
     }
+    .postActionsDrop {
+      width: auto;
+    }
   }
 
   .body {
@@ -62,6 +66,15 @@
       white-space: pre-wrap;
       p {
         margin: 0rem;
+        img {
+          display: flex;
+          justify-content: center;
+          max-height: 30rem;
+        }
+      }
+      p:has(img) {
+        display: flex;
+        justify-content: center;
       }
       blockquote {
         border: 1px solid $bgColor;

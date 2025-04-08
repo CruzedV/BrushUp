@@ -64,17 +64,16 @@ export class PostsService {
   async createPost(user_id: string, dto: TCreatePost) {
     let content = dto.content;
 
-    // Регулярка для поиска base64-изображений в content
     const regex = /<img[^>]+src="(data:image\/[a-z]+;base64,[^">]+)"/g;
     let match;
+
     while ((match = regex.exec(dto.content)) !== null) {
       const base64 = match[1];
-      const url = this.imageService.saveBase64Image(base64);
+      const url = await this.imageService.saveBase64Image(base64);
       content = content.replace(base64, url);
     }
 
-    // Создаём пост с обновлённым контентом
-    const post = this.postRepository.create({ title: dto.title, content });
+    const post = this.postRepository.create({ user_id, ...dto, content });
     return await this.postRepository.save(post);
   }
 

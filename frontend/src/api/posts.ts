@@ -6,9 +6,9 @@ import {
 } from "@shared/types/post";
 import { TDetailedPost, TGetPostsParams } from "@/types/post";
 
-export const getPostById = async (id: string) => {
+export const getPostById = async (id: string): Promise<TDetailedPost | null> => {
   const response = await api.get<TDetailedPost>(`/api/posts/${id}`);
-  return response.status == 404 ? response : response.data;
+  return response.status == 404 ? null : response.data;
 };
 
 export const getAllPosts = async (

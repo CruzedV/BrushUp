@@ -4,6 +4,9 @@
   padding: $paddingSmall;
   p {
     margin: 0px;
+    img {
+      display: none;
+    }
   }
   .latestItemContent {
     text-overflow: ellipsis;

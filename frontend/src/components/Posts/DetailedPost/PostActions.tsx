@@ -121,7 +121,7 @@ const PostActions = ({ post }: TProps) => {
         </Button>
       )}
       {isOwner && (
-        <Dropdown.Button menu={menuProps}>
+        <Dropdown.Button menu={menuProps} className={styles.postActionsDrop}>
           Действия с постом
         </Dropdown.Button>
       )}
