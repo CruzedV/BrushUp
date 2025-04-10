@@ -63,17 +63,24 @@ export class PostsService {
   // Создание поста
   async createPost(user_id: string, dto: TCreatePost) {
     let content = dto.content;
+    let cover = dto.cover;
 
     const regex = /<img[^>]+src="(data:image\/[a-z]+;base64,[^">]+)"/g;
     let match;
-
-    while ((match = regex.exec(dto.content)) !== null) {
+    while ((match = regex.exec(content)) !== null) {
       const base64 = match[1];
       const url = await this.imageService.saveBase64Image(base64);
       content = content.replace(base64, url);
     }
-
-    const post = this.postRepository.create({ user_id, ...dto, content });
+    if (cover?.startsWith("data:image")) {
+      cover = await this.imageService.saveBase64Image(cover);
+    }
+    const post = this.postRepository.create({
+      user_id,
+      ...dto,
+      content,
+      cover,
+    });
     return await this.postRepository.save(post);
   }
 

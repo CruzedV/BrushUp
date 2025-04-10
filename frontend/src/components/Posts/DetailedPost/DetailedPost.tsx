@@ -41,7 +41,7 @@ const DetailedPost = ({ post }: TProps) => {
               <Image
                 itemProp="image"
                 alt="Post cover image"
-                src={IMAGE_PREFIX+post.cover}
+                src={post.cover}
               />
             )}
             <span>{parse(post.content)}</span>

@@ -5,7 +5,7 @@ export type TCreatePost = {
   title: string;
   content: string;
   tags: TTag[];
-  cover: string;
+  cover: any
   article_id: string;
 };
 

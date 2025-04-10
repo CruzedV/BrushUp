@@ -49,7 +49,7 @@ const Post = ({ data }: TProps) => {
             <Image
               itemProp="image"
               alt="Post cover image"
-              src={IMAGE_PREFIX+data.cover}
+              src={data.cover}
             />
           )}
           <span>{parse(data.content)}</span>
