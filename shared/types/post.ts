@@ -1,11 +1,11 @@
 import { TTag } from "./tag";
 import { TPostUser } from "./user";
 
-export type TCreatePost = {
+export type TCreatePost<CoverType = any> = {
   title: string;
   content: string;
   tags: TTag[];
-  cover: any
+  cover: CoverType;
   article_id: string;
 };
 

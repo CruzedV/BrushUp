@@ -11,12 +11,12 @@ import PostCreateForm from './PostCreateForm';
 
 const CreatePage = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [post, setPost] = useState<TCreatePost | undefined>();
+  const [post, setPost] = useState<TCreatePost | null>(null);
   const { errorMessage, contextHolder } = useMessages();
   const article_id = useSearchParams()?.get("article_id");
 
   const fetchPost = async (article_id: string) => {
-    const response = await requestWithReturn<string, TCreatePost | undefined>(
+    const response = await requestWithReturn<string, TCreatePost | null>(
       getPostById,
       article_id,
       errorMessage,
@@ -77,7 +77,7 @@ const CreatePage = () => {
           isLoading={isLoading}
           onFinish={onFinishUpdating}
           onFinishFailed={() => onFinishFailedUpdating}
-          initialValues={post}
+          initialValues={post ? post : undefined}
         />
       )}
     </>

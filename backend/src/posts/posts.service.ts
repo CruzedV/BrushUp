@@ -61,7 +61,7 @@ export class PostsService {
   }
 
   // Создание поста
-  async createPost(user_id: string, dto: TCreatePost) {
+  async createPost(user_id: string, dto: TCreatePost<string>) {
     let content = dto.content;
     let cover = dto.cover;
 

@@ -10,7 +10,6 @@ import { TPost } from "@shared/types/post";
 import { useRouter } from "next/navigation";
 import parse from "html-react-parser";
 import { formatDate } from "@/helpers/functions/formatDate";
-import { IMAGE_PREFIX } from "@shared/config";
 
 type TProps = {
   data: TPost;

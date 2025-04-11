@@ -6,7 +6,7 @@ import type { UploadProps } from 'antd';
 import { Form, Upload } from 'antd';
 
 const CoverUpload = () => {
-  const [form] = Form.useForm();
+  const form = Form.useFormInstance();
 
   const props: UploadProps = {
     multiple: false,
@@ -28,11 +28,7 @@ const CoverUpload = () => {
 
   return (
     <Form.Item<TCreatePost> name="cover">
-      <Upload.Dragger
-        {...props}
-        maxCount={1}
-        fileList={form.getFieldValue("cover")}
-      >
+      <Upload.Dragger {...props} maxCount={1}>
         <p className="ant-upload-drag-icon">
           <InboxOutlined />
         </p>

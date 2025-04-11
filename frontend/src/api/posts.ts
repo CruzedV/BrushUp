@@ -52,7 +52,6 @@ export const getMarkedPosts = async (
 }
 
 export const createPost = async (data: TCreatePost): Promise<TPost> => {
-  console.log(typeof data.cover);
   const newData = { ...data, cover: data.cover.fileList[0].originFileObj.base64}
   const response = await api.post<TPost>(`/api/posts/create`, newData);
   return response.data;
