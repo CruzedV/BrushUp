@@ -13,7 +13,11 @@ export const deleteUser = async () => {
 }
 
 export const updateUser = async (data: TUpdateUser): Promise<TUser> => {
-  const response = await api.put<TUser>(`/api/users`, data);
+  const newData = {
+    ...data,
+    profile_picture: data.profile_picture.fileList[0].originFileObj?.base64,
+  }
+  const response = await api.put<TUser>(`/api/users`, newData);
   return response.data;
 }
 

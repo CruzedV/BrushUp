@@ -16,6 +16,7 @@ import { hash, compare } from "bcrypt";
 import { LIMIT } from "@shared/config";
 import { Post } from "src/entities/posts.entity";
 import { Bookmark } from "src/entities/bookmark.entity";
+import { ImageService } from "src/images/images.service";
 
 @Injectable()
 export class UserService {
@@ -31,6 +32,8 @@ export class UserService {
 
     @InjectRepository(Post)
     private readonly postRepository: Repository<Post>,
+
+    private readonly imageService: ImageService,
   ) {}
 
   async createUser(registerDto: RegisterDto): Promise<User> {
@@ -52,11 +55,14 @@ export class UserService {
   }
 
   async updateUser(user_id: string, dto: UpdateUserDto): Promise<void> {
+    let profile_picture = dto.profile_picture;
+
     const user = await this.userRepository
       .createQueryBuilder("user")
       .addSelect("user.password")
       .where("user.user_id = :user_id", { user_id })
       .getOne();
+
     if (!user) throw new NotFoundException("Пользователь не найден");
 
     if (dto.password && dto.new_password) {
@@ -65,6 +71,12 @@ export class UserService {
 
       user.password = await hash(dto.new_password, 10);
       delete dto.password;
+    }
+
+    if (profile_picture?.startsWith("data:image")) {
+      profile_picture =
+        await this.imageService.saveBase64Image(profile_picture);
+      user.profile_picture = profile_picture;
     }
 
     Object.assign(user, dto);

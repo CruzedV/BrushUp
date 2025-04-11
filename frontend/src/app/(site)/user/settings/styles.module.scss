@@ -13,21 +13,21 @@
   }
 }
 
+.settingsForm {
+  width: 100%;
+}
+
 .settings {
   width: 100%;
-  & > div {
-    display: flex !important;
-    align-items: center;
-    &::before, &::after {
-      display: none !important;
-    }
-  }
 
   .doubleRow {
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: $paddingMedium;
+    & > div {
+      width: 100%;
+    }
   }
 
   .trippleRow {

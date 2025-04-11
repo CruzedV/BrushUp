@@ -20,8 +20,8 @@ const PostCreateForm = ({
   initialValues,
 }: TProps) => {
   const [submittable, setSubmittable] = useState<boolean>(false);
+  
   const [form] = Form.useForm();
-
   const values = Form.useWatch([], form);
 
   useEffect(() => {

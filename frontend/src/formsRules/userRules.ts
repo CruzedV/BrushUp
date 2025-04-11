@@ -14,3 +14,7 @@ export const passwordRules: Rule[] = [
   { required: true, message: 'Введите пароль' },
     { min: 6, message: 'Минимальная длина 6 символов' },
 ]
+
+export const notRequiredPasswordRules: Rule[] = [
+  { min: 6, message: 'Минимальная длина 6 символов'},
+]

@@ -11,19 +11,24 @@ import { requestWithReturn } from '@/helpers/functions/requestWithReturn';
 import { updateUser } from '@/api/users';
 import { useEffect, useState } from 'react';
 import { useMessages } from '@/helpers/hooks/useMessages';
-import { emailRules, passwordRules, usernameRules } from '@/formsRules/userRules';
+import {
+  emailRules,
+  notRequiredPasswordRules,
+  usernameRules,
+} from '@/formsRules/userRules';
+import TextArea from 'antd/es/input/TextArea';
 
 const UserSettings = () => {
   const [submittable, setSubmittable] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [form] = Form.useForm();
-  const values = Form.useWatch([], form);
-
   const { errorMessage, successMessage, contextHolder } = useMessages();
 
   const user = useUserStore((state) => state.user);
   const setUser = useUserStore((state) => state.setUser);
+
+  const [form] = Form.useForm();
+  const values = Form.useWatch([], form);
 
   useEffect(() => {
       form
@@ -63,6 +68,7 @@ const UserSettings = () => {
         onFinish={onFinishUpdating}
         onFinishFailed={onFinishFailedUpdating}
         form={form}
+        className={styles.settingsForm}
         disabled={isLoading}
         initialValues={user}
       >
@@ -77,32 +83,38 @@ const UserSettings = () => {
                 label="Имя пользователя"
                 name="username"
                 rules={usernameRules}
-              />
+              >
+                <Input />
+              </Form.Item>
               <Form.Item<TUpdateUser>
                 label="Почта"
                 name="email"
                 rules={emailRules}
-              />
+              >
+                <Input />
+              </Form.Item>
             </div>
           </div>
           <Divider />
           <Form.Item
             name="bio"
             label="Обо мне"
-          />
+          >
+            <TextArea />
+          </Form.Item>
           <Divider />
           <div className={styles.doubleRow}>
             <Form.Item<TUpdateUser>
               label="Старый пароль"
               name="password"
-              rules={passwordRules}
+              rules={notRequiredPasswordRules}
             >
               <Input.Password />
             </Form.Item>
             <Form.Item<TUpdateUser>
               label="Новый пароль"
               name="new_password"
-              rules={passwordRules}
+              rules={notRequiredPasswordRules}
             >
               <Input.Password />
             </Form.Item>

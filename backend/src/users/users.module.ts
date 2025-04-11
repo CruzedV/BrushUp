@@ -8,6 +8,7 @@ import { AuthModule } from "src/auth/auth.module";
 import { Token } from "src/entities/token.entity";
 import { Post } from "src/entities/posts.entity";
 import { Bookmark } from "src/entities/bookmark.entity";
+import { ImageService } from "src/images/images.service";
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { Bookmark } from "src/entities/bookmark.entity";
     TypeOrmModule.forFeature([User, Follower, Token, Post, Bookmark]),
   ],
   controllers: [UserController],
-  providers: [UserService],
+  providers: [UserService, ImageService],
   exports: [UserService],
 })
 export class UserModule {}
