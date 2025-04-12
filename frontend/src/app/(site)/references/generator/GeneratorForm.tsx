@@ -46,28 +46,52 @@ const GeneratorForm = ({ referenceTags }: TProps) => {
           label="Пол"
           name="sex"
         >
-          <Select options={referenceTags.sex}/>
+          <Select
+            options={referenceTags.sex}
+            fieldNames={{
+              label: "name",
+              value: "tag_id",
+            }}
+          />
         </Form.Item>
 
         <Form.Item<TGenerator>
           label="Одежда"
           name="clothing"
         >
-          <Select options={referenceTags.clothing} />
+          <Select
+            options={referenceTags.clothing}
+            fieldNames={{
+              label: "name",
+              value: "tag_id",
+            }}
+          />
         </Form.Item>
 
         <Form.Item<TGenerator>
           label="Поза"
           name="pose"
         >
-          <Select options={referenceTags.pose} />
+          <Select
+            options={referenceTags.pose}
+            fieldNames={{
+              label: "name",
+              value: "tag_id",
+            }}
+          />
         </Form.Item>
 
         <Form.Item<TGenerator>
           label="Вид"
           name="view"
         >
-          <Select options={referenceTags.view} />
+          <Select
+            options={referenceTags.view}
+            fieldNames={{
+              label: "name",
+              value: "tag_id",
+            }}
+          />
         </Form.Item>
 
         <Form.Item<TGenerator>

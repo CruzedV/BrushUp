@@ -61,7 +61,7 @@ export class ReferenceService {
     };
   }
   async getAllTags(): Promise<TReferenceTags> {
-    const result = await this.referenceTagRepository.query(`
+    const result = await this.imageTagRepository.query(`
       SELECT jsonb_build_object(
         'sex', (
           SELECT jsonb_agg(jsonb_build_object('tag_id', tag_id, 'name', name)) 
