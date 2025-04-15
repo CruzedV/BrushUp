@@ -1,11 +1,11 @@
 import { TReferenceTag } from "@shared/types/reference";
 
 export type TGenerator = {
-  sex: null | TReferenceTag;
-  clothing: null | boolean;
-  pose: null | TReferenceTag;
-  view: null | TReferenceTag;
-  timer: null | TGeneratorTimer;
+  sex: undefined | TReferenceTag | string;
+  clothing: undefined | boolean | string;
+  pose: undefined | TReferenceTag | string;
+  view: undefined | TReferenceTag | string;
+  timer: undefined | TGeneratorTimer | string;
 };
 
 // В секундах

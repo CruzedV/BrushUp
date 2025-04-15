@@ -4,7 +4,7 @@ import { Repository, In } from "typeorm";
 import { ImageReference } from "../entities/reference.entity";
 import { ImageTag } from "../entities/reference.entity";
 import { ReferenceTag } from "../entities/reference.entity";
-import { TReferenceTags } from "@shared/types/reference";
+import { TReferenceArray, TReferenceTags } from "@shared/types/reference";
 
 @Injectable()
 export class ReferenceService {
@@ -20,11 +20,10 @@ export class ReferenceService {
   async getReferencesByTags(
     tags: string[],
     limit: number = 100,
-  ): Promise<{ totalCount: number; images: string[] }> {
+  ): Promise<TReferenceArray> {
     let imageUrls: string[];
 
     if (tags.length === 0) {
-      // Если теги не переданы — получаем случайные N изображений прямо из БД
       const randomImages = await this.imageReferenceRepository
         .createQueryBuilder("imagereferences")
         .orderBy("RANDOM()")
@@ -33,7 +32,6 @@ export class ReferenceService {
 
       imageUrls = randomImages.map((img) => img.image_url);
     } else {
-      // Получаем ID тегов
       const tagEntities = await this.imageTagRepository.find({
         where: { name: In(tags) },
       });
@@ -48,21 +46,20 @@ export class ReferenceService {
         .createQueryBuilder("referencetags")
         .innerJoin("referencetags.reference", "imagereferences")
         .where("referencetags.tag_id IN (:...tagIds)", { tagIds })
-        .select("referencetags.reference_id", "reference_id")
-        .addSelect("COUNT(referencetags.tag_id)", "tag_count")
-        .groupBy("referencetags.reference_id")
-        .having("COUNT(referencetags.tag_id) = :tagCount", {
-          tagCount: tagIds.length,
-        })
+        .select("DISTINCT referencetags.reference_id", "reference_id")
         .limit(limit)
         .getRawMany();
 
-      imageUrls = [
-        ...new Set(randomTaggedImages.map((rt) => rt.reference.image_url)),
-      ];
+      const referenceIds = randomTaggedImages.map((rt) => rt.reference_id);
+
+      const images = await this.imageReferenceRepository.findBy({
+        reference_id: In(referenceIds),
+      });
+
+      imageUrls = images.map((img) => img.image_url);
     }
     return {
-      totalCount: imageUrls.length,
+      total_count: imageUrls.length,
       images: imageUrls,
     };
   }
