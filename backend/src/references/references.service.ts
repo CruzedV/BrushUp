@@ -46,11 +46,17 @@ export class ReferenceService {
       // Выбираем изображения с учетом тегов, ограничиваем выборку
       const randomTaggedImages = await this.referenceTagRepository
         .createQueryBuilder("referencetags")
-        .innerJoinAndSelect("referencetags.reference", "imagereferences")
+        .innerJoin("referencetags.reference", "imagereferences")
         .where("referencetags.tag_id IN (:...tagIds)", { tagIds })
-        .orderBy("RANDOM()") // Перемешиваем
+        .select("referencetags.reference_id", "reference_id")
+        .addSelect("COUNT(referencetags.tag_id)", "tag_count")
+        .groupBy("referencetags.reference_id")
+        .having("COUNT(referencetags.tag_id) = :tagCount", {
+          tagCount: tagIds.length,
+        })
         .limit(limit)
-        .getMany();
+        .getRawMany();
+
       imageUrls = [
         ...new Set(randomTaggedImages.map((rt) => rt.reference.image_url)),
       ];
@@ -60,6 +66,7 @@ export class ReferenceService {
       images: imageUrls,
     };
   }
+
   async getAllTags(): Promise<TReferenceTags> {
     const result = await this.imageTagRepository.query(`
       SELECT jsonb_build_object(

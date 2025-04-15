@@ -74,6 +74,8 @@ CREATE TABLE referencetags (
     PRIMARY KEY (tag_id, reference_id)
 );
 
+
+-- Возможно в будущем
 CREATE TABLE articleimages (
     image_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     image_url TEXT NOT NULL,
