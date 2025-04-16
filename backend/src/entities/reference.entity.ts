@@ -5,6 +5,7 @@ import {
   OneToMany,
   PrimaryColumn,
   ManyToOne,
+  JoinColumn,
 } from "typeorm";
 
 @Entity("imagereferences")
@@ -16,7 +17,7 @@ export class ImageReference {
   image_url: string;
 
   @OneToMany(() => ReferenceTag, (referenceTag) => referenceTag.reference)
-  referenceTags: ReferenceTag[];
+  reference_tags: ReferenceTag[];
 }
 
 @Entity("imagetags")
@@ -28,7 +29,7 @@ export class ImageTag {
   name: string;
 
   @OneToMany(() => ReferenceTag, (referenceTag) => referenceTag.tag)
-  referenceTags: ReferenceTag[];
+  reference_tags: ReferenceTag[];
 }
 
 @Entity("referencetags")
@@ -39,13 +40,15 @@ export class ReferenceTag {
   @PrimaryColumn("uuid")
   reference_id: string;
 
-  @ManyToOne(() => ImageTag, (tag) => tag.referenceTags, {
+  @ManyToOne(() => ImageTag, (tag) => tag.reference_tags, {
     onDelete: "CASCADE",
   })
+  @JoinColumn({ name: "tag_id" })
   tag: ImageTag;
 
-  @ManyToOne(() => ImageReference, (reference) => reference.referenceTags, {
+  @ManyToOne(() => ImageReference, (reference) => reference.reference_tags, {
     onDelete: "CASCADE",
   })
+  @JoinColumn({ name: "reference_id" })
   reference: ImageReference;
 }
