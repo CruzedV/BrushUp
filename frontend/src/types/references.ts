@@ -5,7 +5,7 @@ export type TGenerator = {
   clothing: undefined | boolean | string;
   pose: undefined | TReferenceTag | string;
   view: undefined | TReferenceTag | string;
-  timer: undefined | TGeneratorTimer | string;
+  timer?: undefined | TGeneratorTimer | string;
 };
 
 // В секундах

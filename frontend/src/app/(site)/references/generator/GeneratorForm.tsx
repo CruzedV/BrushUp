@@ -11,6 +11,8 @@ import { TimerOptions } from './TimerOptions';
 import { requestWithReturn } from '@/helpers/functions/requestWithReturn';
 import { getImagesByTags } from '@/api/references';
 import { TagListFromData } from '@/helpers/functions/references/TagListFromData';
+import { useUserStore } from '@/store/user';
+import { useReferenceStore } from '@/store/references';
 
 type TProps = {
   referenceTags: TReferenceTags | null;
@@ -19,7 +21,14 @@ type TProps = {
 const GeneratorForm = ({ referenceTags }: TProps) => {
 
   const router = useRouter();
-  const { contextHolder, errorMessage } = useMessages();
+  const {
+    contextHolder,
+    errorMessage,
+    successMessage,
+    warningMessage,
+  } = useMessages();
+  const user = useUserStore((state) => state.user)
+  const { setImages, setTimer }  = useReferenceStore();
 
   if (!referenceTags) {
     return (
@@ -28,13 +37,27 @@ const GeneratorForm = ({ referenceTags }: TProps) => {
   }
 
   const onFinish: FormProps<TGenerator>['onFinish'] = async (values ) => {
-    const requestedTags: string[] = TagListFromData(values);
+    const { timer, ...clearData } = values
+    const requestedTags: string[] = TagListFromData(clearData);
     const response = await requestWithReturn<string[], TReferenceArray>(
       getImagesByTags,
       requestedTags,
       errorMessage,
     )
-    console.log(response);
+    if (response?.total_count) {
+      successMessage(
+        `Найдено ${response.total_count} изображений!`
+      )
+      setImages(response);
+      console.log(values);
+      setTimer(timer ? Number(timer) : TimerOptions[0].value)
+      setTimeout(() => router.push(
+        `/ref/${user ? user.user_id : 'no_auth'}`),
+        1000
+      );
+    } else {
+      warningMessage(`Не найдено подходящий изображений!`)
+    }
   };
   
   const onFinishFailed: FormProps<TGenerator>['onFinishFailed'] = (errorInfo) => {
@@ -107,7 +130,11 @@ const GeneratorForm = ({ referenceTags }: TProps) => {
             label="Таймер"
             name="timer"
           >
-            <Select options={TimerOptions} />
+            <Select
+              options={TimerOptions}
+              defaultValue={TimerOptions[0]}
+              fieldNames={{ label: "name" }}
+            />
           </Form.Item>
           <Form.Item<TGenerator> className={styles.generatorSubmit}>
             <Button type="primary" htmlType="submit">Начать</Button>

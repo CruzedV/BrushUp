@@ -1,7 +1,7 @@
 -- Вставка изображения и привязка одного тега
 WITH img AS (
   INSERT INTO imagereferences (image_url)
-  VALUES ('http://localhost:3001/uploads/1.jpg')
+  VALUES ('http://localhost:3001/references/1.jpg')
   RETURNING reference_id
 )
 INSERT INTO referencetags (reference_id, tag_id)
@@ -12,7 +12,7 @@ WHERE t.name = 'Женщина';
 -- Два тега
 WITH img AS (
   INSERT INTO imagereferences (image_url)
-  VALUES ('http://localhost:3001/uploads/2.jpg')
+  VALUES ('http://localhost:3001/references/2.jpg')
   RETURNING reference_id
 )
 INSERT INTO referencetags (reference_id, tag_id)
@@ -23,7 +23,7 @@ WHERE t.name IN ('Мужчина', 'Сбоку');
 -- Ещё два тега
 WITH img AS (
   INSERT INTO imagereferences (image_url)
-  VALUES ('http://localhost:3001/uploads/3.jpg')
+  VALUES ('http://localhost:3001/references/3.jpg')
   RETURNING reference_id
 )
 INSERT INTO referencetags (reference_id, tag_id)
@@ -34,7 +34,7 @@ WHERE t.name IN ('Женщина', 'Спереди');
 -- Три тега
 WITH img AS (
   INSERT INTO imagereferences (image_url)
-  VALUES ('http://localhost:3001/uploads/4.jpg')
+  VALUES ('http://localhost:3001/references/4.jpg')
   RETURNING reference_id
 )
 INSERT INTO referencetags (reference_id, tag_id)
@@ -45,7 +45,7 @@ WHERE t.name IN ('Мужчина', 'В одежде', 'Статичная');
 -- Ещё три тега
 WITH img AS (
   INSERT INTO imagereferences (image_url)
-  VALUES ('http://localhost:3001/uploads/5.jpg')
+  VALUES ('http://localhost:3001/references/5.jpg')
   RETURNING reference_id
 )
 INSERT INTO referencetags (reference_id, tag_id)
